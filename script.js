@@ -100,3 +100,17 @@ close.addEventListener("click", () => {
   cart.style.right = "-100%";
   container.style.transform = "translateX(0)";
 });
+
+function updateTotalQuantity() {
+  const listCart = document.querySelector(".listCart");
+  if (listCart) {
+    const items = listCart.querySelectorAll(".item");
+    const totalQuantity = document.querySelector(".totalQuantity");
+
+    if (totalQuantity) {
+      totalQuantity.textContent = items.length;
+    }
+  }
+}
+
+window.addEventListener("load", updateTotalQuantity);
