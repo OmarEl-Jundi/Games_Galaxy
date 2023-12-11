@@ -17,6 +17,35 @@ if (!isset($_SESSION['user_id'])) {
 
 <body>
   <div class="container">
+    <div class="iconCart">
+      <img src="images/logo/cart.png" id="cartIcon" />
+      <div class="totalQuantity">0</div>
+    </div>
+    <div class="cartTab">
+      <h2>CART</h2>
+      <div class="listCart">
+        <?php
+        $query = "SELECT user.*, games.* FROM cart JOIN user ON cart.u_id = user.id JOIN games ON cart.g_id = games.id where user.id = '$_SESSION[user_id]' order by games.name asc";
+        $result = mysqli_query($con, $query);
+        while ($games = mysqli_fetch_array($result)) : ?>
+          <div class="item">
+            <img src="images/games/<?= $games['image'] ?>" alt="" />
+            <div class="cartContent">
+              <div class="name"><?= $games['name'] ?></div>
+              <div class="price">
+                <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
+              </div>
+            </div>
+          </div>
+        <?php endwhile; ?>
+        <div class="buttons">
+          <div class="close">CLOSE</div>
+          <div class="checkout">
+            <a href="">CHECKOUT</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="my-body">
       <div class="darkThemeBtn">
         <input id="darkmode-toggle" type="checkbox" />
@@ -61,7 +90,7 @@ if (!isset($_SESSION['user_id'])) {
       <div class="products-grid">
         <!-- Sample product, repeat as needed -->
         <?php
-        $query = "SELECT * FROM games JOIN wishlist ON games.id = wishlist.g_id JOIN user ON user.id = wishlist.u_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
+        $query = "SELECT *,games.id AS game_id FROM games JOIN wishlist ON games.id = wishlist.g_id JOIN user ON user.id = wishlist.u_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
         $result = mysqli_query($con, $query);
         while ($games = mysqli_fetch_array($result)) : ?>
           <div class="product-card">
@@ -72,7 +101,7 @@ if (!isset($_SESSION['user_id'])) {
                 <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
               </span>
               <div class="product-actions">
-                <button class="CartBtn">
+                <button class="CartBtn" data-game-id="<?= $games['game_id'] ?>">
                   <span class="IconContainer">
                     <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="rgb(17, 17, 17)" class="cart">
                       <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path>
@@ -84,7 +113,7 @@ if (!isset($_SESSION['user_id'])) {
                   <span class="view-icon">&#128065;</span>
                   <span class="counter">123</span>
                 </div>
-                <button class="RemoveFromWishlistBtn">
+                <button class="RemoveFromWishlistBtn" data-game-id="<?= $games['game_id'] ?>">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M16 6v-4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4"></path>
@@ -102,7 +131,9 @@ if (!isset($_SESSION['user_id'])) {
         <script>
           window.addEventListener("load", function() {
             document.querySelector(".content").style.display = "block"; // Show the content
-            document.querySelector(".svg-frame").style.display = "none"; // Hide the loader
+            if (document.querySelector(".svg-frame")) {
+              document.querySelector(".svg-frame").style.display = "none"; // Hide the loader
+            }
           });
         </script>
         <script src="script.js"></script>

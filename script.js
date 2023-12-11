@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document
-    .querySelector(".input__search")
-    .addEventListener("keyup", function (event) {
+  input_search = document.querySelector(".input__search");
+  if (input_search) {
+    input_search.addEventListener("keyup", function (event) {
       // Number 13 is the "Enter" key
       if (event.keyCode === 13) {
         // Trigger the search function
         search();
       }
     });
+  }
 });
 
 function search() {
@@ -82,30 +83,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //! Cart
 let cart = document.querySelector(".cartTab");
-cart.style.right = "-100%";
+if (cart) {
+  cart.style.right = "-100%";
+}
 let iconCart = document.querySelector(".iconCart");
 let container = document.querySelector(".container");
 let close = document.querySelector(".close");
 
-iconCart.addEventListener("click", () => {
-  if (cart.style.right === "-100%") {
-    cart.style.right = "-63%";
-    container.style.transform = "translateX(-400px)";
-    cart.style.display = "block";
-  } else {
+if (iconCart) {
+  iconCart.addEventListener("click", () => {
+    if (cart.style.right === "-100%") {
+      cart.style.right = "-63%";
+      container.style.transform = "translateX(-400px)";
+      cart.style.display = "block";
+    } else {
+      cart.style.right = "-100%";
+      container.style.transform = "translateX(0)";
+      // Add event listener for transitionend
+      cart.addEventListener("transitionend", hideCartAfterAnimation);
+    }
+  });
+}
+if (close) {
+  close.addEventListener("click", () => {
     cart.style.right = "-100%";
     container.style.transform = "translateX(0)";
     // Add event listener for transitionend
     cart.addEventListener("transitionend", hideCartAfterAnimation);
-  }
-});
-
-close.addEventListener("click", () => {
-  cart.style.right = "-100%";
-  container.style.transform = "translateX(0)";
-  // Add event listener for transitionend
-  cart.addEventListener("transitionend", hideCartAfterAnimation);
-});
+  });
+}
 
 function hideCartAfterAnimation() {
   cart.style.display = "none";
@@ -170,7 +176,12 @@ function checkLoginStatus() {
 }
 
 function addToWishlist(gameID) {
-  console.log(gameID);
+  const confirmed = window.confirm(
+    "Are you sure you want to add this game to your wishlist?"
+  );
+  if (!confirmed) {
+    return; // If the user cancels, do nothing
+  }
   const xhr = new XMLHttpRequest();
   const url = "addToWishlist.php";
   const params = `gameID=${gameID}`;
@@ -180,13 +191,12 @@ function addToWishlist(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        // Successful request, handle the response if needed
         alert("Added to wishlist successfully!");
       } else if (xhr.status === 409) {
-        // Handle errors if any
         alert("You have already added this game to your wishlist!");
+      } else if (xhr.status === 410) {
+        alert("You already own the game!");
       } else {
-        // Handle errors if any
         alert("Failed to add to wishlist");
       }
     }
@@ -199,3 +209,85 @@ function addToWishlist(gameID) {
 window.addEventListener("load", function () {
   checkLoginStatus();
 });
+
+//!Remove from Wishlist
+function removeFromWishlist(gameID) {
+  const confirmed = window.confirm(
+    "Are you sure you want to remove this game from your wishlist?"
+  );
+  if (!confirmed) {
+    return; // If the user cancels, do nothing
+  }
+
+  const xhr = new XMLHttpRequest();
+  const url = "removeFromWishlist.php"; // Endpoint to remove from wishlist
+  const params = `gameID=${gameID}`;
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        alert("Removed from wishlist successfully!");
+        location.reload();
+        // Optionally, you can update the UI to reflect the removal
+      } else {
+        alert("Failed to remove from wishlist");
+      }
+    }
+  };
+
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(params);
+}
+
+// Add event listeners to RemoveFromWishlistBtn buttons
+const removeFromWishlistButtons = document.querySelectorAll(
+  ".RemoveFromWishlistBtn"
+);
+if (removeFromWishlistButtons) {
+  removeFromWishlistButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const gameID = button.dataset.gameId;
+      removeFromWishlist(gameID);
+    });
+  });
+}
+//! Function to add item to cart
+function addToCart(gameID) {
+  console.log(gameID);
+  const xhr = new XMLHttpRequest();
+  const url = "addToCart.php"; // Endpoint to handle adding to cart
+  const params = `gameID=${gameID}`;
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        alert("Added to cart successfully!");
+        location.reload();
+      } else if (xhr.status === 409) {
+        alert("You already own the game!");
+      } else if (xhr.status === 410) {
+        alert("You have already added this game to your cart!");
+      } else {
+        alert("Failed to add to cart");
+        console.log(xhr.responseText);
+      }
+    }
+  };
+
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(params);
+}
+
+// Add event listeners to Add to Cart buttons
+const addToCartButtons = document.querySelectorAll(".CartBtn");
+if (addToCartButtons) {
+  addToCartButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const gameID =
+        button.parentElement.querySelector(".CartBtn").dataset.gameId;
+      addToCart(gameID);
+    });
+  });
+}
