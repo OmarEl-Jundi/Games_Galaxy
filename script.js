@@ -33,7 +33,7 @@ function search() {
   });
 }
 
-// dark-light mode
+//! dark-light mode
 document.addEventListener("DOMContentLoaded", function () {
   const toggleSwitch = document.getElementById("darkmode-toggle");
 
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
   switchTheme({ target: { checked: isDarkMode } });
 });
 
-// Cart
+//! Cart
 let cart = document.querySelector(".cartTab");
 cart.style.right = "-100%";
 let iconCart = document.querySelector(".iconCart");
@@ -126,3 +126,76 @@ function updateTotalQuantity() {
 }
 
 window.addEventListener("load", updateTotalQuantity);
+
+//!add to wishlist
+function checkLoginStatus() {
+  const xhr = new XMLHttpRequest();
+  const url = "checkLoginStatus.php";
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const isLoggedIn = xhr.responseText.trim() === "true";
+        if (isLoggedIn) {
+          // User is logged in - perform the action here
+          const wishlistButtons =
+            document.querySelectorAll(".SaveToWishlistBtn");
+
+          wishlistButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const gameID = button.dataset.gameId;
+              addToWishlist(gameID);
+            });
+          });
+        } else {
+          // User is not logged in - show alert or handle accordingly
+          const wishlistButtons =
+            document.querySelectorAll(".SaveToWishlistBtn");
+
+          wishlistButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              alert("Please log in to add to wishlist!");
+              window.location.href = "login.php";
+            });
+          });
+        }
+      } else {
+        alert("Failed to check login status");
+      }
+    }
+  };
+
+  xhr.open("GET", url, true);
+  xhr.send();
+}
+
+function addToWishlist(gameID) {
+  console.log(gameID);
+  const xhr = new XMLHttpRequest();
+  const url = "addToWishlist.php";
+  const params = `gameID=${gameID}`;
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        // Successful request, handle the response if needed
+        alert("Added to wishlist successfully!");
+      } else if (xhr.status === 409) {
+        // Handle errors if any
+        alert("You have already added this game to your wishlist!");
+      } else {
+        // Handle errors if any
+        alert("Failed to add to wishlist");
+      }
+    }
+  };
+
+  xhr.send(params);
+}
+
+// Execute the function when the window loads
+window.addEventListener("load", function () {
+  checkLoginStatus();
+});

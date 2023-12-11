@@ -125,7 +125,7 @@
                   <span class="view-icon">&#128065;</span>
                   <span class="counter">123</span>
                 </div>
-                <button class="SaveToWishlistBtn">
+                <button class="SaveToWishlistBtn" data-game-id="<?= $games['id'] ?>">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save">
                     <path d="M18 2H6a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2z"></path>
                   </svg>
@@ -142,6 +142,9 @@
     window.addEventListener("load", function() {
       document.querySelector(".content").style.display = "block"; // Show the content
     });
+  </script>
+  <script>
+
   </script>
 </body>
 
