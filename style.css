@@ -199,11 +199,11 @@ nav {
 
 .info-price {
   position: absolute;
-  right: 5%;
-  top: 83%;
+  right: 25%;
+  bottom: 3.5%;
   font-size: 18px;
   font-weight: bold;
-  color: #f39c12;
+  color: #4bacb6;
   animation: pulse 2s infinite;
   /* opacity: 0.8; */
 }
