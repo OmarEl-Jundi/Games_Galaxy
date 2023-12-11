@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Games Galaxy - Home</title>
+  </head>
+  <body>
+    <div class="content" style="display: none">
+      <div class="logo">
+        <img src="images/logo/Games-galaxy-Logo-transformed.png" />
+      </div>
+      <nav>
+        <a class="button" href="index.html">Home</a>
+        <a class="button" href="shop.html">Shop</a>
+        <a class="button" href="whishList.html">Whish List</a>
+        <a class="button" href="aboutUs.html">About us</a>
+        <a class="button" href="contactUs.html">Contact us</a>
+      </nav>
+
+      <section id="about">
+        <h2>About Games Galaxy</h2>
+        <p>
+          Welcome to Games Galaxy, your ultimate destination for immersive and
+          diverse gaming experiences. Founded in 2023, we have been dedicated to
+          bringing you an extensive collection of video games, ranging from
+          timeless classics to cutting-edge new releases.
+        </p>
+        <p>
+          Our mission is to create a community where gamers from all over the
+          world can come together to share their passion for gaming. We offer a
+          wide range of genres to cater to every gamer's preference, and our
+          expert team is always on the lookout to bring the best and latest in
+          the gaming world to our platform.
+        </p>
+        <p>
+          Join us on this exciting journey and dive into the endless
+          possibilities of gaming. Whether you are a casual player or a hardcore
+          enthusiast, Games Galaxy is here to enhance your gaming experience.
+        </p>
+      </section>
+    </div>
+    <script>
+      window.addEventListener("load", function () {
+        document.querySelector(".content").style.display = "block"; // Show the content
+        document.querySelector(".svg-frame").style.display = "none"; // Hide the loader
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
