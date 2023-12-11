@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 });
+
 function search() {
   // Get the value of the search bar
   var query = document.querySelector(".input__search").value.toLowerCase();
@@ -81,25 +82,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Cart
 let cart = document.querySelector(".cartTab");
-cart.style.right = "-100%"; // Ensure the initial state is set off-screen
+cart.style.right = "-100%";
 let iconCart = document.querySelector(".iconCart");
 let container = document.querySelector(".container");
 let close = document.querySelector(".close");
 
 iconCart.addEventListener("click", () => {
-  if (cart.style.right == "-100%") {
+  if (cart.style.right === "-100%") {
     cart.style.right = "-63%";
     container.style.transform = "translateX(-400px)";
+    cart.style.display = "block";
   } else {
     cart.style.right = "-100%";
     container.style.transform = "translateX(0)";
+    // Add event listener for transitionend
+    cart.addEventListener("transitionend", hideCartAfterAnimation);
   }
 });
 
 close.addEventListener("click", () => {
   cart.style.right = "-100%";
   container.style.transform = "translateX(0)";
+  // Add event listener for transitionend
+  cart.addEventListener("transitionend", hideCartAfterAnimation);
 });
+
+function hideCartAfterAnimation() {
+  cart.style.display = "none";
+  // Remove the event listener to prevent multiple firings
+  cart.removeEventListener("transitionend", hideCartAfterAnimation);
+}
 
 function updateTotalQuantity() {
   const listCart = document.querySelector(".listCart");
