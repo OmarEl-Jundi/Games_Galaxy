@@ -291,3 +291,38 @@ if (addToCartButtons) {
     });
   });
 }
+
+//!Remove from Cart
+document.addEventListener("DOMContentLoaded", () => {
+  const removeFromCartButtons = document.querySelectorAll(".RemoveFromCartBtn");
+
+  removeFromCartButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const gameID = event.currentTarget.dataset.gameId;
+      console.log(gameID);
+      removeFromCart(gameID);
+    });
+  });
+
+  function removeFromCart(gameID) {
+    fetch("removeFromCart.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `gameID=${gameID}`,
+    })
+      .then((response) => {
+        if (response.ok) {
+          alert("game removed from cart successfully!");
+          location.reload();
+        } else {
+          alert("Failed to remove the game from cart.");
+          // Handle errors or show appropriate message
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+});

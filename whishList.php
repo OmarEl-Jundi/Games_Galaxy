@@ -131,9 +131,6 @@ if (!isset($_SESSION['user_id'])) {
         <script>
           window.addEventListener("load", function() {
             document.querySelector(".content").style.display = "block"; // Show the content
-            if (document.querySelector(".svg-frame")) {
-              document.querySelector(".svg-frame").style.display = "none"; // Hide the loader
-            }
           });
         </script>
         <script src="script.js"></script>

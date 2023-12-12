@@ -19,13 +19,14 @@ session_start()
         <div class="totalQuantity">0</div>
       </div>
     <?php else : ?>
-      <a href="login.php" id="logoutButton" class="auth-button">Login</a>
+      echo '<a href="login.php" id="loginButton" class="auth-button">Log In</a>';
+      echo '<a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>';
     <?php endif ?>
     <div class="cartTab">
       <h2>CART</h2>
       <div class="listCart">
         <?php
-        $query = "SELECT user.*, games.* FROM cart JOIN user ON cart.u_id = user.id JOIN games ON cart.g_id = games.id where user.id = '$_SESSION[user_id]' order by games.name asc";
+        $query = "SELECT user.*, games.*,games.id AS game_id FROM cart JOIN user ON cart.u_id = user.id JOIN games ON cart.g_id = games.id where user.id = '$_SESSION[user_id]' order by games.name asc";
         $result = mysqli_query($con, $query);
         while ($games = mysqli_fetch_array($result)) : ?>
           <div class="item">
@@ -36,6 +37,16 @@ session_start()
                 <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
               </div>
             </div>
+            <button class="RemoveFromCartBtn" data-game-id="<?= $games['game_id'] ?>">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M16 6v-4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+                <path d="M5 6L5 18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2L19 6"></path>
+                <path d="M9 3v1M15 3v1"></path>
+              </svg>
+            </button>
           </div>
         <?php endwhile; ?>
         <div class="buttons">

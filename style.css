@@ -1116,3 +1116,36 @@ nav {
   transform: scale(1.1);
   background-color: black; /* Change the hover background color */
 }
+
+.RemoveFromCartBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 0.5s;
+  overflow: hidden;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 1);
+  position: absolute;
+  right: 13px;
+  transition: transform 0.3s ease-in-out;
+  color: firebrick;
+}
+.RemoveFromCartBtn svg {
+  stroke: red; /* Default color */
+  transition: stroke 0.3s; /* Smooth transition */
+}
+
+.RemoveFromCartBtn:hover svg {
+  stroke: black; /* Color change on hover */
+}
+
+.RemoveFromCartBtn:hover {
+  transform: scale(1.1);
+  background-color: firebrick;
+  color: black;
+}
