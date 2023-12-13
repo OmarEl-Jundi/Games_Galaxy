@@ -49,7 +49,19 @@ session_start()
             </button>
           </div>
         <?php endwhile; ?>
-        <div class="totalCartPrice">Total:$</div>
+        <div class="totalCartPrice">Total:$
+          <?php
+          $userID = $_SESSION['user_id'];
+          $query = "SELECT SUM(games.price) AS total_price FROM cart INNER JOIN games ON cart.g_id = games.id WHERE cart.u_id = '$userID'";
+          $result = mysqli_query($con, $query);
+
+          if ($result) {
+            $row = mysqli_fetch_assoc($result);
+            $totalPrice = $row['total_price'];
+            echo $totalPrice;
+          }
+          ?>
+        </div>
         <div class="buttons">
           <div class="close">CLOSE</div>
           <div class="checkout">

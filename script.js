@@ -304,34 +304,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
-
-//! total cart price
-function getTotalCartPrice() {
-  const xhr = new XMLHttpRequest();
-  const url = "get_cart_items.php";
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        const response = JSON.parse(xhr.responseText);
-        if (response.total_price !== undefined) {
-          const totalCartPrice = document.querySelector(".totalCartPrice");
-          totalCartPrice.textContent = `Total: $${response.total_price}`;
-        } else {
-          console.error("Error: Total price not found in response");
-        }
-      } else {
-        const response = JSON.parse(xhr.responseText);
-        console.log(response);
-        const totalCartPrice = document.querySelector(".totalCartPrice");
-        totalCartPrice.textContent = `Total: $${response}`;
-      }
-    }
-  };
-
-  xhr.open("POST", url, true);
-  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhr.send();
-}
-
-window.addEventListener("load", getTotalCartPrice);
