@@ -6,7 +6,6 @@ if (isset($_SESSION['user_id'], $_POST['gameID'])) {
     $userID = $_SESSION['user_id'];
     $gameID = $_POST['gameID'];
 
-    // Check if the game is already in the library or cart
     $checkLibraryQuery = "SELECT * FROM userlibrary WHERE user_id = '$userID' AND game_id = '$gameID'";
     $result = mysqli_query($con, $checkLibraryQuery);
 
@@ -24,17 +23,14 @@ if (isset($_SESSION['user_id'], $_POST['gameID'])) {
     }
 
 
-    // Add the game to the cart
     $insertQuery = "INSERT INTO cart (u_id, g_id) VALUES ('$userID', '$gameID')";
     $insertResult = mysqli_query($con, $insertQuery);
 
     if ($insertResult) {
-        http_response_code(200); // Success
-        // Success message if needed
+        http_response_code(200);
     } else {
-        http_response_code(500); // Internal Server Error
-        // Error message if needed
+        http_response_code(500);
     }
 } else {
-    http_response_code(403); // Forbidden if user is not logged in or gameID is missing
+    http_response_code(403);
 }

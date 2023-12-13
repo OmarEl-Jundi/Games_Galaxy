@@ -1,42 +1,8 @@
-<?php
+<?php session_start();
 require 'connection.php';
-$error = '';
-if (isset($_POST['signin'])) {
-    if (empty($_POST['username']) || empty($_POST['password'])) {
-        $error = "empty Username or Password";
-    } else {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        require 'connection.php';
-        $q = "SELECT * from `user` where (username ='" . $username . "' OR email ='" . $username . "') AND password ='" . $password . "'";
-        echo $q;
-        $result = mysqli_query($con, $q);
-        if ($result === false) {
-            die("Error executing the query: " . mysqli_error($con));
-        } else {
-            $res = mysqli_num_rows($result);
-        }
-        if ($res == 1) {
-
-            $row = mysqli_fetch_array($result);
-
-            session_start();
-
-            session_regenerate_id();
-
-            $_SESSION["user_id"] = $row['id'];
-            $_SESSION["user_role"] = $row['role'];
-
-            $error = "Login Successful";
-
-            header("location: index.php");
-            exit();
-        } else {
-            $error = "Username or Password is invalid";
-        }
-        mysqli_close($con);
-    }
+if (!isset($_SESSION['user_id'])) {
+    header("location: login.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -46,22 +12,11 @@ if (isset($_POST['signin'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Login</title>
+    <title>Games Galaxy - Library</title>
 </head>
 
 <body>
     <div class="container">
-        <div class="logo">
-            <img src="images/logo/Games-galaxy-Logo-transformed.png" />
-        </div>
-        <nav>
-            <a class="button" href="index.php">Home</a>
-            <a class="button" href="shop.php">Shop</a>
-            <a class="button" href="library.php">Library</a>
-            <a class="button" href="whishList.php">Whish List</a>
-            <a class="button" href="aboutUs.html">About us</a>
-            <a class="button" href="contactUs.html">Contact us</a>
-        </nav>
         <div class="my-body">
             <div class="darkThemeBtn">
                 <input id="darkmode-toggle" type="checkbox" />
@@ -88,26 +43,48 @@ if (isset($_POST['signin'])) {
                 <span class="fake-body"></span>
             </div>
         </div>
-        <form class="container-login" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
-            <div class="input-container">
-                <div class="input-content">
-                    <div class="input-dist">
-                        <div class="input-type">
-                            <input class="input-is" name="username" type="text" placeholder="User" />
-                            <input class="input-is" name="password" type="password" placeholder="Password" />
+
+        <div class="content" style="display: none">
+            <div class="logo">
+                <img src="images/logo/Games-galaxy-Logo-transformed.png" />
+            </div>
+            <nav>
+                <a class="button" href="index.php">Home</a>
+                <a class="button" href="shop.php">Shop</a>
+                <a class="button" href="library.php">Library</a>
+                <a class="button" href="whishList.php">Whish List</a>
+                <a class="button" href="aboutUs.html">About us</a>
+                <a class="button" href="contactUs.html">Contact us</a>
+            </nav>
+
+            <!-- Products Section -->
+            <div class="products-grid">
+                <?php
+                $query = "SELECT *,games.id AS game_id FROM games JOIN userlibrary ON games.id = userlibrary.game_id JOIN user ON user.id = userlibrary.user_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
+                $result = mysqli_query($con, $query);
+                while ($games = mysqli_fetch_array($result)) : ?>
+                    <div class="product-card">
+                        <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
+                        <div class="product-info">
+                            <h3><?= $games['name'] ?></h3>
+                            <div class="product-actions">
+                                <div class="view-counter">
+                                    <span class="view-icon">&#128065;</span>
+                                    <span class="counter">123</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="error-container">
-                    <span class="error"><?php echo $error; ?></span>
-                </div>
-                <div class="error-container" style="color: white; margin: 50px 0 10px 0;">
-                    <span>don't have an account?<a style="color: #9e30a9; " href="signup.php"> Sign Up</a></span>
-                </div>
-                <input name="signin" class="submit-button" type="submit" value=" Log in ">
+                <?php endwhile; ?>
             </div>
+        </div>
     </div>
-    <script src="script.js"></script>
 </body>
+<script>
+    window.addEventListener("load", function() {
+        document.querySelector(".content").style.display = "block";
+    });
+</script>
+<script src="script.js"></script>
 
 </html>

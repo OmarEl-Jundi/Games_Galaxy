@@ -2,13 +2,17 @@
 require 'connection.php';
 $error = '';
 if (isset($_POST['signin'])) {
-    if (empty($_POST['username']) || empty($_POST['password'])) {
-        $error = "empty Username or Password";
+    if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['conf_password']) || empty($_POST['email']) || empty($_POST['fname']) || empty($_POST['lname']) || empty($_POST['dob'])) {
+        $error = "Please fill all fields";
     } else {
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $confpassword = $_POST['conf_password'];
+        $email = $_POST['email'];
+        $fname = $_POST['fname'];
+        $lname = $_POST['lname'];
+        $dob = $_POST['dob'];
 
-        require 'connection.php';
         $q = "SELECT * from `user` where (username ='" . $username . "' OR email ='" . $username . "') AND password ='" . $password . "'";
         echo $q;
         $result = mysqli_query($con, $q);
@@ -93,8 +97,15 @@ if (isset($_POST['signin'])) {
                 <div class="input-content">
                     <div class="input-dist">
                         <div class="input-type">
-                            <input class="input-is" name="username" type="text" placeholder="User" />
+                            <input class="input-is" name="username" type="text" placeholder="Username" />
                             <input class="input-is" name="password" type="password" placeholder="Password" />
+                            <input class="input-is" name="conf_password" type="password" placeholder="Confirm Password" />
+                            <input class="input-is" name="email" type="text" placeholder="E-Mail" />
+                            <div class="first_last_name">
+                                <input class="input-is" name="fname" type="text" placeholder="First Name" />
+                                <input class="input-is" name="lname" type="text" placeholder="Last Name" />
+                            </div>
+                            <input class="input-is" name="dob" type="date" placeholder="Birthdate" />
                         </div>
                     </div>
                 </div>
@@ -102,9 +113,9 @@ if (isset($_POST['signin'])) {
                     <span class="error"><?php echo $error; ?></span>
                 </div>
                 <div class="error-container" style="color: white; margin: 50px 0 10px 0;">
-                    <span>don't have an account?<a style="color: #9e30a9; " href="signup.php"> Sign Up</a></span>
+                    <span>already have an account?<a style="color: #9e30a9; " href="login.php"> Log In</a></span>
                 </div>
-                <input name="signin" class="submit-button" type="submit" value=" Log in ">
+                <input name="signin" class="submit-button" type="submit" value=" Sign up ">
             </div>
     </div>
     <script src="script.js"></script>

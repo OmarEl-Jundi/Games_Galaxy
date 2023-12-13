@@ -16,5 +16,5 @@ if (isset($_SESSION['user_id']) && isset($_POST['gameID'])) {
     }
     mysqli_close($con);
 } else {
-    http_response_code(403); // Forbidden if user is not logged in
+    http_response_code(403);
 }

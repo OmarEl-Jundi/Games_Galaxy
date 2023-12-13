@@ -11,9 +11,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['gameID'])) {
 
     if ($result) {
         http_response_code(200);
-        // Success message if needed
     } else {
         http_response_code(500);
-        // Error message if needed
     }
 }

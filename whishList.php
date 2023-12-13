@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  <title>Games Galaxy - Home</title>
+  <title>Games Galaxy - Wishlist</title>
 </head>
 
 <body>
@@ -88,7 +88,6 @@ if (!isset($_SESSION['user_id'])) {
 
       <!-- Products Section -->
       <div class="products-grid">
-        <!-- Sample product, repeat as needed -->
         <?php
         $query = "SELECT *,games.id AS game_id FROM games JOIN wishlist ON games.id = wishlist.g_id JOIN user ON user.id = wishlist.u_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
         $result = mysqli_query($con, $query);
@@ -130,7 +129,7 @@ if (!isset($_SESSION['user_id'])) {
         <?php endwhile; ?>
         <script>
           window.addEventListener("load", function() {
-            document.querySelector(".content").style.display = "block"; // Show the content
+            document.querySelector(".content").style.display = "block";
           });
         </script>
         <script src="script.js"></script>

@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   input_search = document.querySelector(".input__search");
   if (input_search) {
     input_search.addEventListener("keyup", function (event) {
-      // Number 13 is the "Enter" key
       if (event.keyCode === 13) {
-        // Trigger the search function
         search();
       }
     });
@@ -12,23 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function search() {
-  // Get the value of the search bar
   var query = document.querySelector(".input__search").value.toLowerCase();
 
-  // Select all product cards
   var productCards = document.querySelectorAll(".product-card");
 
-  // Iterate over each product card
   productCards.forEach(function (card) {
-    // Get the product name from the h3 element
     var productName = card.querySelector("h3").textContent.toLowerCase();
 
-    // Check if the product name includes the search query
     if (productName.includes(query)) {
-      // If it does, display the product card
       card.style.display = "flex";
     } else {
-      // Otherwise, hide the product card
       card.style.display = "none";
     }
   });
@@ -57,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
         info.style.background = "linear-gradient(to top, #171a21, #1b2838)";
         info.style.color = "white";
       });
-      // Apply dark theme here
     } else {
       body.style.background = "linear-gradient(to right, #2a475e, #66c0f4)";
       body.style.color = "#000000";
@@ -65,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
         info.style.background = "linear-gradient(to top, #c7d5e0, #ffffff)";
         info.style.color = "black";
       });
-      // Apply light theme here
     }
 
     setTimeout(() => {
@@ -76,7 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
   }
 
-  // Initialize theme based on toggle's current state
   const isDarkMode = toggleSwitch.checked;
   switchTheme({ target: { checked: isDarkMode } });
 });
@@ -99,7 +87,6 @@ if (iconCart) {
     } else {
       cart.style.right = "-100%";
       container.style.transform = "translateX(0)";
-      // Add event listener for transitionend
       cart.addEventListener("transitionend", hideCartAfterAnimation);
     }
   });
@@ -108,14 +95,12 @@ if (close) {
   close.addEventListener("click", () => {
     cart.style.right = "-100%";
     container.style.transform = "translateX(0)";
-    // Add event listener for transitionend
     cart.addEventListener("transitionend", hideCartAfterAnimation);
   });
 }
 
 function hideCartAfterAnimation() {
   cart.style.display = "none";
-  // Remove the event listener to prevent multiple firings
   cart.removeEventListener("transitionend", hideCartAfterAnimation);
 }
 
@@ -143,7 +128,6 @@ function checkLoginStatus() {
       if (xhr.status === 200) {
         const isLoggedIn = xhr.responseText.trim() === "true";
         if (isLoggedIn) {
-          // User is logged in - perform the action here
           const wishlistButtons =
             document.querySelectorAll(".SaveToWishlistBtn");
 
@@ -154,7 +138,6 @@ function checkLoginStatus() {
             });
           });
         } else {
-          // User is not logged in - show alert or handle accordingly
           const wishlistButtons =
             document.querySelectorAll(".SaveToWishlistBtn");
 
@@ -180,7 +163,7 @@ function addToWishlist(gameID) {
     "Are you sure you want to add this game to your wishlist?"
   );
   if (!confirmed) {
-    return; // If the user cancels, do nothing
+    return;
   }
   const xhr = new XMLHttpRequest();
   const url = "addToWishlist.php";
@@ -205,7 +188,6 @@ function addToWishlist(gameID) {
   xhr.send(params);
 }
 
-// Execute the function when the window loads
 window.addEventListener("load", function () {
   checkLoginStatus();
 });
@@ -216,11 +198,11 @@ function removeFromWishlist(gameID) {
     "Are you sure you want to remove this game from your wishlist?"
   );
   if (!confirmed) {
-    return; // If the user cancels, do nothing
+    return;
   }
 
   const xhr = new XMLHttpRequest();
-  const url = "removeFromWishlist.php"; // Endpoint to remove from wishlist
+  const url = "removeFromWishlist.php";
   const params = `gameID=${gameID}`;
 
   xhr.onreadystatechange = function () {
@@ -228,7 +210,6 @@ function removeFromWishlist(gameID) {
       if (xhr.status === 200) {
         alert("Removed from wishlist successfully!");
         location.reload();
-        // Optionally, you can update the UI to reflect the removal
       } else {
         alert("Failed to remove from wishlist");
       }
@@ -240,7 +221,6 @@ function removeFromWishlist(gameID) {
   xhr.send(params);
 }
 
-// Add event listeners to RemoveFromWishlistBtn buttons
 const removeFromWishlistButtons = document.querySelectorAll(
   ".RemoveFromWishlistBtn"
 );
@@ -256,7 +236,7 @@ if (removeFromWishlistButtons) {
 function addToCart(gameID) {
   console.log(gameID);
   const xhr = new XMLHttpRequest();
-  const url = "addToCart.php"; // Endpoint to handle adding to cart
+  const url = "addToCart.php";
   const params = `gameID=${gameID}`;
 
   xhr.onreadystatechange = function () {
@@ -280,7 +260,6 @@ function addToCart(gameID) {
   xhr.send(params);
 }
 
-// Add event listeners to Add to Cart buttons
 const addToCartButtons = document.querySelectorAll(".CartBtn");
 if (addToCartButtons) {
   addToCartButtons.forEach((button) => {
@@ -318,7 +297,6 @@ document.addEventListener("DOMContentLoaded", () => {
           location.reload();
         } else {
           alert("Failed to remove the game from cart.");
-          // Handle errors or show appropriate message
         }
       })
       .catch((error) => {
@@ -326,3 +304,34 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+//! total cart price
+function getTotalCartPrice() {
+  const xhr = new XMLHttpRequest();
+  const url = "get_cart_items.php";
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
+        if (response.total_price !== undefined) {
+          const totalCartPrice = document.querySelector(".totalCartPrice");
+          totalCartPrice.textContent = `Total: $${response.total_price}`;
+        } else {
+          console.error("Error: Total price not found in response");
+        }
+      } else {
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
+        const totalCartPrice = document.querySelector(".totalCartPrice");
+        totalCartPrice.textContent = `Total: $${response}`;
+      }
+    }
+  };
+
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send();
+}
+
+window.addEventListener("load", getTotalCartPrice);

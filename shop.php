@@ -49,10 +49,11 @@ session_start()
             </button>
           </div>
         <?php endwhile; ?>
+        <div class="totalCartPrice">Total:$</div>
         <div class="buttons">
           <div class="close">CLOSE</div>
           <div class="checkout">
-            <a href="">CHECKOUT</a>
+            <a href="checkout_process.php">CHECKOUT</a>
           </div>
         </div>
       </div>
@@ -105,7 +106,7 @@ session_start()
               <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
             </svg>
           </button>
-          <input type="search" name="text" class="input__search" id="searchInput" placeholder="What do you want to search?" />
+          <input type="search" name="text" class="input__search" id="searchInput" placeholder="Search for games..." />
           <button onclick="clearSearch()" class="clear__button">
             <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px">
               <path fill="#17202A" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
@@ -115,8 +116,8 @@ session_start()
       </div>
       <script>
         function clearSearch() {
-          document.getElementById('searchInput').value = ''; // Clears the search input
-          search(); // Calls the search function
+          document.getElementById('searchInput').value = '';
+          search();
         }
       </script>
 
@@ -162,7 +163,7 @@ session_start()
   <script src="script.js"></script>
   <script>
     window.addEventListener("load", function() {
-      document.querySelector(".content").style.display = "block"; // Show the content
+      document.querySelector(".content").style.display = "block";
     });
   </script>
   <script>

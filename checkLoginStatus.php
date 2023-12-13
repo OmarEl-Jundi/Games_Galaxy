@@ -2,7 +2,7 @@
 session_start();
 
 if (isset($_SESSION['user_id'])) {
-    echo 'true'; // User is logged in
+    echo 'true';
 } else {
-    echo 'false'; // User is not logged in
+    echo 'false';
 }
