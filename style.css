@@ -47,7 +47,7 @@ body.theme-transition {
 }
 
 .logo img {
-  max-width: 400px;
+  max-width: 200px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -592,9 +592,10 @@ nav {
   max-width: 300px;
   transition: transform 400ms;
   transform-style: preserve-3d;
-  transform: rotateX(15deg) rotateY(-20deg);
+  /* transform: rotateX(15deg) rotateY(-20deg); */
   perspective: 500px;
-  width: 100%;
+  width: 20px;
+  transition: width 0.3s ease-in-out;
 }
 
 .shadow__input {
@@ -644,6 +645,13 @@ nav {
   border: none;
   padding: 8px;
   position: relative;
+  display: none;
+  transition: width 0.3s ease-in-out;
+}
+
+#x-searchIcon {
+  display: none;
+  transition: width 0.3s ease-in-out;
 }
 
 /* Cart */

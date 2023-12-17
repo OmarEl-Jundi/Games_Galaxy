@@ -1,3 +1,4 @@
+//!Search
 document.addEventListener("DOMContentLoaded", function () {
   input_search = document.querySelector(".input__search");
   if (input_search) {
@@ -9,20 +10,41 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+isSearching = false;
+
 function search() {
   var query = document.querySelector(".input__search").value.toLowerCase();
-
   var productCards = document.querySelectorAll(".product-card");
+  if (isSearching) {
+    productCards.forEach(function (card) {
+      var productName = card.querySelector("h3").textContent.toLowerCase();
 
-  productCards.forEach(function (card) {
-    var productName = card.querySelector("h3").textContent.toLowerCase();
+      if (productName.includes(query)) {
+        card.style.display = "flex";
+      } else {
+        card.style.display = "none";
+      }
+    });
+  } else {
+    hideSearchbar();
+  }
+}
 
-    if (productName.includes(query)) {
-      card.style.display = "flex";
-    } else {
-      card.style.display = "none";
-    }
-  });
+function hideSearchbar() {
+  var searchbar = document.querySelector(".input__container");
+  var inputBar = document.querySelector(".input__search");
+  var x_icon = document.querySelector("#x-searchIcon");
+  if (isSearching) {
+    searchbar.style.width = "20px";
+    inputBar.style.display = "none";
+    x_icon.style.display = "none";
+    isSearching = false;
+  } else {
+    searchbar.style.width = "400px";
+    inputBar.style.display = "block";
+    x_icon.style.display = "block";
+    isSearching = true;
+  }
 }
 
 //! dark-light mode
@@ -73,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 let cart = document.querySelector(".cartTab");
 if (cart) {
   cart.style.right = "-100%";
+  hideCartAfterAnimation();
 }
 let iconCart = document.querySelector(".iconCart");
 let container = document.querySelector(".container");

@@ -100,7 +100,7 @@ if (isset($_POST['signin'])) {
                             <input class="input-is" name="username" type="text" placeholder="Username" />
                             <input class="input-is" name="password" type="password" placeholder="Password" />
                             <input class="input-is" name="conf_password" type="password" placeholder="Confirm Password" />
-                            <input class="input-is" name="email" type="text" placeholder="E-Mail" />
+                            <input class="input-is" name="email" type="email" placeholder="E-Mail" />
                             <div class="first_last_name">
                                 <input class="input-is" name="fname" type="text" placeholder="First Name" />
                                 <input class="input-is" name="lname" type="text" placeholder="Last Name" />

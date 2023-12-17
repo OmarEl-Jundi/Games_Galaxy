@@ -19,57 +19,59 @@ session_start()
         <div class="totalQuantity">0</div>
       </div>
     <?php else : ?>
-      echo '<a href="login.php" id="loginButton" class="auth-button">Log In</a>';
-      echo '<a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>';
+      <a href="login.php" id="loginButton" class="auth-button">Log In</a>
+      <a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>
     <?php endif ?>
-    <div class="cartTab">
-      <h2>CART</h2>
-      <div class="listCart">
-        <?php
-        $query = "SELECT user.*, games.*,games.id AS game_id FROM cart JOIN user ON cart.u_id = user.id JOIN games ON cart.g_id = games.id where user.id = '$_SESSION[user_id]' order by games.name asc";
-        $result = mysqli_query($con, $query);
-        while ($games = mysqli_fetch_array($result)) : ?>
-          <div class="item">
-            <img src="images/games/<?= $games['image'] ?>" alt="" />
-            <div class="cartContent">
-              <div class="name"><?= $games['name'] ?></div>
-              <div class="price">
-                <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
-              </div>
-            </div>
-            <button class="RemoveFromCartBtn" data-game-id="<?= $games['game_id'] ?>">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M16 6v-4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4"></path>
-                <line x1="10" y1="11" x2="10" y2="17"></line>
-                <line x1="14" y1="11" x2="14" y2="17"></line>
-                <path d="M5 6L5 18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2L19 6"></path>
-                <path d="M9 3v1M15 3v1"></path>
-              </svg>
-            </button>
-          </div>
-        <?php endwhile; ?>
-        <div class="totalCartPrice">Total:$
+    <?php if (isset($_SESSION['user_id'])) : ?>
+      <div class="cartTab">
+        <h2>CART</h2>
+        <div class="listCart">
           <?php
-          $userID = $_SESSION['user_id'];
-          $query = "SELECT SUM(games.price) AS total_price FROM cart INNER JOIN games ON cart.g_id = games.id WHERE cart.u_id = '$userID'";
+          $query = "SELECT user.*, games.*,games.id AS game_id FROM cart JOIN user ON cart.u_id = user.id JOIN games ON cart.g_id = games.id where user.id = '$_SESSION[user_id]' order by games.name asc";
           $result = mysqli_query($con, $query);
+          while ($games = mysqli_fetch_array($result)) : ?>
+            <div class="item">
+              <img src="images/games/<?= $games['image'] ?>" alt="" />
+              <div class="cartContent">
+                <div class="name"><?= $games['name'] ?></div>
+                <div class="price">
+                  <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
+                </div>
+              </div>
+              <button class="RemoveFromCartBtn" data-game-id="<?= $games['game_id'] ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M16 6v-4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                  <path d="M5 6L5 18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2L19 6"></path>
+                  <path d="M9 3v1M15 3v1"></path>
+                </svg>
+              </button>
+            </div>
+          <?php endwhile; ?>
+          <div class="totalCartPrice">Total:$
+            <?php
+            $userID = $_SESSION['user_id'];
+            $query = "SELECT SUM(games.price) AS total_price FROM cart INNER JOIN games ON cart.g_id = games.id WHERE cart.u_id = '$userID'";
+            $result = mysqli_query($con, $query);
 
-          if ($result) {
-            $row = mysqli_fetch_assoc($result);
-            $totalPrice = $row['total_price'];
-            echo $totalPrice;
-          }
-          ?>
-        </div>
-        <div class="buttons">
-          <div class="close">CLOSE</div>
-          <div class="checkout">
-            <a href="checkout_process.php">CHECKOUT</a>
+            if ($result) {
+              $row = mysqli_fetch_assoc($result);
+              $totalPrice = $row['total_price'];
+              echo $totalPrice;
+            }
+            ?>
+          </div>
+          <div class="buttons">
+            <div class="close">CLOSE</div>
+            <div class="checkout">
+              <a href="checkout_process.php">CHECKOUT</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    <?php endif ?>
     <div class="my-body">
       <div class="darkThemeBtn">
         <input id="darkmode-toggle" type="checkbox" />
@@ -119,7 +121,7 @@ session_start()
             </svg>
           </button>
           <input type="search" name="text" class="input__search" id="searchInput" placeholder="Search for games..." />
-          <button onclick="clearSearch()" class="clear__button">
+          <button id="x-searchIcon" onclick="clearSearch()" class="input__button__shadow">
             <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px">
               <path fill="#17202A" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
             </svg>
@@ -130,6 +132,7 @@ session_start()
         function clearSearch() {
           document.getElementById('searchInput').value = '';
           search();
+          hideSearchbar();
         }
       </script>
 
