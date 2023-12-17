@@ -146,10 +146,12 @@ nav {
   box-shadow: 5px 10px 30px rgb(64, 42, 64);
 }
 
-.product-card .image-container {
-  position: relative;
-  padding: 20px;
-  z-index: 1;
+.product-name {
+  cursor: pointer;
+}
+
+.product-name:hover {
+  color: #4bacb6;
 }
 
 .product-card img {
@@ -158,10 +160,10 @@ nav {
   object-fit: cover;
   transition: transform 0.3s ease;
   position: relative;
-  z-index: -1;
+  z-index: 0;
 }
 
-.product-card:hover img {
+.product-image:hover {
   transform: scale(1.06);
 }
 
@@ -169,11 +171,13 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: fill;
+  cursor: pointer;
 }
 
 .product-info {
   padding: 10px;
   background: #fff;
+  z-index: 2;
 }
 
 .product-actions {
@@ -1152,4 +1156,19 @@ nav {
   transform: scale(1.1);
   background-color: firebrick;
   color: black;
+}
+
+.gameImage {
+  margin: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-direction: row;
+}
+
+.gameImage img {
+  width: 300px;
+  text-align: center;
+  border-radius: 10px;
 }

@@ -1,5 +1,5 @@
 <?php include("connection.php");
-session_start()
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -143,10 +143,10 @@ session_start()
         $query = "SELECT * FROM `games` order by name asc";
         $result = mysqli_query($con, $query);
         while ($games = mysqli_fetch_array($result)) : ?>
-          <div class="product-card">
-            <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
+          <div class="product-card" data-game-id="<?= $games['id'] ?>">
+            <img class="product-image" src="images/games/<?= $games['image'] ?>" alt="Product Name" />
             <div class="product-info">
-              <h3><?= $games['name'] ?></h3>
+              <h3 class="product-name"><?= $games['name'] ?></h3>
               <span class="info-price">
                 <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
               </span>
@@ -180,9 +180,6 @@ session_start()
     window.addEventListener("load", function() {
       document.querySelector(".content").style.display = "block";
     });
-  </script>
-  <script>
-
   </script>
 </body>
 

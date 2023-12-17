@@ -327,3 +327,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 });
+
+//!going to game description when clicking on a game
+let gameCards = document.querySelectorAll(".product-image, .product-name");
+gameCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    const gameID = card.parentElement.dataset.gameId;
+    window.location.href = `gameDescription.php?gameID=${gameID}`;
+  });
+});
