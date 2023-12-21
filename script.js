@@ -336,3 +336,12 @@ gameCards.forEach((card) => {
     window.location.href = `gameDescription.php?gameID=${gameID}`;
   });
 });
+
+//! loading screen
+window.addEventListener("load", function () {
+  var spinner = document.querySelector(".spinner");
+  spinner.style.display = "none";
+
+  var content = document.querySelector(".content");
+  content.style.display = "block";
+});
