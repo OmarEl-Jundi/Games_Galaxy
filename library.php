@@ -44,47 +44,41 @@ if (!isset($_SESSION['user_id'])) {
             </div>
         </div>
 
-        <div class="content" style="display: none">
-            <div class="logo">
-                <img src="images/logo/Games-galaxy-Logo-transformed.png" />
-            </div>
-            <nav>
-                <a class="button" href="index.php">Home</a>
-                <a class="button" href="shop.php">Shop</a>
-                <a class="button" href="library.php">Library</a>
-                <a class="button" href="whishList.php">Whish List</a>
-                <a class="button" href="aboutUs.html">About us</a>
-                <a class="button" href="contactUs.html">Contact us</a>
-            </nav>
+        <div class="logo">
+            <img src="images/logo/Games-galaxy-Logo-transformed.png" />
+        </div>
+        <nav>
+            <a class="button" href="index.php">Home</a>
+            <a class="button" href="shop.php">Shop</a>
+            <a class="button" href="library.php">Library</a>
+            <a class="button" href="whishList.php">Whish List</a>
+            <a class="button" href="aboutUs.html">About us</a>
+            <a class="button" href="contactUs.html">Contact us</a>
+        </nav>
 
-            <!-- Products Section -->
-            <div class="products-grid">
-                <?php
-                $query = "SELECT *,games.id AS game_id FROM games JOIN userlibrary ON games.id = userlibrary.game_id JOIN user ON user.id = userlibrary.user_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
-                $result = mysqli_query($con, $query);
-                while ($games = mysqli_fetch_array($result)) : ?>
-                    <div class="product-card">
-                        <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
-                        <div class="product-info">
-                            <h3><?= $games['name'] ?></h3>
-                            <div class="product-actions">
-                                <div class="view-counter">
-                                    <span class="view-icon">&#128065;</span>
-                                    <span class="counter">123</span>
-                                </div>
+        <!-- Products Section -->
+        <div class="products-grid">
+            <?php
+            $query = "SELECT *,games.id AS game_id FROM games JOIN userlibrary ON games.id = userlibrary.game_id JOIN user ON user.id = userlibrary.user_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
+            $result = mysqli_query($con, $query);
+            while ($games = mysqli_fetch_array($result)) : ?>
+                <div class="product-card">
+                    <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
+                    <div class="product-info">
+                        <h3><?= $games['name'] ?></h3>
+                        <div class="product-actions">
+                            <div class="view-counter">
+                                <span class="view-icon">&#128065;</span>
+                                <span class="counter">123</span>
                             </div>
                         </div>
                     </div>
-                <?php endwhile; ?>
-            </div>
+                </div>
+            <?php endwhile; ?>
         </div>
     </div>
 </body>
-<script>
-    window.addEventListener("load", function() {
-        document.querySelector(".content").style.display = "block";
-    });
-</script>
+
 <script src="script.js"></script>
 
 </html>

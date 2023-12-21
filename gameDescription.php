@@ -4,6 +4,10 @@ if (!isset($_GET['gameID'])) {
     header("Location: shop.php");
 } else {
     $gameID = $_GET['gameID'];
+    //add view to the game
+    $sql = "UPDATE games SET views = views + 1 WHERE id = '$gameID'";
+    mysqli_query($con, $sql);
+
     $sql = "SELECT * FROM games WHERE id = '$gameID'";
     $result = mysqli_query($con, $sql);
     $row = mysqli_fetch_assoc($result);

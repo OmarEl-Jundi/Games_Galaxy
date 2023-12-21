@@ -63,40 +63,38 @@
         </div>
       </div>
 
-      <div class="content" style="display: none">
-        <div class="logo">
-          <img src="images/logo/Games-galaxy-Logo-transformed.png" />
-        </div>
-        <nav>
-          <a class="button" href="index.php">Home</a>
-          <a class="button" href="shop.php">Shop</a>
-          <a class="button" href="library.php">Library</a>
-          <a class="button" href="whishList.php">Whish List</a>
-          <a class="button" href="aboutUs.html">About us</a>
-          <a class="button" href="contactUs.html">Contact us</a>
-        </nav>
-
-        <!-- Contact Us Section -->
-        <section id="contact">
-          <h2>Contact Us</h2>
-          <form action="submitForm.php" method="post">
-            <label for="name">Name:</label><br />
-            <input type="text" id="name" name="name" required /><br />
-            <label for="email">Email:</label><br />
-            <input type="email" id="email" name="email" required /><br />
-            <label for="message">Message:</label><br />
-            <textarea id="message" name="message" rows="4" required></textarea
-            ><br />
-            <input type="submit" value="Submit" />
-          </form>
-        </section>
+      <div class="logo">
+        <img src="images/logo/Games-galaxy-Logo-transformed.png" />
       </div>
-      <script>
-        window.addEventListener("load", function () {
-          document.querySelector(".content").style.display = "block"; // Show the content
-        });
-      </script>
-      <script src="script.js"></script>
+      <nav>
+        <a class="button" href="index.php">Home</a>
+        <a class="button" href="shop.php">Shop</a>
+        <a class="button" href="library.php">Library</a>
+        <a class="button" href="whishList.php">Whish List</a>
+        <a class="button" href="aboutUs.html">About us</a>
+        <a class="button" href="contactUs.html">Contact us</a>
+      </nav>
+
+      <!-- Contact Us Section -->
+      <section id="contact">
+        <h2>Contact Us</h2>
+        <form action="submitForm.php" method="post">
+          <label for="name">Name:</label><br />
+          <input type="text" id="name" name="name" required /><br />
+          <label for="email">Email:</label><br />
+          <input type="email" id="email" name="email" required /><br />
+          <label for="message">Message:</label><br />
+          <textarea id="message" name="message" rows="4" required></textarea
+          ><br />
+          <input type="submit" value="Submit" />
+        </form>
+      </section>
     </div>
+    <script>
+      window.addEventListener("load", function () {
+        document.querySelector(".content").style.display = "block"; // Show the content
+      });
+    </script>
+    <script src="script.js"></script>
   </body>
 </html>

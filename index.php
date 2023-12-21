@@ -41,73 +41,66 @@
     </div>
     <!-- Shopping Cart Icon -->
 
-    <div class="content" style="display: none">
-      <div class="logo">
-        <img src="images/logo/Games-galaxy-Logo-transformed.png" />
-      </div>
-      <nav>
-        <a class="button" href="index.php">Home</a>
-        <a class="button" href="shop.php">Shop</a>
-        <a class="button" href="library.php">Library</a>
-        <a class="button" href="whishList.php">Whish List</a>
-        <a class="button" href="aboutUs.html">About us</a>
-        <a class="button" href="contactUs.html">Contact us</a>
-      </nav>
-
-      <?php
-
-      if (isset($_SESSION['user_id'])) {
-        // User is logged in
-        echo '<a href="logout.php" id="logoutButton" class="auth-button">Logout</a>';
-      } else {
-        // User is not logged in
-        echo '<a href="login.php" id="loginButton" class="auth-button">Log In</a>';
-        echo '<a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>';
-      }
-      ?>
-
-      <!-- Slideshow container -->
-      <div class="slideshow-container">
-        <a href="shop.php">
-          <?php
-          $directory = "images/games/";
-          $images = glob($directory . "*.{jpg,jpeg,png,gif,webp}", GLOB_BRACE);
-
-          foreach ($images as $image) {
-            echo '<div class="mySlides fade">';
-            echo '<img src="' . $image . '" />';
-            echo '</div>';
-          }
-          ?>
-        </a>
-      </div>
-
-      <script>
-        var slideIndex = 0;
-
-        function showSlides() {
-          var slides = document.getElementsByClassName("mySlides");
-          for (var i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none"; // Hide all slides
-          }
-          slideIndex++;
-          if (slideIndex > slides.length) {
-            slideIndex = 1; // If showing the last slide, return to the first one
-          }
-          slides[slideIndex - 1].style.display = "block"; // Display the current slide
-          setTimeout(showSlides, 2000); // Change slide every 2 seconds
-        }
-
-        showSlides();
-      </script>
-      <!-- Your other scripts -->
-      <script src="script.js"></script>
-      <script>
-        window.addEventListener("load", function() {
-          document.querySelector(".content").style.display = "block"; // Show the content
-        });
-      </script>
+    <div class="logo">
+      <img src="images/logo/Games-galaxy-Logo-transformed.png" />
     </div>
+    <nav>
+      <a class="button" href="index.php">Home</a>
+      <a class="button" href="shop.php">Shop</a>
+      <a class="button" href="library.php">Library</a>
+      <a class="button" href="whishList.php">Whish List</a>
+      <a class="button" href="aboutUs.html">About us</a>
+      <a class="button" href="contactUs.html">Contact us</a>
+    </nav>
+
+    <?php
+
+    if (isset($_SESSION['user_id'])) {
+      // User is logged in
+      echo '<a href="logout.php" id="logoutButton" class="auth-button">Logout</a>';
+    } else {
+      // User is not logged in
+      echo '<a href="login.php" id="loginButton" class="auth-button">Log In</a>';
+      echo '<a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>';
+    }
+    ?>
+
+    <!-- Slideshow container -->
+    <div class="slideshow-container">
+      <a href="shop.php">
+        <?php
+        $directory = "images/games/";
+        $images = glob($directory . "*.{jpg,jpeg,png,gif,webp}", GLOB_BRACE);
+
+        foreach ($images as $image) {
+          echo '<div class="mySlides fade">';
+          echo '<img src="' . $image . '" />';
+          echo '</div>';
+        }
+        ?>
+      </a>
+    </div>
+
+    <script>
+      var slideIndex = 0;
+
+      function showSlides() {
+        var slides = document.getElementsByClassName("mySlides");
+        for (var i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none"; // Hide all slides
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {
+          slideIndex = 1; // If showing the last slide, return to the first one
+        }
+        slides[slideIndex - 1].style.display = "block"; // Display the current slide
+        setTimeout(showSlides, 2000); // Change slide every 2 seconds
+      }
+
+      showSlides();
+    </script>
+    <!-- Your other scripts -->
+    <script src="script.js"></script>
   </div>
 </body>
 

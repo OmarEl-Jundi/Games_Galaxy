@@ -98,89 +98,82 @@ session_start();
         <span class="fake-body"></span>
       </div>
     </div>
-    <div class="content" style="display: none">
-      <div class="logo">
-        <img src="images/logo/Games-galaxy-Logo-transformed.png" />
-      </div>
-      <nav>
-        <a class="button" href="index.php">Home</a>
-        <a class="button" href="shop.php">Shop</a>
-        <a class="button" href="library.php">Library</a>
-        <a class="button" href="whishList.php">Whish List</a>
-        <a class="button" href="aboutUs.html">About us</a>
-        <a class="button" href="contactUs.html">Contact us</a>
-      </nav>
+    <div class="logo">
+      <img src="images/logo/Games-galaxy-Logo-transformed.png" />
+    </div>
+    <nav>
+      <a class="button" href="index.php">Home</a>
+      <a class="button" href="shop.php">Shop</a>
+      <a class="button" href="library.php">Library</a>
+      <a class="button" href="whishList.php">Whish List</a>
+      <a class="button" href="aboutUs.html">About us</a>
+      <a class="button" href="contactUs.html">Contact us</a>
+    </nav>
 
-      <!-- Search Bar -->
-      <div class="search-center-div">
-        <div class="input__container">
-          <div class="shadow__input"></div>
-          <button onclick="search()" class="input__button__shadow">
-            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
-              <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
-            </svg>
-          </button>
-          <input type="search" name="text" class="input__search" id="searchInput" placeholder="Search for games..." />
-          <button id="x-searchIcon" onclick="clearSearch()" class="input__button__shadow">
-            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px">
-              <path fill="#17202A" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      <script>
-        function clearSearch() {
-          document.getElementById('searchInput').value = '';
-          search();
-          hideSearchbar();
-        }
-      </script>
-
-      <!-- Products Section -->
-      <div class="products-grid">
-        <!-- Sample product, repeat as needed -->
-        <?php
-        $query = "SELECT * FROM `games` order by name asc";
-        $result = mysqli_query($con, $query);
-        while ($games = mysqli_fetch_array($result)) : ?>
-          <div class="product-card" data-game-id="<?= $games['id'] ?>">
-            <img class="product-image" src="images/games/<?= $games['image'] ?>" alt="Product Name" />
-            <div class="product-info">
-              <h3 class="product-name"><?= $games['name'] ?></h3>
-              <span class="info-price">
-                <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
-              </span>
-              <div class="product-actions">
-                <button class="CartBtn" data-game-id="<?= $games['id'] ?>">
-                  <span class="IconContainer">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="rgb(17, 17, 17)" class="cart">
-                      <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path>
-                    </svg>
-                  </span>
-                  <p class="text">Add to Cart</p>
-                </button>
-                <div class="view-counter">
-                  <span class="view-icon">&#128065;</span>
-                  <span class="counter">123</span>
-                </div>
-                <button class="SaveToWishlistBtn" data-game-id="<?= $games['id'] ?>">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save">
-                    <path d="M18 2H6a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2z"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        <?php endwhile; ?>
+    <!-- Search Bar -->
+    <div class="search-center-div">
+      <div class="input__container">
+        <div class="shadow__input"></div>
+        <button onclick="search()" class="input__button__shadow">
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" height="20px" width="20px">
+            <path d="M4 9a5 5 0 1110 0A5 5 0 014 9zm5-7a7 7 0 104.2 12.6.999.999 0 00.093.107l3 3a1 1 0 001.414-1.414l-3-3a.999.999 0 00-.107-.093A7 7 0 009 2z" fill-rule="evenodd" fill="#17202A"></path>
+          </svg>
+        </button>
+        <input type="search" name="text" class="input__search" id="searchInput" placeholder="Search for games..." />
+        <button id="x-searchIcon" onclick="clearSearch()" class="input__button__shadow">
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20px" width="20px">
+            <path fill="#17202A" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+          </svg>
+        </button>
       </div>
     </div>
+    <script>
+      function clearSearch() {
+        document.getElementById('searchInput').value = '';
+        search();
+        hideSearchbar();
+      }
+    </script>
+
+    <!-- Products Section -->
+    <div class="products-grid">
+      <!-- Sample product, repeat as needed -->
+      <?php
+      $query = "SELECT * FROM `games` order by name asc";
+      $result = mysqli_query($con, $query);
+      while ($games = mysqli_fetch_array($result)) : ?>
+        <div class="product-card" data-game-id="<?= $games['id'] ?>">
+          <img class="product-image" src="images/games/<?= $games['image'] ?>" alt="Product Name" />
+          <div class="product-info">
+            <h3 class="product-name"><?= $games['name'] ?></h3>
+            <span class="info-price">
+              <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
+            </span>
+            <div class="product-actions">
+              <button class="CartBtn" data-game-id="<?= $games['id'] ?>">
+                <span class="IconContainer">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512" fill="rgb(17, 17, 17)" class="cart">
+                    <path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path>
+                  </svg>
+                </span>
+                <p class="text">Add to Cart</p>
+              </button>
+              <div class="view-counter">
+                <span class="view-icon">&#128065;</span>
+                <span class="counter"><?= $games['views'] ?></span>
+              </div>
+              <button class="SaveToWishlistBtn" data-game-id="<?= $games['id'] ?>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-save">
+                  <path d="M18 2H6a2 2 0 0 0-2 2v16l7-3 7 3V4a2 2 0 0 0-2-2z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      <?php endwhile; ?>
+    </div>
+    <script src="script.js"></script>
   </div>
-  <script src="script.js"></script>
-  <script>
-    window.addEventListener("load", function() {
-      document.querySelector(".content").style.display = "block";
-    });
-  </script>
 </body>
 
 </html>
