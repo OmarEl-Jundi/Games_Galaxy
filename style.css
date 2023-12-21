@@ -1169,14 +1169,20 @@ nav {
   border-radius: 10px;
 }
 
-/* .gameInfo {
+.gameInfo {
   margin: 50px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   gap: 20px;
   flex-direction: column;
-} */
+}
+
+#game_rating_title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-left: 10%;
+}
 .gameInfo h1,
 .gameInfo h3 {
   color: #4bacb6;
@@ -1340,4 +1346,10 @@ h2 .user_rating {
 
 .submitBtn:active {
   transform: scale(0.97);
+}
+
+/* Comments */
+.comments {
+  margin-top: 10%;
+  background-color: rgba(159, 48, 169, 0.4941176471);
 }

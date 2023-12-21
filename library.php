@@ -70,9 +70,10 @@ if (!isset($_SESSION['user_id'])) {
                             <h3><?= $games['name'] ?></h3>
                             <div class="product-actions">
                                 <div class="view-counter">
-                                    <span class="view-icon">&#128065;</span>
-                                    <span class="counter">123</span>
+                                    <span class="view-icon">👁️</span>
+                                    <span class="counter"><?= $games['views'] ?></span>
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -162,7 +162,7 @@ session_start();
                   <p class="text">Add to Cart</p>
                 </button>
                 <div class="view-counter">
-                  <span class="view-icon">&#128065;</span>
+                  <span class="view-icon">👁️</span>
                   <span class="counter"><?= $games['views'] ?></span>
                 </div>
                 <button class="SaveToWishlistBtn" data-game-id="<?= $games['id'] ?>">
