@@ -15,6 +15,8 @@ if (!isset($_GET['gameID'])) {
     $description = $row['description'];
     $irailer = $row['trailer'];
     $image = $row['image'];
+    $rating = $row['rating'];
+    $rate_count = $row['rate_count'];
     $categoryID = $row['category'];
     $developerID = $row['developer'];
 
@@ -157,12 +159,33 @@ if (!isset($_GET['gameID'])) {
                         <iframe style="border-radius: 10px;" width="560" height="365" src="<?= $irailer ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
+                <?php
+                $roundedRating = floor($rating);
+                echo '<h2>Game Rating:
+    <div  class="rating">';
+                for ($i = 5; $i >= 1; $i--) {
+                    if ($roundedRating == $i) {
+                        $checked = 'checked';
+                    } else {
+                        $checked = '';
+                    }
+                    echo '<input type="radio" id="star' . $i . '" name="rate" value="' . $i . '" ' . $checked . ' disabled' . '/>';
+                    echo '<label for="star' . $i . '" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+        </svg></label>';
+                }
+                echo '</div>
+                ' . $rating . '/5 (' . $rate_count . ' raters)
+</h2>';
+                ?>
+
                 <div class="gameInfo">
                     <h1 class="gameName"><?= $name ?></h1>
                     <div class="gameDescription"><?= $description ?></div>
-
-                    <? //php if (isset($_SESSION['user_id'])) : 
-                    ?>
+                    <h3>Category: <?= $category ?></h3>
+                    <div class="categoryDescription"><?= $categoryDescription ?></div>
+                    <h3>Developer: <?= $developer ?></h3>
+                    <div class="developerDescription"><?= $developerDescription ?></div>
                     <div class="gameButtons">
                         <div style="margin: 40px;" class="addToCartBtn" data-game-id="<?= $gameID ?>">
                             <button class="CartBtn" data-game-id="<?= $games['id'] ?>">
@@ -174,15 +197,83 @@ if (!isset($_GET['gameID'])) {
                                 <p class="text">Add to Cart</p>
                             </button>
                         </div>
-
                     </div>
-                    <? //php endif 
-                    ?>
                 </div>
+                <h2>Want to rate the game yourself?</h2>
+                <div class="user_rating">
+                    <input type="radio" id="star55" name="user_rate" value="5" />
+                    <label for="star55" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                        </svg></label>
+                    <input type="radio" id="star44" name="user_rate" value="4" />
+                    <label for="star44" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                        </svg></label>
+                    <input type="radio" id="star33" name="user_rate" value="3" />
+                    <label for="star33" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                        </svg></label>
+                    <input type="radio" id="star22" name="user_rate" value="2" />
+                    <label for="star22" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                        </svg></label>
+                    <input type="radio" id="star11" name="user_rate" value="1" />
+                    <label for="star11" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
+                        </svg></label>
+                </div>
+                <button class="submitBtn">
+                    Submit
+                    <svg fill="white" viewBox="0 0 448 512" height="1em" class="arrow">
+                        <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
+                    </svg>
+                </button>
+
+                <h1>Comments</h1>
+
             </div>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const submitBtn = document.querySelector('.submitBtn');
+
+                submitBtn.addEventListener('click', function() {
+                    const selectedRating = document.querySelector('.user_rating input[type="radio"]:checked');
+                    if (selectedRating) {
+                        const gameId = <?= $gameID ?>;
+                        const rating = selectedRating.value;
+
+                        const userId = <?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null' ?>;
+
+                        if (userId) {
+                            const xhr = new XMLHttpRequest();
+                            xhr.open('POST', 'update_rating.php', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === XMLHttpRequest.DONE) {
+                                    if (xhr.status === 200) {
+                                        console.log('Rating updated successfully');
+                                        location.reload();
+                                    } else {
+                                        console.error('Error updating rating');
+                                    }
+                                }
+                            };
+                            xhr.send(`gameID=${gameId}&userRating=${rating}&userID=${userId}`);
+                        } else {
+                            alert("You need to login first!");
+                            window.location.href = "login.php";
+                        }
+                    } else {
+                        alert("Please select a rating!");
+                    }
+                });
+            });
+        </script>
+
     </div>
 </body>
+
 <script src="script.js"></script>
 
 </html>

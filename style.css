@@ -1168,6 +1168,20 @@ nav {
   text-align: center;
   border-radius: 10px;
 }
+
+/* .gameInfo {
+  margin: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-direction: column;
+} */
+.gameInfo h1,
+.gameInfo h3 {
+  color: #4bacb6;
+  text-decoration: underline;
+}
 /* Loading Screen */
 .spinner {
   position: fixed;
@@ -1222,4 +1236,108 @@ nav {
   to {
     transform: rotateX(240deg) rotateY(45deg) rotateZ(360deg);
   }
+}
+
+/* Rating */
+h2 .rating,
+h2 .user_rating {
+  position: relative;
+  display: inline-block;
+  color: #e58e09;
+  font-size: 30px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.rating,
+.user_rating {
+  position: absolute;
+  left: auto;
+}
+.rating:not(:checked) > input,
+.user_rating:not(:checked) > input {
+  position: absolute;
+  appearance: none;
+}
+
+.rating:not(:checked) > label,
+.user_rating:not(:checked) > label {
+  float: right;
+  cursor: default;
+  font-size: 30px;
+  fill: #666;
+}
+
+.user_rating:not(:checked) > label {
+  cursor: pointer;
+}
+
+.rating:not(:checked) > label > svg,
+.user_rating:not(:checked) > label > svg {
+  fill: #666; /* Set default color for SVG */
+  transition: fill 0.3s ease; /* Add a transition effect */
+}
+
+.rating > input:checked + label:hover,
+.rating > input:checked + label:hover ~ label,
+.rating > input:checked ~ label:hover,
+.rating > input:checked ~ label:hover ~ label,
+.rating > label:hover ~ input:checked ~ label,
+.user_rating > input:checked + label:hover,
+.user_rating > input:checked + label:hover ~ label,
+.user_rating > input:checked ~ label:hover,
+.user_rating > input:checked ~ label:hover ~ label,
+.user_rating > label:hover ~ input:checked ~ label {
+  fill: #e58e09;
+}
+
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label,
+.user_rating:not(:checked) > label:hover,
+.user_rating:not(:checked) > label:hover ~ label {
+  fill: #ff9e0b;
+}
+
+.rating > input:checked ~ label > svg,
+.user_rating > input:checked ~ label > svg {
+  fill: #ffa723; /* Set color for selected stars */
+}
+
+.submitBtn {
+  width: 120px;
+  height: 40px;
+  border-radius: 30px;
+  border: none;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(to left, rgb(230, 35, 0), rgb(255, 174, 0));
+  letter-spacing: 0.7px;
+  position: absolute;
+  left: 15%;
+}
+
+.submitBtn:hover .arrow {
+  animation: slide-in-left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slide-in-left {
+  0% {
+    transform: translateX(-10px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
+.submitBtn:active {
+  transform: scale(0.97);
 }
