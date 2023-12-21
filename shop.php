@@ -147,7 +147,7 @@ session_start();
         while ($games = mysqli_fetch_array($result)) : ?>
           <div class="product-card" data-game-id="<?= $games['id'] ?>">
             <img class="product-image" src="images/games/<?= $games['image'] ?>" alt="Product Name" />
-            <div class="product-info">
+            <div class="product-info" data-game-id="<?= $games['id'] ?>">
               <h3 class="product-name"><?= $games['name'] ?></h3>
               <span class="info-price">
                 <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>

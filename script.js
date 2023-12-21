@@ -272,8 +272,8 @@ function addToCart(gameID) {
       } else if (xhr.status === 410) {
         alert("You have already added this game to your cart!");
       } else {
-        alert("Failed to add to cart");
-        console.log(xhr.responseText);
+        alert("Please login to add to cart!");
+        window.location.href = "login.php";
       }
     }
   };
