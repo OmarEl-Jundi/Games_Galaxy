@@ -17,6 +17,7 @@ session_start();
 
     <div class="container">
       <?php if (isset($_SESSION['user_id'])) : ?>
+        <a style="margin-right: 100px;" href="logout.php" id="logoutButton" class="auth-button">Logout</a>
         <div class="iconCart">
           <img src="images/logo/cart.png" id="cartIcon" />
           <div class="totalQuantity">0</div>

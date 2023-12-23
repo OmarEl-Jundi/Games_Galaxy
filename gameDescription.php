@@ -49,6 +49,7 @@ if (!isset($_GET['gameID'])) {
 
         <div class="container">
             <?php if (isset($_SESSION['user_id'])) : ?>
+                <a style="margin-right: 100px;" href="logout.php" id="logoutButton" class="auth-button">Logout</a>
                 <div class="iconCart">
                     <img src="images/logo/cart.png" id="cartIcon" />
                     <div class="totalQuantity">0</div>
@@ -233,9 +234,11 @@ if (!isset($_GET['gameID'])) {
                     <h1>Comments</h1>
                     <div class="comment_form">
                         <form action="comment_process.php" method="POST">
-                            <textarea name="comment" id="comment" cols="50" rows="2" placeholder="Write your comment here..."></textarea>
+                            <label for="comment">Comment:</label><br>
+                            <textarea name="comment" id="comment" cols="50" rows="4"></textarea><br>
                             <input type="hidden" name="gameID" value="<?= $gameID ?>">
-                            <input type="submit" value="Submit" name="submit">
+                            <input type="submit" value="Submit The Comment" name="submit" style="padding: 8px 15px; border-radius: 5px; background-color: #007bff; color: #fff; border: none;margin-top:5px;">
+
                         </form>
                     </div>
                     <hr>

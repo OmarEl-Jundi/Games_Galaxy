@@ -373,6 +373,15 @@ nav {
 #logoutButton {
   top: 30px;
   right: 20px;
+  background-color: firebrick;
+  color: black;
+}
+
+#logoutButton:hover {
+  background-color: #ff0000;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  color: white;
 }
 
 .auth-button:hover {
@@ -1382,4 +1391,14 @@ h2 .user_rating {
 
 .bi {
   color: #1b2838;
+}
+
+#comment {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
 }

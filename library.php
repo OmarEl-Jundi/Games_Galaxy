@@ -19,6 +19,7 @@ if (!isset($_SESSION['user_id'])) {
     <div class="spinner"></div>
     <div class="content" style="display: none">
         <div class="container">
+            <a style="margin-right: 100px;" href="logout.php" id="logoutButton" class="auth-button">Logout</a>
             <div class="my-body">
                 <div class="darkThemeBtn">
                     <input id="darkmode-toggle" type="checkbox" />
