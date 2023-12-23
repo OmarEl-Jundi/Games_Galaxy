@@ -27,6 +27,7 @@ if (isset($_POST['signin'])) {
 
             $_SESSION["user_id"] = $row['id'];
             $_SESSION["user_role"] = $row['role'];
+            $_SESSION["username"] = $row['username'];
 
             $error = "Login Successful";
 

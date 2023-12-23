@@ -470,3 +470,111 @@ function sendDislikeRequest(commentID) {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send(params);
 }
+
+//!Delete Comment
+deleteCommentButtons = document.querySelectorAll(".bi-trash3");
+
+deleteCommentButtons.forEach((button) => {
+  const originalPath =
+    "M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5";
+  const hoverPath =
+    "M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5";
+  button.addEventListener("mouseover", () => {
+    button.querySelector("path").setAttribute("d", hoverPath);
+    button.style.color = "firebrick";
+  });
+
+  button.addEventListener("mouseout", () => {
+    button.querySelector("path").setAttribute("d", originalPath);
+    button.style.color = "#1b2838";
+  });
+});
+
+deleteCommentButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const commentID = button.dataset.commentId;
+    deleteComment(commentID);
+  });
+});
+
+function deleteComment(commentID) {
+  const confirmed = window.confirm("Are you sure you want to delete this?");
+  if (!confirmed) {
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+  const url = "deleteComment.php";
+  const params = `commentID=${commentID}`;
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        alert("Deleted comment successfully!");
+        location.reload();
+      } else {
+        alert("Failed to delete comment");
+      }
+    }
+  };
+
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send(params);
+}
+
+//!Edit Comment
+editCommentButtons = document.querySelectorAll(".bi-pencil-square");
+
+editCommentButtons.forEach((button) => {
+  button.addEventListener("mouseover", () => {
+    button.style.color = "#FBFBF9";
+  });
+
+  button.addEventListener("mouseout", () => {
+    button.style.color = "#1b2838";
+  });
+});
+
+editCommentButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const commentID = button.dataset.commentId;
+    const commentText =
+      button.parentElement.parentElement.parentElement.querySelector(
+        ".comment_text"
+      ).innerHTML;
+    document.getElementById("editCommentModal").style.display = "block";
+    document.getElementById("editedComment").innerHTML = commentText;
+    document.getElementById("saveChangesBtn").addEventListener("click", () => {
+      const editedComment = document.getElementById("editedComment").innerHTML;
+      const xhr = new XMLHttpRequest();
+      const url = "editComment.php";
+      console.log(editedComment);
+      const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
+        editedComment
+      )}`;
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            // location.reload();
+          } else {
+            console.error("Failed to edit comment. Status: " + xhr.status);
+            console.error("Response: " + xhr.responseText);
+            alert("Failed to edit comment");
+          }
+        }
+      };
+
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.send(params);
+    });
+  });
+});
+
+document.querySelectorAll(".close-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.getElementById("editCommentModal").style.display = "none";
+  });
+});
