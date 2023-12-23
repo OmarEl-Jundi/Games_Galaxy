@@ -1,8 +1,10 @@
 <?php
+session_start();
 require 'connection.php';
 if (isset($_SESSION['user_id']) && isset($_POST['commentID'])) {
     $commentID = $_POST['commentID'];
     $comment = $_POST['editedComment'];
+
     $query = "UPDATE comments SET comment = '$comment' WHERE id = '$commentID'";
     $result = mysqli_query($con, $query);
     if ($result) {

@@ -1418,13 +1418,18 @@ h2 .user_rating {
 
 /* Modal content */
 .modal-content {
-  background-color: #fefefe;
   width: 60%;
   margin: 0 auto;
   margin-top: 15%;
   padding: 20px;
   border-radius: 8px;
   position: relative;
+  background: linear-gradient(
+    to right,
+    var(--primary-dark-bg-color),
+    var(--secondary-dark-bg-color)
+  );
+  color: wheat;
 }
 
 /* Close button */

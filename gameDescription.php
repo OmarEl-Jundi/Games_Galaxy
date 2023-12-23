@@ -1,4 +1,8 @@
-<?php include("connection.php");
+<?php
+header("Access-Control-Allow-Origin: *");
+header("ACcess-Control-Allow-Methods: GET,POST");
+header("Access-Control-Allow-Headers:Content-Type");
+include("connection.php");
 session_start();
 if (!isset($_GET['gameID'])) {
     header("Location: shop.php");

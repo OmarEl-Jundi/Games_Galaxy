@@ -544,20 +544,21 @@ editCommentButtons.forEach((button) => {
         ".comment_text"
       ).innerHTML;
     document.getElementById("editCommentModal").style.display = "block";
-    document.getElementById("editedComment").innerHTML = commentText;
+    document.getElementById("editedComment").value = commentText;
     document.getElementById("saveChangesBtn").addEventListener("click", () => {
-      const editedComment = document.getElementById("editedComment").innerHTML;
+      const editedComment = document.getElementById("editedComment").value;
+      console.log(editedComment);
       const xhr = new XMLHttpRequest();
       const url = "editComment.php";
-      console.log(editedComment);
       const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
         editedComment
       )}`;
+      console.log(params);
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {
           if (xhr.status === 200) {
-            // location.reload();
+            location.reload();
           } else {
             console.error("Failed to edit comment. Status: " + xhr.status);
             console.error("Response: " + xhr.responseText);
