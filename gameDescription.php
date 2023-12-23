@@ -233,25 +233,25 @@ if (!isset($_GET['gameID'])) {
                 <div class="comments">
                     <h1>Comments</h1>
                     <div class="comment_form">
-                        <form action="comment_process.php" method="POST">
+                        <form action="commentProcess.php" method="POST">
                             <label for="comment">Comment:</label><br>
                             <textarea name="comment" id="comment" cols="50" rows="4"></textarea><br>
                             <input type="hidden" name="gameID" value="<?= $gameID ?>">
                             <input type="submit" value="Submit The Comment" name="submit" style="padding: 8px 15px; border-radius: 5px; background-color: #007bff; color: #fff; border: none;margin-top:5px;">
-
                         </form>
                     </div>
                     <hr>
                     <?php
                     $sql = "SELECT c.*, u.username, 
-                            COUNT(lc.u_id) AS likes, 
-                            COUNT(dc.u_id) AS dislikes 
+                                COUNT(lc.u_id) AS likes, 
+                                COUNT(dc.u_id) AS dislikes 
                             FROM comments c 
                             INNER JOIN user u ON c.u_id = u.id 
                             LEFT JOIN like_comment lc ON c.id = lc.c_id 
                             LEFT JOIN dislike_comment dc ON c.id = dc.c_id 
                             WHERE c.g_id = '$gameID'
-                            GROUP BY c.id";
+                            GROUP BY c.id
+                            ORDER BY c.date_time DESC;";
                     $result = mysqli_query($con, $sql);
 
                     while ($row = mysqli_fetch_assoc($result)) {
