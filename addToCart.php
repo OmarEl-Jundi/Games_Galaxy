@@ -31,7 +31,7 @@ if (isset($_SESSION['user_id'], $_POST['gameID'])) {
         $itemSelectQuery = "SELECT * FROM games WHERE id = '$gameID'";
         $itemResult = mysqli_query($con, $itemSelectQuery);
         $games = mysqli_fetch_assoc($itemResult);
-        echo '<div class="item">
+        echo '<div id="cart-' . $games['id'] . '" class="item">
                 <img src="images/games/' . $games['image'] . '" alt="" />
                 <div class="cartContent">
                   <div class="name">' . $games['name'] . '</div>
@@ -45,7 +45,7 @@ if (isset($_SESSION['user_id'], $_POST['gameID'])) {
         echo '
                     </div>
                 </div>
-                <button class="RemoveFromCartBtn" data-game-id="' . $games['id'] . '">
+                <button onclick="removeFromCart(' . $games['id'] . ')" class="RemoveFromCartBtn" data-game-id="' . $games['id'] . '">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M16 6v-4a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v4"></path>

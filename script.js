@@ -286,7 +286,6 @@ function addToCart(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        alert("Added to cart successfully!");
         const cartItem = xhr.responseText;
         const listCart = document.querySelector(".listCart");
         listCart.insertAdjacentHTML("afterbegin", cartItem);
@@ -320,38 +319,37 @@ if (addToCartButtons) {
 }
 
 //!Remove from Cart
-document.addEventListener("DOMContentLoaded", () => {
-  const removeFromCartButtons = document.querySelectorAll(".RemoveFromCartBtn");
+const removeFromCartButtons = document.querySelectorAll(".RemoveFromCartBtn");
 
+if (removeFromCartButtons) {
   removeFromCartButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const gameID = event.currentTarget.dataset.gameId;
       removeFromCart(gameID);
     });
   });
-
-  function removeFromCart(gameID) {
-    fetch("removeFromCart.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: `gameID=${gameID}`,
+}
+function removeFromCart(gameID) {
+  fetch("removeFromCart.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: `gameID=${gameID}`,
+  })
+    .then((response) => {
+      if (response.ok) {
+        document.getElementById("cart-" + gameID).remove();
+        updateTotalQuantity();
+        updateTotalPrice();
+      } else {
+        alert("Failed to remove the game from cart.");
+      }
     })
-      .then((response) => {
-        if (response.ok) {
-          document.getElementById("cart-" + gameID).remove();
-          updateTotalQuantity();
-          updateTotalPrice();
-        } else {
-          alert("Failed to remove the game from cart.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-});
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
 
 //!going to game description when clicking on a game
 let gameCards = document.querySelectorAll(".product-image, .product-name");
