@@ -139,6 +139,29 @@ function updateTotalQuantity() {
   }
 }
 
+function updateTotalPrice() {
+  const listCart = document.querySelector(".listCart");
+  if (listCart) {
+    const items = listCart.querySelectorAll(".item");
+    const totalPrice = document.querySelector(".totalCartPrice");
+
+    if (totalPrice) {
+      let total = 0;
+      items.forEach((item) => {
+        const priceText = item.querySelector(".price").textContent;
+        if (priceText.trim() !== "Free!") {
+          const price = parseFloat(priceText.replace("$", ""));
+          if (!isNaN(price)) {
+            total += price;
+          }
+        }
+      });
+      totalPrice.innerHTML =
+        '<b style="color: #4bacb6;">Total: $' + total.toFixed(2) + "</b>";
+    }
+  }
+}
+
 window.addEventListener("load", updateTotalQuantity);
 
 //!add to wishlist
@@ -197,7 +220,7 @@ function addToWishlist(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        alert("Added to wishlist successfully!");
+        console.log("added successfully");
       } else if (xhr.status === 409) {
         alert("You have already added this game to your wishlist!");
       } else if (xhr.status === 410) {
@@ -268,6 +291,7 @@ function addToCart(gameID) {
         const listCart = document.querySelector(".listCart");
         listCart.insertAdjacentHTML("afterbegin", cartItem);
         updateTotalQuantity();
+        updateTotalPrice();
       } else if (xhr.status === 409) {
         alert("You already own the game!");
       } else if (xhr.status === 410) {
@@ -316,8 +340,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
       .then((response) => {
         if (response.ok) {
-          alert("game removed from cart successfully!");
-          location.reload();
+          document.getElementById("cart-" + gameID).remove();
+          updateTotalQuantity();
+          updateTotalPrice();
         } else {
           alert("Failed to remove the game from cart.");
         }
