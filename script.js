@@ -231,8 +231,7 @@ function removeFromWishlist(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        alert("Removed from wishlist successfully!");
-        location.reload();
+        document.getElementById("wishlist-" + gameID).remove();
       } else {
         alert("Failed to remove from wishlist");
       }
@@ -257,7 +256,6 @@ if (removeFromWishlistButtons) {
 }
 //! Function to add item to cart
 function addToCart(gameID) {
-  console.log(gameID);
   const xhr = new XMLHttpRequest();
   const url = "addToCart.php";
   const params = `gameID=${gameID}`;
@@ -266,7 +264,10 @@ function addToCart(gameID) {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         alert("Added to cart successfully!");
-        location.reload();
+        const cartItem = xhr.responseText;
+        const listCart = document.querySelector(".listCart");
+        listCart.insertAdjacentHTML("afterbegin", cartItem);
+        updateTotalQuantity();
       } else if (xhr.status === 409) {
         alert("You already own the game!");
       } else if (xhr.status === 410) {
@@ -301,7 +302,6 @@ document.addEventListener("DOMContentLoaded", () => {
   removeFromCartButtons.forEach((button) => {
     button.addEventListener("click", (event) => {
       const gameID = event.currentTarget.dataset.gameId;
-      console.log(gameID);
       removeFromCart(gameID);
     });
   });
@@ -547,13 +547,11 @@ editCommentButtons.forEach((button) => {
     document.getElementById("editedComment").value = commentText;
     document.getElementById("saveChangesBtn").addEventListener("click", () => {
       const editedComment = document.getElementById("editedComment").value;
-      console.log(editedComment);
       const xhr = new XMLHttpRequest();
       const url = "editComment.php";
       const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
         editedComment
       )}`;
-      console.log(params);
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === XMLHttpRequest.DONE) {

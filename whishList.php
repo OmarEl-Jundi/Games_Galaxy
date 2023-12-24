@@ -94,7 +94,7 @@ if (!isset($_SESSION['user_id'])) {
         $query = "SELECT *,games.id AS game_id FROM games JOIN wishlist ON games.id = wishlist.g_id JOIN user ON user.id = wishlist.u_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
         $result = mysqli_query($con, $query);
         while ($games = mysqli_fetch_array($result)) : ?>
-          <div class="product-card">
+          <div id="wishlist-<?php echo $games['game_id']; ?>" class="product-card">
             <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
             <div class="product-info">
               <h3><?= $games['name'] ?></h3>
