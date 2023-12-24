@@ -330,27 +330,28 @@ if (removeFromCartButtons) {
   });
 }
 function removeFromCart(gameID) {
-  fetch("removeFromCart.php", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: `gameID=${gameID}`,
-  })
-    .then((response) => {
-      if (response.ok) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "removeFromCart.php", true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
         document.getElementById("cart-" + gameID).remove();
         updateTotalQuantity();
         updateTotalPrice();
       } else {
         alert("Failed to remove the game from cart.");
       }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
+    }
+  };
 
+  xhr.onerror = function (error) {
+    console.error("Error:", error);
+  };
+
+  xhr.send("gameID=" + gameID);
+}
 //!going to game description when clicking on a game
 let gameCards = document.querySelectorAll(".product-image, .product-name");
 gameCards.forEach((card) => {

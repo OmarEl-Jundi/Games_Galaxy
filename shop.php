@@ -142,7 +142,6 @@ session_start();
 
       <!-- Products Section -->
       <div class="products-grid">
-        <!-- Sample product, repeat as needed -->
         <?php
         $query = "SELECT * FROM `games` order by name asc";
         $result = mysqli_query($con, $query);

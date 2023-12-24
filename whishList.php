@@ -94,10 +94,10 @@ if (!isset($_SESSION['user_id'])) {
         $query = "SELECT *,games.id AS game_id FROM games JOIN wishlist ON games.id = wishlist.g_id JOIN user ON user.id = wishlist.u_id WHERE user.id = '$_SESSION[user_id]' order by games.name asc";
         $result = mysqli_query($con, $query);
         while ($games = mysqli_fetch_array($result)) : ?>
-          <div id="wishlist-<?php echo $games['game_id']; ?>" class="product-card">
-            <img src="images/games/<?= $games['image'] ?>" alt="Product Name" />
-            <div class="product-info">
-              <h3><?= $games['name'] ?></h3>
+          <div id="wishlist-<?php echo $games['game_id']; ?>" class="product-card" data-game-id="<?= $games['game_id'] ?>">
+            <img class="product-image" src="images/games/<?= $games['image'] ?>" alt="Product Name" />
+            <div class="product-info" data-game-id="<?= $games['game_id'] ?>">
+              <h3 class="product-name"><?= $games['name'] ?></h3>
               <span class="info-price">
                 <?php echo ($games['price'] == 0) ? 'Free!' : ('$' . $games['price']); ?>
               </span>
