@@ -12,7 +12,7 @@ if (!isset($_GET['gameID'])) {
     $sql = "UPDATE games SET views = views + 1 WHERE id = '$gameID'";
     mysqli_query($con, $sql);
 
-    $sql = "SELECT g.*,r.*, COUNT(r.rating) AS rate_count
+    $sql = "SELECT g.*,r.*, COUNT(r.rating) AS rate_count,AVG(rating) AS average_rating
             FROM games g
             LEFT JOIN rating r ON g.id = r.g_id
             WHERE g.id = '$gameID'
@@ -25,7 +25,7 @@ if (!isset($_GET['gameID'])) {
     $description = $row['description'];
     $irailer = $row['trailer'];
     $image = $row['image'];
-    $rating = $row['rating'];
+    $rating = $row['average_rating'];
     $rate_count = $row['rate_count'];
     $categoryID = $row['category'];
     $developerID = $row['developer'];
@@ -181,14 +181,12 @@ if (!isset($_GET['gameID'])) {
                     } else {
                         $checked = '';
                     }
-                    echo '<input type="radio" id="star' . $i . '" name="rate" value="' . $i . '" ' . $checked . ' disabled' . '/>';
+                    echo '<input class="averageRating" type="radio" id="star' . $i . '" name="rate" value="' . $i . '" ' . $checked . ' disabled' . '/>';
                     echo '<label for="star' . $i . '" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
             <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
         </svg></label>';
                 }
-                echo '</div>
-                ' . $rating . '/5 (' . $rate_count . ' raters)
-</h2>';
+                echo '</div><span id="averageRating">' . $rating . '</span>/5 (<span id="raters">' . $rate_count . '</span> raters)</h2>';
                 ?>
 
                 <div class="gameInfo">
@@ -220,7 +218,6 @@ if (!isset($_GET['gameID'])) {
                         if (mysqli_num_rows($result) > 0) {
                             $row = mysqli_fetch_assoc($result);
                             $userRating = explode('.', $row['rating'])[0];
-                            echo '<h3>Your Rating: ' . $userRating . '/5</h3>';
                         } else {
                             $userRating = 0;
                         }
@@ -398,18 +395,35 @@ if (!isset($_GET['gameID'])) {
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === XMLHttpRequest.DONE) {
                                     if (xhr.status === 200) {
-                                        console.log('Rating updated successfully');
-                                        const averageRating = document.querySelector('.average_rating');
+                                        const averageRating = document.querySelector('#averageRating');
                                         const newAverageRating = xhr.responseText;
                                         averageRating.textContent = newAverageRating;
-                                        console.log(newAverageRating);
+                                        const star = parseInt(newAverageRating.split('.')[0], 10);
+                                        const stars = document.querySelectorAll(".averageRating");
+                                        stars.forEach(star => {
+                                            star.checked = false;
+                                        });
+                                        document.getElementById("star" + star).checked = true;
+
+                                        const xhr2 = new XMLHttpRequest();
+                                        xhr2.open('GET', 'get_rate_count.php?gameID=' + gameId, true);
+                                        xhr2.onreadystatechange = function() {
+                                            if (xhr2.readyState === XMLHttpRequest.DONE) {
+                                                if (xhr2.status === 200) {
+                                                    const rate_count = xhr2.responseText;
+                                                    document.getElementById("raters").innerHTML = rate_count;
+                                                } else {
+                                                    alert('Error getting rate count');
+                                                }
+                                            }
+                                        }
+                                        xhr2.send();
                                     } else {
                                         alert('Error updating rating');
                                     }
                                 }
                             };
                             xhr.send(`gameID=${gameId}&userRating=${rating}&userID=${userId}`);
-                            console.log(`gameID=${gameId}&userRating=${rating}&userID=${userId}`);
                         } else {
                             alert("You need to login first!");
                             window.location.href = "login.php";
