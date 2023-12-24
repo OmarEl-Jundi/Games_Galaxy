@@ -1466,3 +1466,22 @@ h2 .user_rating {
   border: none;
   cursor: pointer;
 }
+
+/* Like Dislike colors */
+.bi-hand-thumbs-up {
+  fill: #1b2838;
+  transition: fill 0.3s;
+}
+
+.bi-hand-thumbs-up:hover {
+  fill: green;
+}
+
+.bi-hand-thumbs-down {
+  fill: #1b2838;
+  transition: fill 0.3s;
+}
+
+.bi-hand-thumbs-down:hover {
+  fill: firebrick;
+}
