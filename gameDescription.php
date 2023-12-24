@@ -365,6 +365,7 @@ if (!isset($_GET['gameID'])) {
             </div>
         </div>
         <script>
+            //!rating
             document.addEventListener("DOMContentLoaded", function() {
                 const submitBtn = document.querySelector('.submitBtn');
 
