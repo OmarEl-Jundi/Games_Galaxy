@@ -496,7 +496,7 @@ function sendDislikeRequest(commentID) {
 }
 
 //!Delete Comment
-deleteCommentButtons = document.querySelectorAll(".bi-trash3");
+deleteCommentButtons = document.querySelectorAll(".deleteComment");
 
 deleteCommentButtons.forEach((button) => {
   const originalPath =
@@ -527,6 +527,7 @@ function deleteComment(commentID) {
     return;
   }
 
+  console.log(commentID);
   const xhr = new XMLHttpRequest();
   const url = "deleteComment.php";
   const params = `commentID=${commentID}`;
@@ -534,8 +535,7 @@ function deleteComment(commentID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        alert("Deleted comment successfully!");
-        location.reload();
+        document.getElementById("comment-" + commentID).remove();
       } else {
         alert("Failed to delete comment");
       }

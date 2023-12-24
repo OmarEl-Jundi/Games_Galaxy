@@ -11,7 +11,7 @@ if (isset($_SESSION['user_id']) && isset($_POST['commentID'])) {
     if (mysqli_num_rows($result) > 0) {
         $query = "DELETE FROM like_comment WHERE u_id = '$userID' AND c_id = '$commentID'";
         $result = mysqli_query($con, $query);
-        http_response_code(410); //user already liked the comment
+        http_response_code(410); //unlike the comment
         exit();
     } else {
         $query = "DELETE FROM dislike_comment WHERE u_id = '$userID' AND c_id = '$commentID'";
