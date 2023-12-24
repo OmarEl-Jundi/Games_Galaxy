@@ -6,38 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['gameID']) && isset($_P
     $gameID = $_POST['gameID'];
     $userRating = $_POST['userRating'];
 
-    $sql = "SELECT rating, rate_count FROM games WHERE id = '$gameID'";
+    $sql = "SELECT * FROM rating WHERE u_id = '$_SESSION[user_id]' AND g_id = '$gameID'";
     $result = mysqli_query($con, $sql);
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $currentRating = $row['rating'];
-        $currentRateCount = $row['rate_count'];
-
-        $newTotalRating = $currentRating + $userRating;
-        $newRateCount = $currentRateCount + 1;
-
-        $newAverageRating = $newTotalRating / $newRateCount;
-
-        $updateSQL = "UPDATE games SET rating = '$newAverageRating', rate_count = '$newRateCount' WHERE id = '$gameID'";
-        mysqli_query($con, $updateSQL);
-
-        $response = array(
-            "success" => true,
-            "newRating" => $newAverageRating
-        );
-        echo json_encode($response);
+    if (mysqli_num_rows($result) > 0) {
+        $sql = "UPDATE rating SET rating = '$userRating' WHERE u_id = '$_SESSION[user_id]' AND g_id = '$gameID'";
+        mysqli_query($con, $sql);
     } else {
-        $response = array(
-            "success" => false,
-            "message" => "Invalid Game ID"
-        );
-        echo json_encode($response);
+        $sql = "INSERT INTO rating (u_id, g_id, rating) VALUES ('$_SESSION[user_id]', '$gameID', '$userRating')";
+        mysqli_query($con, $sql);
     }
+
+    $sql = "SELECT AVG(rating) AS average_rating FROM rating WHERE g_id = '$gameID'";
+    $result = mysqli_query($con, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $averageRating = $row['average_rating'];
+
+    echo $averageRating;
+    http_response_code(200);
 } else {
-    $response = array(
-        "success" => false,
-        "message" => "Invalid Request"
-    );
-    echo json_encode($response);
+    http_response_code(403);
 }

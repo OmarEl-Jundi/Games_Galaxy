@@ -12,7 +12,13 @@ if (!isset($_GET['gameID'])) {
     $sql = "UPDATE games SET views = views + 1 WHERE id = '$gameID'";
     mysqli_query($con, $sql);
 
-    $sql = "SELECT * FROM games WHERE id = '$gameID'";
+    $sql = "SELECT g.*,r.*, COUNT(r.rating) AS rate_count
+            FROM games g
+            LEFT JOIN rating r ON g.id = r.g_id
+            WHERE g.id = '$gameID'
+            GROUP BY g.id;
+
+";
     $result = mysqli_query($con, $sql);
     $row = mysqli_fetch_assoc($result);
     $name = $row['name'];
@@ -207,26 +213,33 @@ if (!isset($_GET['gameID'])) {
                 </div>
                 <h2>Want to rate the game yourself?</h2>
                 <div class="user_rating">
-                    <input type="radio" id="star55" name="user_rate" value="5" />
-                    <label for="star55" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
+                    <?php
+                    if (isset($_SESSION['user_id'])) {
+                        $sql = "SELECT * FROM rating WHERE u_id = '$_SESSION[user_id]' AND g_id = '$gameID'";
+                        $result = mysqli_query($con, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $userRating = explode('.', $row['rating'])[0];
+                            echo '<h3>Your Rating: ' . $userRating . '/5</h3>';
+                        } else {
+                            $userRating = 0;
+                        }
+                    } else {
+                        $userRating = 0;
+                    }
+                    for ($i = 5; $i >= 1; $i--) {
+                        if ($userRating == $i) {
+                            $checked = 'checked';
+                        } else {
+                            $checked = '';
+                        }
+                        echo ' <input ' . $checked . ' type="radio" id="star' . $i . $i . '" name="user_rate" value="' . $i . '" />
+                        <label for="star' . $i . $i . '" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
                             <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
                         </svg></label>
-                    <input type="radio" id="star44" name="user_rate" value="4" />
-                    <label for="star44" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg></label>
-                    <input type="radio" id="star33" name="user_rate" value="3" />
-                    <label for="star33" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg></label>
-                    <input type="radio" id="star22" name="user_rate" value="2" />
-                    <label for="star22" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg></label>
-                    <input type="radio" id="star11" name="user_rate" value="1" />
-                    <label for="star11" title="text"><svg viewBox="0 0 576 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="star-solid">
-                            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"></path>
-                        </svg></label>
+                        ';
+                    }
+                    ?>
                 </div>
                 <button class="submitBtn">
                     Submit
@@ -370,11 +383,12 @@ if (!isset($_GET['gameID'])) {
                 const submitBtn = document.querySelector('.submitBtn');
 
                 submitBtn.addEventListener('click', function() {
-                    const selectedRating = document.querySelector('.user_rating input[type="radio"]:checked');
-                    if (selectedRating) {
-                        const gameId = <?= $gameID ?>;
-                        const rating = selectedRating.value;
+                    const checkedInput = document.querySelector('.user_rating input[type="radio"]:checked');
 
+                    if (checkedInput) {
+                        const selectedRating = parseInt(checkedInput.value, 10);
+                        const gameId = <?= $gameID ?>;
+                        const rating = selectedRating;
                         const userId = <?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 'null' ?>;
 
                         if (userId) {
@@ -385,13 +399,17 @@ if (!isset($_GET['gameID'])) {
                                 if (xhr.readyState === XMLHttpRequest.DONE) {
                                     if (xhr.status === 200) {
                                         console.log('Rating updated successfully');
-                                        location.reload();
+                                        const averageRating = document.querySelector('.average_rating');
+                                        const newAverageRating = xhr.responseText;
+                                        averageRating.textContent = newAverageRating;
+                                        console.log(newAverageRating);
                                     } else {
-                                        console.error('Error updating rating');
+                                        alert('Error updating rating');
                                     }
                                 }
                             };
                             xhr.send(`gameID=${gameId}&userRating=${rating}&userID=${userId}`);
+                            console.log(`gameID=${gameId}&userRating=${rating}&userID=${userId}`);
                         } else {
                             alert("You need to login first!");
                             window.location.href = "login.php";
