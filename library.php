@@ -45,6 +45,29 @@ if (!isset($_SESSION['user_id'])) {
                     </label>
                     <span class="fake-body"></span>
                 </div>
+                <?php
+                if (isset($_SESSION['user_id'])) {
+                    $query = "SELECT * FROM `wallet` WHERE u_id = '$_SESSION[user_id]'";
+                    $result = mysqli_query($con, $query);
+
+                    if ($result && mysqli_num_rows($result) > 0) {
+                        $wallet = mysqli_fetch_array($result);
+                ?>
+                        <div class="tooltip-container">
+                            <span class="tooltip">$ <?= $wallet['amount'] ?></span>
+                            <span class="text">Wallet</span>
+                        </div>
+                    <?php
+                    } else {
+                    ?>
+                        <div class="tooltip-container">
+                            <span class="tooltip"><?php echo 'you don\'t have a wallet'; ?></span>
+                            <span class="text">Wallet</span>
+                        </div>
+                <?php
+                    }
+                }
+                ?>
             </div>
 
             <div class="logo">
