@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("connection.php");
+require "connection.php";
 
 if (isset($_SESSION['user_id']) && isset($_POST['commentID'])) {
     $userID = $_SESSION['user_id'];

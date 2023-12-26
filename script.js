@@ -374,13 +374,6 @@ window.addEventListener("load", function () {
 const likeButtons = document.querySelectorAll(".bi-hand-thumbs-up");
 const dislikeButtons = document.querySelectorAll(".bi-hand-thumbs-down");
 
-likeButtons.forEach((likeBtn) => {
-  likeBtn.addEventListener("click", () => {
-    const commentID = likeBtn.dataset.commentId;
-    sendLikeRequest(commentID);
-  });
-});
-
 function sendLikeRequest(commentID) {
   const xhr = new XMLHttpRequest();
   const url = "likeprocess.php";
@@ -430,13 +423,6 @@ function sendLikeRequest(commentID) {
   xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xhr.send(params);
 }
-
-dislikeButtons.forEach((dislikeBtn) => {
-  dislikeBtn.addEventListener("click", () => {
-    const commentID = dislikeBtn.dataset.commentId;
-    sendDislikeRequest(commentID);
-  });
-});
 
 function sendDislikeRequest(commentID) {
   const xhr = new XMLHttpRequest();
@@ -511,27 +497,19 @@ deleteCommentButtons.forEach((button) => {
   });
 });
 
-deleteCommentButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const commentID = button.dataset.commentId;
-    deleteComment(commentID);
-  });
-});
-
 function deleteComment(commentID) {
   const confirmed = window.confirm("Are you sure you want to delete this?");
   if (!confirmed) {
     return;
   }
 
-  console.log(commentID);
   const xhr = new XMLHttpRequest();
   const url = "deleteComment.php";
   const params = `commentID=${commentID}`;
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
+      if (xhr.responseText == "Comment deleted successfully") {
         document.getElementById("comment-" + commentID).remove();
       } else {
         alert("Failed to delete comment");
@@ -545,7 +523,7 @@ function deleteComment(commentID) {
 }
 
 //!Edit Comment
-editCommentButtons = document.querySelectorAll(".bi-pencil-square");
+const editCommentButtons = document.querySelectorAll(".bi-pencil-square");
 
 editCommentButtons.forEach((button) => {
   button.addEventListener("mouseover", () => {
@@ -557,44 +535,83 @@ editCommentButtons.forEach((button) => {
   });
 });
 
-editCommentButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const commentID = button.dataset.commentId;
-    const commentText =
-      button.parentElement.parentElement.parentElement.querySelector(
-        ".comment_text"
-      ).innerHTML;
-    document.getElementById("editCommentModal").style.display = "block";
-    document.getElementById("editedComment").value = commentText;
-    document.getElementById("saveChangesBtn").addEventListener("click", () => {
-      const editedComment = document.getElementById("editedComment").value;
-      const xhr = new XMLHttpRequest();
-      const url = "editComment.php";
-      const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
-        editedComment
-      )}`;
+function editComment(commentID, commentText) {
+  document.getElementById("editCommentModal").style.display = "block";
+  document.getElementById("editedComment").value = commentText;
+  document.getElementById("saveChangesBtn").addEventListener("click", () => {
+    const editedComment = document.getElementById("editedComment").value;
+    editComment = sanitizeComment(editedComment);
+    const xhr = new XMLHttpRequest();
+    const url = "editComment.php";
+    const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
+      editedComment
+    )}`;
 
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            location.reload();
-          } else {
-            console.error("Failed to edit comment. Status: " + xhr.status);
-            console.error("Response: " + xhr.responseText);
-            alert("Failed to edit comment");
-          }
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          document
+            .getElementById("comment-" + commentID)
+            .querySelector(".comment_text").innerHTML = editedComment;
+          document.getElementById("editCommentModal").style.display = "none";
+        } else {
+          console.error("Failed to edit comment. Status: " + xhr.status);
+          console.error("Response: " + xhr.responseText);
+          alert("Failed to edit comment");
         }
-      };
+      }
+    };
 
-      xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhr.send(params);
-    });
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(params);
   });
-});
+}
 
 document.querySelectorAll(".close-btn").forEach((button) => {
   button.addEventListener("click", () => {
     document.getElementById("editCommentModal").style.display = "none";
   });
 });
+
+const commentSection = document.querySelector(".commentsContainer");
+
+commentSection.addEventListener("click", (event) => {
+  let clickedElement = event.target;
+
+  if (clickedElement.nodeName === "path") {
+    const svgElement = clickedElement.closest("svg");
+    if (svgElement) {
+      clickedElement = svgElement;
+    }
+  }
+
+  const commentID = clickedElement.dataset.commentId;
+
+  if (clickedElement.classList.contains("bi-hand-thumbs-up")) {
+    sendLikeRequest(commentID);
+  } else if (clickedElement.classList.contains("bi-hand-thumbs-down")) {
+    sendDislikeRequest(commentID);
+  } else if (clickedElement.classList.contains("deleteComment")) {
+    deleteComment(commentID);
+  } else if (clickedElement.classList.contains("bi-pencil-square")) {
+    editComment(
+      commentID,
+      clickedElement.parentElement.parentElement.parentElement.querySelector(
+        ".comment_text"
+      ).innerHTML
+    );
+  }
+});
+
+function sanitizeComment(comment) {
+  // Replace special characters with HTML entities
+  const sanitized = comment
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+  return sanitized;
+}
