@@ -1471,6 +1471,7 @@ h2 .user_rating {
 .bi-hand-thumbs-up {
   fill: black;
   transition: fill 0.3s;
+  cursor: pointer;
 }
 
 .bi-hand-thumbs-up:hover {
@@ -1480,6 +1481,7 @@ h2 .user_rating {
 .bi-hand-thumbs-down {
   fill: black;
   transition: fill 0.3s;
+  cursor: pointer;
 }
 
 .bi-hand-thumbs-down:hover {
@@ -1500,4 +1502,26 @@ h2 .user_rating {
 
 .bi-hand-thumbs-down.disliked:hover {
   fill: wheat;
+}
+
+.deleteComment {
+  cursor: pointer;
+  transition: fill 0.3s;
+  color: #1b2838;
+}
+
+.deleteComment:hover {
+  transition: fill 0.3s;
+  color: firebrick;
+}
+
+.editComment {
+  cursor: pointer;
+  transition: fill 0.3s;
+  color: #1b2838;
+}
+
+.editComment:hover {
+  transition: fill 0.3s;
+  color: #fbfbf9;
 }
