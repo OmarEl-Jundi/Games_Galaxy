@@ -1,47 +1,6 @@
 <?php
+session_start();
 require 'connection.php';
-$error = '';
-if (isset($_POST['signin'])) {
-    if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['conf_password']) || empty($_POST['email']) || empty($_POST['fname']) || empty($_POST['lname']) || empty($_POST['dob'])) {
-        $error = "Please fill all fields";
-    } else {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $confpassword = $_POST['conf_password'];
-        $email = $_POST['email'];
-        $fname = $_POST['fname'];
-        $lname = $_POST['lname'];
-        $dob = $_POST['dob'];
-
-        $q = "SELECT * from `user` where (username ='" . $username . "' OR email ='" . $username . "') AND password ='" . $password . "'";
-        echo $q;
-        $result = mysqli_query($con, $q);
-        if ($result === false) {
-            die("Error executing the query: " . mysqli_error($con));
-        } else {
-            $res = mysqli_num_rows($result);
-        }
-        if ($res == 1) {
-
-            $row = mysqli_fetch_array($result);
-
-            session_start();
-
-            session_regenerate_id();
-
-            $_SESSION["user_id"] = $row['id'];
-            $_SESSION["user_role"] = $row['role'];
-
-            $error = "Login Successful";
-
-            header("location: index.php");
-            exit();
-        } else {
-            $error = "Username or Password is invalid";
-        }
-        mysqli_close($con);
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +9,7 @@ if (isset($_POST['signin'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Login</title>
+    <title>Games Galaxy - Sign Up</title>
 </head>
 
 <body>
@@ -94,34 +53,89 @@ if (isset($_POST['signin'])) {
                     <span class="fake-body"></span>
                 </div>
             </div>
-            <form class="container-login" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+            <div class="container-login" method="post">
                 <div class="input-container">
                     <div class="input-content">
                         <div class="input-dist">
                             <div class="input-type">
-                                <input class="input-is" name="username" type="text" placeholder="Username" />
-                                <input class="input-is" name="password" type="password" placeholder="Password" />
-                                <input class="input-is" name="conf_password" type="password" placeholder="Confirm Password" />
-                                <input class="input-is" name="email" type="email" placeholder="E-Mail" />
+                                <input class="input-is" id="username" type="text" placeholder="Username" />
+                                <input class="input-is" id="password" type="password" placeholder="Password" />
+                                <input class="input-is" id="re_password" type="password" placeholder="Confirm Password" />
+                                <input class="input-is" id="email" type="email" placeholder="E-Mail" />
                                 <div class="first_last_name">
-                                    <input class="input-is" name="fname" type="text" placeholder="First Name" />
-                                    <input class="input-is" name="lname" type="text" placeholder="Last Name" />
+                                    <input class="input-is" id="fname" type="text" placeholder="First Name" />
+                                    <input class="input-is" id="lname" type="text" placeholder="Last Name" />
                                 </div>
-                                <input class="input-is" name="dob" type="date" placeholder="Birthdate" />
+                                <input class="input-is" id="dob" type="date" placeholder="Birthdate" />
                             </div>
                         </div>
                     </div>
                     <div class="error-container">
-                        <span class="error"><?php echo $error; ?></span>
+                        <span id="error" class="error"></span>
                     </div>
                     <div class="error-container" style="color: white; margin: 50px 0 10px 0;">
                         <span>already have an account?<a style="color: #9e30a9; " href="login.php"> Log In</a></span>
                     </div>
-                    <input name="signin" class="submit-button" type="submit" value=" Sign up ">
+                    <button onclick="signupProcess()" name="submit" class="submit-button">Sign Up</button>
                 </div>
+            </div>
         </div>
     </div>
 </body>
+
+<script>
+    function signupProcess() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        var re_password = document.getElementById("re_password").value;
+        var email = document.getElementById("email").value;
+        var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+        var dob = document.getElementById("dob").value;
+        var error = document.getElementById("error");
+        var ready = 0;
+        if (username == "") {
+            error.innerHTML = "Username can't be empty";
+        } else if (password == "") {
+            error.innerHTML = "Password can't be empty";
+        } else if (re_password == "") {
+            error.innerHTML = "Confirm Password can't be empty";
+        } else if (password.length < 8 || !/\d/.test(password)) {
+            error.innerHTML = "Password should be at least 8 characters long and should contain at least 1 number";
+        } else if (re_password != password) {
+            error.innerHTML = "Password and Confirm Password should be the same";
+        } else if (email == "") {
+            error.innerHTML = "Email can't be empty";
+        } else if (!email.includes("@") || !email.includes(".")) {
+            error.innerHTML = "Invalid email format";
+        } else if (fname == "") {
+            error.innerHTML = "First Name can't be empty";
+        } else if (lname == "") {
+            error.innerHTML = "Last Name can't be empty";
+        } else if (dob == "") {
+            error.innerHTML = "Date of Birth can't be empty";
+        } else {
+            ready = 1;
+        }
+        if (ready === 1) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    if (this.responseText == "Username Already Taken") {
+                        error.innerHTML = "Username Already Taken";
+                    } else if (this.responseText == "Email Already Taken") {
+                        error.innerHTML = "Email Already Taken";
+                    } else {
+                        window.location.href = "index.php";
+                    }
+                }
+            };
+            xhttp.open("POST", "signupProcess.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("username=" + username + "&password=" + password + "&email=" + email + "&fname=" + fname + "&lname=" + lname + "&dob=" + dob);
+        }
+    }
+</script>
 <script src="script.js"></script>
 
 </html>
