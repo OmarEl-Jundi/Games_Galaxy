@@ -60,6 +60,13 @@ if (!isset($_GET["gameID"])) {
         <div class="container">
             <?php if (isset($_SESSION["user_id"])) : ?>
                 <a style="margin-right: 100px;" href="logout.php" id="logoutButton" class="auth-button">Logout</a>
+                <?php
+                $query = "SELECT * FROM `user` WHERE id = '$_SESSION[user_id]'";
+                $result = mysqli_query($con, $query);
+                $user = mysqli_fetch_array($result);
+                $pfp = $user['pfp'];
+                ?>
+                <a href="profile.php"><img src="images/userPFP/<?= $pfp ?>" alt="pfp" class="profileIcon <?php echo 'defaultIcon'; ?>"></a>
                 <div class="iconCart">
                     <img src="images/logo/cart.png" id="cartIcon" />
                     <div class="totalQuantity">0</div>

@@ -523,17 +523,6 @@ function deleteComment(commentID) {
 }
 
 //!Edit Comment
-const editCommentButtons = document.querySelectorAll(".bi-pencil-square");
-
-editCommentButtons.forEach((button) => {
-  button.addEventListener("mouseover", () => {
-    button.style.color = "#FBFBF9";
-  });
-
-  button.addEventListener("mouseout", () => {
-    button.style.color = "#1b2838";
-  });
-});
 
 function editComment(commentID, commentText) {
   document.getElementById("editCommentModal").style.display = "block";
@@ -576,34 +565,35 @@ document.querySelectorAll(".close-btn").forEach((button) => {
 
 const commentSection = document.querySelector(".commentsContainer");
 
-commentSection.addEventListener("click", (event) => {
-  let clickedElement = event.target;
+if (commentSection) {
+  commentSection.addEventListener("click", (event) => {
+    let clickedElement = event.target;
 
-  if (clickedElement.nodeName === "path") {
-    const svgElement = clickedElement.closest("svg");
-    if (svgElement) {
-      clickedElement = svgElement;
+    if (clickedElement.nodeName === "path") {
+      const svgElement = clickedElement.closest("svg");
+      if (svgElement) {
+        clickedElement = svgElement;
+      }
     }
-  }
 
-  const commentID = clickedElement.dataset.commentId;
+    const commentID = clickedElement.dataset.commentId;
 
-  if (clickedElement.classList.contains("bi-hand-thumbs-up")) {
-    sendLikeRequest(commentID);
-  } else if (clickedElement.classList.contains("bi-hand-thumbs-down")) {
-    sendDislikeRequest(commentID);
-  } else if (clickedElement.classList.contains("deleteComment")) {
-    deleteComment(commentID);
-  } else if (clickedElement.classList.contains("bi-pencil-square")) {
-    editComment(
-      commentID,
-      clickedElement.parentElement.parentElement.parentElement.querySelector(
-        ".comment_text"
-      ).innerHTML
-    );
-  }
-});
-
+    if (clickedElement.classList.contains("bi-hand-thumbs-up")) {
+      sendLikeRequest(commentID);
+    } else if (clickedElement.classList.contains("bi-hand-thumbs-down")) {
+      sendDislikeRequest(commentID);
+    } else if (clickedElement.classList.contains("deleteComment")) {
+      deleteComment(commentID);
+    } else if (clickedElement.classList.contains("editComment")) {
+      editComment(
+        commentID,
+        clickedElement.parentElement.parentElement.parentElement.querySelector(
+          ".comment_text"
+        ).innerHTML
+      );
+    }
+  });
+}
 function sanitizeComment(comment) {
   // Replace special characters with HTML entities
   const sanitized = comment
@@ -614,4 +604,29 @@ function sanitizeComment(comment) {
     .replace(/'/g, "&#039;");
 
   return sanitized;
+}
+
+//!Wallet
+const CreateWallet = document.querySelector("#createWallet");
+
+if (CreateWallet) {
+  CreateWallet.addEventListener("click", () => {
+    const xhr = new XMLHttpRequest();
+    const url = "createWallet.php";
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          alert("Wallet created successfully!");
+          location.reload();
+        } else if (xhr.status === 409) {
+          alert("You already have a wallet!");
+        } else {
+          alert("Failed to create wallet");
+        }
+      }
+    };
+    xhr.send();
+  });
 }

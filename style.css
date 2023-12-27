@@ -372,7 +372,7 @@ nav {
 
 #logoutButton {
   top: 30px;
-  right: 20px;
+  right: 50px;
   background-color: firebrick;
   color: black;
 }
@@ -686,6 +686,7 @@ nav {
   position: relative;
   z-index: 1;
   cursor: pointer;
+  top: 20px;
 }
 
 .totalQuantity {
@@ -1467,6 +1468,10 @@ h2 .user_rating {
   cursor: pointer;
 }
 
+#saveChangesBtn:hover {
+  background-color: #0056b3;
+}
+
 /* Like Dislike colors */
 .bi-hand-thumbs-up {
   fill: black;
@@ -1594,4 +1599,72 @@ h2 .user_rating {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+/* Profile */
+.profileIcon {
+  width: 50px;
+  height: 50px;
+  right: 80px;
+  position: absolute;
+  top: 20px;
+  cursor: pointer;
+}
+
+.defaultIcon:hover {
+  filter: brightness(2);
+}
+
+.userPFP {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
+}
+
+#addFundsBar {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#addFundsBtn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#addFundsBtn:hover {
+  background-color: #0056b3;
+}
+
+#createWallet {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+#createWallet:hover {
+  background-color: #0056b3;
+}
+
+.editProfileTitles {
+  color: gray;
+  cursor: pointer;
+}
+
+.editProfileTitles:hover {
+  color: #007bff;
 }
