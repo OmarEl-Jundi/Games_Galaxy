@@ -113,30 +113,31 @@ $user = mysqli_fetch_array($result);
                     </div>
                 </div>
                 <div class="funds">
-                    <h1 class="pofileTitles">Funds:
-                        <?php
-                        $sql = "SELECT * FROM `wallet` WHERE u_id = '$_SESSION[user_id]'";
-                        $result = mysqli_query($con, $sql);
-                        if ($result && mysqli_num_rows($result) > 0) {
-                            $wallet = mysqli_fetch_array($result);
-                            echo $wallet['amount'] . '$';
+                    <h1 class="pofileTitles">Funds:<span id="amount">
+                            <?php
+                            $sql = "SELECT * FROM `wallet` WHERE u_id = '$_SESSION[user_id]'";
+                            $result = mysqli_query($con, $sql);
+                            if ($result && mysqli_num_rows($result) > 0) {
+                                $wallet = mysqli_fetch_array($result);
+                                echo $wallet['amount'];
 
-                        ?>
+                            ?>
+                                $</span>
                     </h1>
-                    <form action="addFunds.php" method="post">
+                    <div action="addFunds.php">
                         <input id="addFundsBar" type="number" name="funds" id="funds" placeholder="Enter funds">
                         <input id="addFundsBtn" type="submit" value="Add Funds">
-                    </form>
+                    </div>
                 <?php
-                        } else {
-                            echo '<div id="noWallet" style="display:flex;flex-direction:column;">You Don\'t have a wallet yet<div>';
+                            } else {
+                                echo '<div id="noWallet" style="display:flex;flex-direction:column;">You Don\'t have a wallet yet<div>';
                 ?>
 
                     <button id="createWallet">Create a Wallet</button>
                 </div>
             </div>
         <?php
-                        }
+                            }
         ?>
         </div>
     </div>

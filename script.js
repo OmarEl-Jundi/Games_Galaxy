@@ -620,13 +620,35 @@ if (CreateWallet) {
         if (xhr.status === 200) {
           alert("Wallet created successfully!");
           location.reload();
-        } else if (xhr.status === 409) {
-          alert("You already have a wallet!");
         } else {
           alert("Failed to create wallet");
         }
       }
     };
     xhr.send();
+  });
+}
+
+//!Add Funds
+const AddFunds = document.querySelector("#addFundsBtn");
+
+if (AddFunds) {
+  AddFunds.addEventListener("click", () => {
+    const xhr = new XMLHttpRequest();
+    const url = "addFunds.php";
+    const params = `amount=${document.querySelector("#addFundsBar").value}`;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          document.getElementById("amount").textContent =
+            " " + xhr.responseText + " $";
+        } else {
+          alert("Failed to add funds");
+        }
+      }
+    };
+    xhr.send(params);
   });
 }
