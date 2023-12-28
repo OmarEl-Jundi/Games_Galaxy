@@ -664,8 +664,6 @@ if (editUsernameBtn) {
         alert("Please enter a new username!");
         return;
       } else {
-        document.getElementById("editUsernameBar").disabled = true;
-        isEditingUsername = false;
         changeUsername(document.getElementById("editUsernameBar").value);
       }
     } else {
@@ -686,9 +684,55 @@ function changeUsername(username) {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         alert("Username changed successfully!");
-        // location.reload();
+        document.getElementById("editUsernameBar").disabled = true;
+        isEditingUsername = false;
+      } else if (xhr.status === 400) {
+        alert("username already taken");
       } else {
         alert("Failed to change username");
+      }
+    }
+  };
+  xhr.send(params);
+}
+
+//!Change Email
+const editEmailBtn = document.querySelector("#editEmailBtn");
+let isEditingEmail = false;
+
+if (editEmailBtn) {
+  editEmailBtn.addEventListener("click", () => {
+    if (isEditingEmail) {
+      if (document.getElementById("editEmailBar").value == oldEmail) {
+        alert("Please enter a new email!");
+        return;
+      } else {
+        changeEmail(document.getElementById("editEmailBar").value);
+      }
+    } else {
+      document.getElementById("editEmailBar").disabled = false;
+      isEditingEmail = true;
+      oldEmail = document.getElementById("editEmailBar").value;
+    }
+  });
+}
+
+function changeEmail(email) {
+  const xhr = new XMLHttpRequest();
+  const url = "changeEmail.php";
+  const params = `email=${email}`;
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        alert("Email changed successfully!");
+        document.getElementById("editEmailBar").disabled = true;
+        isEditingEmail = false;
+      } else if (xhr.status === 400) {
+        alert("Email already taken");
+      } else {
+        alert("Failed to change email");
       }
     }
   };
