@@ -652,3 +652,45 @@ if (AddFunds) {
     xhr.send(params);
   });
 }
+
+//!Change Username
+const editUsernameBtn = document.querySelector("#editUsernameBtn");
+let isEditingUsername = false;
+let oldUsername;
+if (editUsernameBtn) {
+  editUsernameBtn.addEventListener("click", () => {
+    if (isEditingUsername) {
+      if (document.getElementById("editUsernameBar").value == oldUsername) {
+        alert("Please enter a new username!");
+        return;
+      } else {
+        document.getElementById("editUsernameBar").disabled = true;
+        isEditingUsername = false;
+        changeUsername(document.getElementById("editUsernameBar").value);
+      }
+    } else {
+      document.getElementById("editUsernameBar").disabled = false;
+      isEditingUsername = true;
+      oldUsername = document.getElementById("editUsernameBar").value;
+    }
+  });
+}
+
+function changeUsername(username) {
+  const xhr = new XMLHttpRequest();
+  const url = "changeUsername.php";
+  const params = `username=${username}`;
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        alert("Username changed successfully!");
+        // location.reload();
+      } else {
+        alert("Failed to change username");
+      }
+    }
+  };
+  xhr.send(params);
+}
