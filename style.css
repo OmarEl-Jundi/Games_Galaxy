@@ -1678,3 +1678,50 @@ h2 .user_rating {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+#changePasswordBtn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bolder;
+  font-size: 17px;
+  height: 40px;
+}
+
+.changePassword {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+}
+
+.passwordInputDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.passwordInput {
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 20px;
+}
+
+.passwordInput2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.profileContainer {
+  display: flex;
+  justify-content: center;
+  margin: 100px;
+}

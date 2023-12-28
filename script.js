@@ -738,3 +738,44 @@ function changeEmail(email) {
   };
   xhr.send(params);
 }
+
+//!Change Password
+
+function changePassword() {
+  const currentPassword = document.getElementById("currentPassword").value;
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+
+  if (newPassword !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  } else if (newPassword.length < 8 || !/\d/.test(newPassword)) {
+    alert(
+      "Password must be at least 8 characters long and contain at least 1 number"
+    );
+    return;
+  } else {
+    const xhr = new XMLHttpRequest();
+    const url = "changePassword.php";
+    const params = `oldPassword=${currentPassword}&newPassword=${newPassword}&confirmPassword=${confirmPassword}`;
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          alert("Password changed successfully!");
+          document.getElementById("oldPassword").value = "";
+          document.getElementById("newPassword").value = "";
+          document.getElementById("confirmPassword").value = "";
+        } else if (xhr.status === 400) {
+          alert("Incorrect password");
+        } else if (xhr.status === 401) {
+          alert("Passwords do not match");
+        } else {
+          alert("Failed to change password");
+        }
+      }
+    };
+    xhr.send(params);
+  }
+}

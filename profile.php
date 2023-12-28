@@ -112,6 +112,22 @@ $user = mysqli_fetch_array($result);
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                             </svg><span style="font-size: 10px;color: gray;margin-left: 5px;">(click again to submit)</span>
                         </h2>
+                        <div class="changePassword">
+                            <h2>Change Password:</h2>
+                            <div class="passwordInputDiv">
+                                <h4 class="pofileTitles">Current Password:</h4>
+                                <div class="passwordInput2"><input class="passwordInput" id="currentPassword" type="password"></div>
+                            </div>
+                            <div class="passwordInputDiv">
+                                <h4 class="pofileTitles">New Password: </h4>
+                                <div class="passwordInput2"><input class="passwordInput" id="newPassword" type="password"></div>
+                            </div>
+                            <div class="passwordInputDiv">
+                                <h4 class="pofileTitles">Confirm Password: </h4>
+                                <div class="passwordInput2"><input class="passwordInput" id="confirmPassword" type="password"></div>
+                            </div>
+                            <button onclick="changePassword()" id="changePasswordBtn">Change Password</button>
+                        </div>
                     </div>
                 </div>
                 <div class="funds">
