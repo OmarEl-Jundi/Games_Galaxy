@@ -92,10 +92,14 @@ $user = mysqli_fetch_array($result);
                     <div class="profile-img">
                         <h3 class="pofileTitles">Profile Picture:</h3>
                         <img class="userPFP" src="images/userPFP/<?php echo $user['pfp'] ?>" alt="profile picture">
+                        <!-- <label for="uploadInput"> -->
                         <svg id="editPFP" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi editProfileTitles bi-pencil-square" viewBox="0 0 16 16">
                             <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
                         </svg>
+                        <!-- </label> -->
+                        <input type="file" id="uploadInput" style="display: none;" accept="image/*">
+                        <button id="savePFP">Save</button>
                     </div>
                     <div class="profile-info">
                         <h1 class="pofileTitles">Username:
@@ -161,6 +165,85 @@ $user = mysqli_fetch_array($result);
     </div>
     </div>
 </body>
-<script src="script.js"></script>
+<script src="script.js" defer></script>
+<script>
+    //! Change Profile Picture
+
+    <?php
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_FILES['file'])) {
+            $file = $_FILES['file'];
+            $fileName = $_SESSION['user_id'] . '_' . basename($file['name']);
+            $fileTmpName = $file['tmp_name'];
+            $fileSize = $file['size'];
+            $fileError = $file['error'];
+
+            if ($fileError === 0) {
+                $uploadDir = 'images/userPFP/';
+                $uploadPath = $uploadDir . $fileName;
+
+                if (move_uploaded_file($fileTmpName, $uploadPath)) {
+                    $sql = "UPDATE `user` SET `pfp` = '$fileName' WHERE `user`.`id` = '$_SESSION[user_id]'";
+                    mysqli_query($con, $sql);
+                    http_response_code(200);
+                } else {
+                    http_response_code(400);
+                }
+            } else {
+                http_response_code(500);
+            }
+        }
+    }
+    ?>
+
+    const editPFP = document.getElementById("editPFP");
+    const uploadInput = document.getElementById("uploadInput");
+    const saveButton = document.getElementById("savePFP");
+
+    editPFP.addEventListener("click", () => {
+        uploadInput.click();
+    });
+
+    uploadInput.addEventListener("change", () => {
+        const selectedFile = uploadInput.files[0];
+        if (selectedFile) {
+            if (!selectedFile.type.startsWith('image/')) {
+                alert('Wrong file type. Please select an image file.');
+            } else {
+                const userPFP = document.querySelector(".userPFP");
+                userPFP.src = URL.createObjectURL(selectedFile);
+            }
+        }
+    });
+
+
+    saveButton.addEventListener("click", () => {
+        const selectedFile = uploadInput.files[0];
+        if (!selectedFile) {
+            alert('Please select a file.');
+        } else {
+            if (!selectedFile.type.startsWith('image/')) {
+                alert('Wrong file type. Please select an image file.');
+            } else {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'profile.php');
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            alert("Profile Picture Changed Successfully");
+                        } else {
+                            alert('Error changing the Profile Picture please try again later');
+                        }
+                    }
+                };
+                xhr.send(formData);
+            }
+        }
+    });
+</script>
+
 
 </html>

@@ -1639,6 +1639,7 @@ h2 .user_rating {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-weight: bolder;
 }
 
 #addFundsBtn:hover {
@@ -1724,4 +1725,17 @@ h2 .user_rating {
   display: flex;
   justify-content: center;
   margin: 100px;
+}
+
+#savePFP {
+  padding: 0px 8px 0px 8px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bolder;
+  font-size: 17px;
+  height: 40px;
 }
