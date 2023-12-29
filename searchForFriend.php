@@ -14,7 +14,7 @@ AND id NOT IN (
     FROM friends
     WHERE friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id]
 )
-
+AND id <> $_SESSION[user_id];
 ";
 $result = mysqli_query($con, $sql);
 $rows = array();
