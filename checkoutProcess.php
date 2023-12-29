@@ -30,10 +30,11 @@ if (isset($_SESSION['user_id'])) {
                 http_response_code(403);
                 exit();
             } else {
-                $funds = $funds - $price;
+                $funds = floatval($funds) - $price;
+                echo floatval($funds);
                 $updateFundsQuery = "UPDATE wallet SET amount = '$funds' WHERE u_id = '$userID'";
                 $updateFundsResult = mysqli_query($con, $updateFundsQuery);
-                $insertQuery = "INSERT INTO userlibrary (user_id, game_id) VALUES ('$userID', '$gameID')";
+                $insertQuery = "INSERT INTO userlibrary (user_id, game_id, purchase_date_time) VALUES ('$userID', '$gameID', NOW())";
                 $insertResult = mysqli_query($con, $insertQuery);
                 http_response_code(200);
             }

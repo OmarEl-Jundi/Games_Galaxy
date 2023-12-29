@@ -172,11 +172,16 @@ function checkoutProcess() {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        document.getElementsByClassName(
-          "listCart"
-        )[0].innerHTML = `<div class="totalCartPrice"><b style="color: #4bacb6;">Total: $0.00</b></div></div>`;
+        const itemsToRemove = document.querySelectorAll(".item");
+        itemsToRemove.forEach((item) => {
+          item.remove();
+        });
+        document.getElementsByClassName("tooltip")[0].textContent =
+          "$ " + xhr.responseText;
+        console.log(document.getElementsByClassName("tooltip"));
         alert("Checkout successful!");
         updateTotalQuantity();
+        updateTotalPrice();
       } else if (xhr.status === 403) {
         alert("Insufficient funds!");
       } else {

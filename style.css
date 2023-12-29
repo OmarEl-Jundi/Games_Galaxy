@@ -1569,14 +1569,14 @@ h2 .user_rating {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.3em 0.6em;
+  padding: 10px 5px;
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s;
   background-color: rgb(255, 255, 255);
   border-radius: 12px;
   color: rgb(34, 34, 34);
-  width: 50px;
+  width: 70px;
   text-align: center;
 }
 
