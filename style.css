@@ -1369,6 +1369,11 @@ h2 .user_rating {
   padding: 10px;
 }
 
+.comment-user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
 .comment_username {
   color: #4bacb6;
   margin-bottom: 0;
@@ -1388,6 +1393,7 @@ h2 .user_rating {
   justify-content: flex-start;
   gap: 20px;
   margin-top: 5px;
+  margin-left: 80px;
 }
 
 .bi {

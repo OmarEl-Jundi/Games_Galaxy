@@ -313,7 +313,7 @@ if (!isset($_GET["gameID"])) {
                     <hr>
                     <div class="commentsContainer">
                         <?php
-                        $sql = "SELECT c.*, u.username, 
+                        $sql = "SELECT c.*, u.username, u.pfp,
                                 COUNT(lc.u_id) AS likes, 
                                 COUNT(dc.u_id) AS dislikes 
                             FROM comments c 
@@ -328,6 +328,7 @@ if (!isset($_GET["gameID"])) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             $commentID = $row["id"];
                             $username = $row["username"];
+                            $pfp = $row["pfp"];
                             $comment = $row["comment"];
                             $date_time = $row["date_time"];
                             $date = date("d/m/Y", strtotime($date_time));
@@ -357,9 +358,9 @@ if (!isset($_GET["gameID"])) {
                                 echo '<div id="comment-' .
                                     $commentID .
                                     '" class="comment" >
-                        <h2 class="comment_username">' .
+                        <div class="comment-user-info"><img class="FriendProfileIcon" src="images/userPFP/' . $pfp . '"><div class="comment-user-inner-info"><h2 class="comment_username">' .
                                     $username .
-                                    '</h2>
+                                    '<div></h2>
                         <h5 class="comment_date">' .
                                     $date .
                                     " at " .
@@ -367,7 +368,7 @@ if (!isset($_GET["gameID"])) {
                                     '</h5>
                         <p class="comment_text">' .
                                     $comment .
-                                    '</p>
+                                    '</p></div></div>
                         <div class="comment_likes" >
                             <div  class="comment_like">';
                                 echo '
