@@ -153,11 +153,16 @@ if (!isset($_SESSION['user_id'])) {
         WHEN friends.u1_id = $_SESSION[user_id] THEN friends.u2_id
         ELSE friends.u1_id
     END AS friend_id,
+    CASE
+        WHEN friends.u1_id = $_SESSION[user_id] THEN u2.pfp
+        ELSE u1.pfp
+    END AS friend_pfp,
     u1.*, u2.*
 FROM friends
 JOIN user u1 ON friends.u1_id = u1.id
 JOIN user u2 ON friends.u2_id = u2.id
 WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id]);
+
 
 ";
             $result = mysqli_query($con, $sql);
@@ -176,6 +181,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     <ul class="no-bullets">
                         <?php foreach ($friends as $friend) : ?>
                             <li id="list-friend-<?= $friend['friend_id'] ?>" data-friend-id="<?= $friend['friend_id'] ?>">
+                                <img src="images/userPFP/<?= $friend['friend_pfp'] ?>" alt="pfp" class="FriendProfileIcon">
                                 <?= $friend['username'] ?>
                                 <button class="remove-friend-btn">Remove</button>
                                 <button class="chat-with-friend">Chat</button>
@@ -183,11 +189,17 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                         <?php endforeach; ?>
                     </ul>
                 </div>
+                <hr>
+                <div class="addFriendDiv">
+                    <h1>Add Friend</h1>
+                    <div>
+                        <input class="searchForFriendBar" type="text" name="username" placeholder="Search by Username" />
+                        <ul class="no-bullets-search">
+                        </ul>
+                    </div>
+                </div>
             </div>
-
-
         </div>
-
     </div>
 </body>
 <script src="script.js"></script>
@@ -222,6 +234,107 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     document.getElementById("list-friend-" + friendID).remove();
                 } else {
                     alert("Failed to remove friend");
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    //!Search For Friend
+    const searchForFriendBtn = document.querySelector(".searchForFriendBar");
+
+    if (searchForFriendBtn) {
+        searchForFriendBtn.addEventListener("input", () => {
+            const username = document.querySelector(".searchForFriendBar").value;
+            if (username.length < 1) {
+                return;
+            } else {
+                searchForFriend(username);
+            }
+        });
+    }
+
+    function searchForFriend(username) {
+        const xhr = new XMLHttpRequest();
+        const url = "searchForFriend.php";
+        const params = `username=${username}`;
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const friends = JSON.parse(xhr.responseText);
+                    if (friends && friends.length > 0) {
+                        const friendList = document.querySelector(".no-bullets-search");
+                        friendList.innerHTML = '';
+                        friends.forEach(friend => {
+                            const friendID = friend.id;
+                            const friendUsername = friend.username;
+                            const friendPFP = friend.pfp;
+                            const friendElement = document.createElement("li");
+                            friendElement.id = "list-friend-" + friendID;
+                            friendElement.dataset.friendId = friendID;
+                            friendElement.innerHTML = `
+                            <img src="images/userPFP/${friendPFP}" alt="pfp" class="FriendProfileIcon">
+                            <span class="username">${friendUsername}</span>
+                            <button class="add-friend-btn">Add</button>
+                        `;
+                            friendList.appendChild(friendElement);
+
+                            const addFriendBtn = friendElement.querySelector(".add-friend-btn");
+                            addFriendBtn.addEventListener("click", () => {
+                                addFriend(friendUsername);
+                            });
+                        });
+                    } else {
+                        const friendList = document.querySelector(".no-bullets-search");
+                        friendList.innerHTML = '';
+                        const friendElement = document.createElement("li");
+                        friendElement.innerHTML = `
+                            <span class="username">No results found</span>
+                        `;
+                        friendList.appendChild(friendElement);
+
+                    }
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+
+    function addFriend(username) {
+        const xhr = new XMLHttpRequest();
+        const url = "addFriend.php";
+        const params = `username=${username}`;
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const friend = JSON.parse(xhr.responseText);
+                    if (friend) {
+                        const friendID = friend.id;
+                        const friendUsername = friend.username;
+                        const friendList = document.querySelector(".no-bullets");
+                        const friendElement = document.createElement("li");
+                        friendElement.id = "list-friend-" + friendID;
+                        friendElement.dataset.friendId = friendID;
+                        friendElement.innerHTML = `
+                            ${friendUsername}
+                            <button class="remove-friend-btn">Remove</button>
+                            <button class="chat-with-friend">Chat</button>
+                        `;
+                        friendList.appendChild(friendElement);
+                        const removeFriendBtn = friendElement.querySelector(".remove-friend-btn");
+                        removeFriendBtn.addEventListener("click", () => {
+                            removeFriend(friendID);
+                        });
+                    }
                 }
             }
         };

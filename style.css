@@ -1609,6 +1609,7 @@ h2 .user_rating {
   position: absolute;
   top: 20px;
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .defaultIcon:hover {
@@ -1619,6 +1620,7 @@ h2 .user_rating {
   width: 200px;
   height: 200px;
   margin: 20px;
+  border-radius: 50%;
 }
 
 #addFundsBar {
@@ -1671,7 +1673,8 @@ h2 .user_rating {
 }
 
 #editUsernameBar,
-#editEmailBar {
+#editEmailBar,
+.searchForFriendBar {
   justify-content: space-between;
   align-items: center;
   background-color: #f8f9fa;
@@ -1789,11 +1792,28 @@ h2 .user_rating {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 280px;
+}
+
+.no-bullets-search {
+  list-style: none;
+  padding-left: 0;
+}
+
+.no-bullets-search li {
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 200px;
 }
 
 .remove-friend-btn,
-.chat-with-friend {
+.chat-with-friend,
+.searchForFriendBtn,
+.add-friend-btn {
   padding: 2px 4px;
   border-radius: 5px;
   background-color: #007bff;
@@ -1804,4 +1824,10 @@ h2 .user_rating {
   font-weight: bolder;
   font-size: 13px;
   height: 25px;
+}
+.FriendProfileIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
