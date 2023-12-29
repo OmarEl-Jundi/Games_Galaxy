@@ -164,6 +164,29 @@ function updateTotalPrice() {
 
 window.addEventListener("load", updateTotalQuantity);
 
+function checkoutProcess() {
+  const xhr = new XMLHttpRequest();
+  const url = "checkoutProcess.php";
+  xhr.open("GET", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        document.getElementsByClassName(
+          "listCart"
+        )[0].innerHTML = `<div class="totalCartPrice"><b style="color: #4bacb6;">Total: $0.00</b></div></div>`;
+        alert("Checkout successful!");
+        updateTotalQuantity();
+      } else if (xhr.status === 403) {
+        alert("Insufficient funds!");
+      } else {
+        alert("Failed to checkout");
+      }
+    }
+  };
+  xhr.send();
+}
+
 //!add to wishlist
 function checkLoginStatus() {
   const xhr = new XMLHttpRequest();

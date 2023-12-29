@@ -75,12 +75,13 @@ session_start();
                 ?>
               </b>
             </div>
-            <div class="buttons">
-              <div class="close">CLOSE</div>
-              <div class="checkout">
-                <a href="checkout_process.php">CHECKOUT</a>
-              </div>
+          </div>
+          <div class="buttons">
+            <div class="close">CLOSE</div>
+            <div class="checkout">
+              <a onclick="checkoutProcess()">CHECKOUT</a>
             </div>
+
           </div>
         </div>
       <?php endif ?>
