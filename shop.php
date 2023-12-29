@@ -24,7 +24,7 @@ session_start();
         $user = mysqli_fetch_array($result);
         $pfp = $user['pfp'];
         ?>
-        <a href="profile.php"><img src="images/userPFP/<?= $pfp ?>" alt="pfp" class="profileIcon <?php echo 'defaultIcon'; ?>"></a>
+        <a title="Go To Profile Page" href="profile.php"><img src="images/userPFP/<?= $pfp ?>" alt="pfp" class="profileIcon <?php echo 'defaultIcon'; ?>"></a>
         <div class="iconCart">
           <img src="images/logo/cart.png" id="cartIcon" />
           <div class="totalQuantity">0</div>
