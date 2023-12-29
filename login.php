@@ -10,7 +10,6 @@ if (isset($_POST['signin'])) {
 
         require 'connection.php';
         $q = "SELECT * from `user` where (username ='" . $username . "' OR email ='" . $username . "') AND password ='" . $password . "'";
-        echo $q;
         $result = mysqli_query($con, $q);
         if ($result === false) {
             die("Error executing the query: " . mysqli_error($con));

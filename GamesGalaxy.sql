@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2023 at 04:57 PM
+-- Generation Time: Dec 29, 2023 at 08:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -131,6 +131,30 @@ INSERT INTO `dislike_comment` (`id`, `c_id`, `u_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `friends`
+--
+
+CREATE TABLE `friends` (
+  `id` int(11) NOT NULL,
+  `u1_id` int(11) NOT NULL,
+  `u2_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `friend_request`
+--
+
+CREATE TABLE `friend_request` (
+  `id` int(11) NOT NULL,
+  `u1_id` int(11) NOT NULL,
+  `u2_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `games`
 --
 
@@ -143,32 +167,30 @@ CREATE TABLE `games` (
   `price` decimal(6,2) NOT NULL,
   `category` int(11) NOT NULL,
   `developer` int(11) NOT NULL,
-  `views` int(11) DEFAULT 0,
-  `rating` decimal(2,1) DEFAULT 0.0,
-  `rate_count` int(11) DEFAULT 0
+  `views` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `games`
 --
 
-INSERT INTO `games` (`id`, `name`, `image`, `trailer`, `description`, `price`, `category`, `developer`, `views`, `rating`, `rate_count`) VALUES
-(26, 'Red Dead Redemption 2', 'RDR2.jpg', 'https://www.youtube.com/embed/gmA6MrX81z4?si=pes3EFzCV0WO9AMZ&amp;controls=0', 'Red Dead Redemption 2 is a Western-themed action-adventure game set\r\n            in an open world environment featuring a fictionalized version of\r\n            the Western, Midwestern, and Southern United States in 1899, during\r\n            the latter half of the Wild West era and the turn of the twentieth\r\n            century. The game is played from a first or third-person\r\n            perspective. It has both single-player and online multiplayer\r\n            components. The game has new features absent from the previous game', 59.99, 1, 2, 8, 0.0, 0),
-(28, 'Red Dead Rdemption', 'RDR1.jpeg', 'https://www.youtube.com/embed/-o7rES_3ymA?si=ljn2TFYgLQerw4sZ&amp;controls=0', 'Red Dead Redemption is a Western-themed action-adventure game played\r\n            from a third-person perspective. It is the second game in the Red\r\n            Dead series and is set during the decline of the American frontier\r\n            in the year 1911. The player controls John Marston and completes\r\n            missions—linear scenarios with set objectives—to progress through\r\n            the story; in the game’s epilogue, the player controls John’s son\r\n            Jack', 29.99, 1, 2, 1, 0.0, 0),
-(29, 'Grand Theft Auto V', 'GTAV.jpeg', 'https://www.youtube.com/embed/QkkoHAzjnUs?si=0RWgMq-SgVLm3Na0&amp;controls=0', 'When a young street hustler, a retired bank robber and a terrifying psychopath find themselves entangled with some of the most frightening and deranged elements of the criminal underworld, the U.S. government and the entertainment industry, they must pull off a series of dangerous heists to survive in a ruthless city in which they can trust nobody, least of all each other.', 39.99, 1, 2, 1, 0.0, 0),
-(31, 'Watch Dogs', 'WD1.webp', 'https://www.youtube.com/embed/DqoQG_XYF-8?si=aMHaaLLVBnAHlgCa&amp;controls=0', 'Watch Dogs is an action-adventure game, played from a third-person view. The player controls hacker Aiden Pearce, who uses his smartphone to control trains and traffic lights, infiltrate security systems, jam cellphones, access pedestrians\' private information, and empty their bank accounts.', 29.99, 1, 1, 0, 0.0, 0),
-(32, 'Watch Dogs 2', 'WD2.jpeg', 'https://www.youtube.com/embed/hh9x4NqW0Dw?si=PpUztfdFLDGI8nMh&amp;controls=0', 'The sequel to its 2014 predecessor, Watch Dogs 2 takes place in San Francisco, California. The player takes control of Marcus Holloway, a hacker and a member of the hacktivist group DedSec who aims to take down CTOS 2.0. The game was followed by Watch Dogs: Legion in 2020.', 49.99, 1, 1, 1, 0.0, 0),
-(37, 'Fifa 23', 'FIFA23.webp', 'https://www.youtube.com/embed/0tIW1X2dv0c?si=U2mUtutlMFM07T3J&amp;controls=0', 'FIFA 23 features the men\'s World Cup game mode and the women\'s World Cup game mode, replicating the 2022 FIFA World Cup and the 2023 FIFA Women\'s World Cup. The 2022 FIFA World Cup mode was released on 9 November for all platforms except for the Nintendo Switch Legacy Edition.', 69.99, 6, 4, 3, 0.0, 0),
-(38, 'Mortal Kombat X', 'MKX.jpeg', 'https://www.youtube.com/embed/jSi2LDkyKmI?si=esO1pY0KcB4wWUdu&amp;controls=0', 'Mortal Kombat X is a fighting game in which two characters fight against each other using a variety of attacks, including special moves, and the series\' trademark gruesome finishing moves, Fatalities. The game allows two players to face each other (either locally or online), or a single player to play against the CPU.', 19.99, 4, 3, 463, 5.0, 1),
-(39, 'Grand Theft Auto IV', 'GTAIV.png', 'https://www.youtube.com/embed/M80K51DosFo?si=noUHU76MoHcMHCDz&amp;controls=0', 'Grand Theft Auto IV is an action-adventure game played from a third-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. It is possible to have several active missions running at one time, as some require players to wait for further instructions or events.', 19.99, 1, 2, 6, 0.0, 0),
-(40, 'Hitman', 'Hitman.jpeg', 'https://www.youtube.com/embed/2DTPhRRKAfE?si=f3rAaa_PbdqCzOL4&amp;controls=0', 'The single-player story follows genetically engineered assassin Agent 47 as he goes on a worldwide adventure and solves a mysterious series of seemingly unconnected assassinations. Hitman features a number of large, open-ended sandboxes that Agent 47 can freely explore.', 19.99, 5, 5, 0, 0.0, 0),
-(41, 'Assassin\'s Creed IV: Black Flag', 'ACBF.jpeg', 'https://www.youtube.com/embed/OwVe4ZNeQZk?si=Jb_aOuuyMgwdt7Q8&amp;controls=0', 'Assassin\'s Creed IV: Black Flag is an action-adventure, stealth game set in an open world environment and played from a third-person perspective. The game features three main cities: Havana, Kingston, and Nassau, which reside under Spanish, British, and pirate influence, respectively.', 19.99, 1, 1, 136, 3.5, 2),
-(42, 'Assassin\'s Creed Unity', 'ACU.jpeg', 'https://www.youtube.com/embed/xzCEdSKMkdU?si=YfGt-gS4XD6CNTwC&amp;controls=0', 'Assassin\'s Creed® Unity is an action/adventure game set in the city of Paris during one of its darkest hours, the French Revolution. Take ownership of the story by customising Arno\'s equipement to make the experience unique to you, both visually and mechanically.', 29.99, 1, 1, 77, 0.0, 0),
-(44, 'Tom Clancy\'s Rainbow Six® Siege', 'R6S.jpeg', 'https://www.youtube.com/embed/KlbLLRdg9u8?si=P-jBBaq2nrB1ckge&amp;controls=0', 'Tom Clancy\'s Rainbow Six® Siege is an elite, realistic, tactical, team-based shooter where superior planning and execution triumph. It features 5v5 attack vs. defense gameplay and intense close-quarters combat in destructible environments.', 19.99, 3, 1, 1, 0.0, 0),
-(45, 'Fortnite Battle Royale', 'Fortnite.jpeg', 'https://www.youtube.com/embed/WJW-bzXZM8M?si=ZXC3-YR4FbKfXdIO&amp;controls=0', 'Fortnite is a third-person shooter game where up to 100 players compete to be the last person or team standing. You can compete alone or join a team of up to four. You progress through the game by exploring the island, collecting weapons, building fortifications and engaging in combat with other players.', 0.00, 7, 6, 2, 3.0, 1),
-(46, 'Minecraft', 'Minecraft.jpg', 'https://www.youtube.com/embed/MmB9b5njVbA?si=AbW8zKPtFMF5oloZ&amp;controls=0', 'In Minecraft, players explore a blocky, procedurally generated, three-dimensional world with virtually infinite terrain and may discover and extract raw materials, craft tools and items, and build structures, earthworks, and machines.', 29.99, 8, 7, 0, 0.0, 0),
-(47, 'Counter Strike: Global Offensive', 'CSGO.jpg', 'https://www.youtube.com/embed/edYCtaNueQY?si=9OMOfrnWY5n3w41a&amp;controls=0', 'Counter-Strike: Global Offensive (CS:GO) is a round-based, 5v5 tactical FPS with an Attackers vs. Defenders setup and no respawns, meaning if a player is eliminated they will not respawn until the next round. The game is available to download from the STEAM Games Client.', 0.00, 3, 8, 2, 0.0, 0),
-(48, 'Call of Duty®: Modern Warfare', 'CODMW19.webp', 'https://www.youtube.com/embed/bH1lHCirCGI?si=TRnX6bydCxq7mlCj&amp;controls=0', 'The campaign follows a CIA officer and British SAS forces as they team up with rebels from the fictional Republic of Urzikstan, combating together against Russian Armed Forces who have invaded the country and the Urzik terrorist group Al-Qatala, while searching for a stolen shipment of chlorine gas.', 59.99, 3, 9, 7, 0.0, 0);
+INSERT INTO `games` (`id`, `name`, `image`, `trailer`, `description`, `price`, `category`, `developer`, `views`) VALUES
+(26, 'Red Dead Redemption 2', 'RDR2.jpg', 'https://www.youtube.com/embed/gmA6MrX81z4?si=pes3EFzCV0WO9AMZ&amp;controls=0', 'Red Dead Redemption 2 is a Western-themed action-adventure game set\r\n            in an open world environment featuring a fictionalized version of\r\n            the Western, Midwestern, and Southern United States in 1899, during\r\n            the latter half of the Wild West era and the turn of the twentieth\r\n            century. The game is played from a first or third-person\r\n            perspective. It has both single-player and online multiplayer\r\n            components. The game has new features absent from the previous game', 59.99, 1, 2, 8),
+(28, 'Red Dead Rdemption', 'RDR1.jpeg', 'https://www.youtube.com/embed/-o7rES_3ymA?si=ljn2TFYgLQerw4sZ&amp;controls=0', 'Red Dead Redemption is a Western-themed action-adventure game played\r\n            from a third-person perspective. It is the second game in the Red\r\n            Dead series and is set during the decline of the American frontier\r\n            in the year 1911. The player controls John Marston and completes\r\n            missions—linear scenarios with set objectives—to progress through\r\n            the story; in the game’s epilogue, the player controls John’s son\r\n            Jack', 29.99, 1, 2, 1),
+(29, 'Grand Theft Auto V', 'GTAV.jpeg', 'https://www.youtube.com/embed/QkkoHAzjnUs?si=0RWgMq-SgVLm3Na0&amp;controls=0', 'When a young street hustler, a retired bank robber and a terrifying psychopath find themselves entangled with some of the most frightening and deranged elements of the criminal underworld, the U.S. government and the entertainment industry, they must pull off a series of dangerous heists to survive in a ruthless city in which they can trust nobody, least of all each other.', 39.99, 1, 2, 1),
+(31, 'Watch Dogs', 'WD1.webp', 'https://www.youtube.com/embed/DqoQG_XYF-8?si=aMHaaLLVBnAHlgCa&amp;controls=0', 'Watch Dogs is an action-adventure game, played from a third-person view. The player controls hacker Aiden Pearce, who uses his smartphone to control trains and traffic lights, infiltrate security systems, jam cellphones, access pedestrians\' private information, and empty their bank accounts.', 29.99, 1, 1, 0),
+(32, 'Watch Dogs 2', 'WD2.jpeg', 'https://www.youtube.com/embed/hh9x4NqW0Dw?si=PpUztfdFLDGI8nMh&amp;controls=0', 'The sequel to its 2014 predecessor, Watch Dogs 2 takes place in San Francisco, California. The player takes control of Marcus Holloway, a hacker and a member of the hacktivist group DedSec who aims to take down CTOS 2.0. The game was followed by Watch Dogs: Legion in 2020.', 49.99, 1, 1, 2),
+(37, 'Fifa 23', 'FIFA23.webp', 'https://www.youtube.com/embed/0tIW1X2dv0c?si=U2mUtutlMFM07T3J&amp;controls=0', 'FIFA 23 features the men\'s World Cup game mode and the women\'s World Cup game mode, replicating the 2022 FIFA World Cup and the 2023 FIFA Women\'s World Cup. The 2022 FIFA World Cup mode was released on 9 November for all platforms except for the Nintendo Switch Legacy Edition.', 69.99, 6, 4, 3),
+(38, 'Mortal Kombat X', 'MKX.jpeg', 'https://www.youtube.com/embed/jSi2LDkyKmI?si=esO1pY0KcB4wWUdu&amp;controls=0', 'Mortal Kombat X is a fighting game in which two characters fight against each other using a variety of attacks, including special moves, and the series\' trademark gruesome finishing moves, Fatalities. The game allows two players to face each other (either locally or online), or a single player to play against the CPU.', 19.99, 4, 3, 591),
+(39, 'Grand Theft Auto IV', 'GTAIV.png', 'https://www.youtube.com/embed/M80K51DosFo?si=noUHU76MoHcMHCDz&amp;controls=0', 'Grand Theft Auto IV is an action-adventure game played from a third-person perspective. Players complete missions—linear scenarios with set objectives—to progress through the story. It is possible to have several active missions running at one time, as some require players to wait for further instructions or events.', 19.99, 1, 2, 6),
+(40, 'Hitman', 'Hitman.jpeg', 'https://www.youtube.com/embed/2DTPhRRKAfE?si=f3rAaa_PbdqCzOL4&amp;controls=0', 'The single-player story follows genetically engineered assassin Agent 47 as he goes on a worldwide adventure and solves a mysterious series of seemingly unconnected assassinations. Hitman features a number of large, open-ended sandboxes that Agent 47 can freely explore.', 19.99, 5, 5, 1),
+(41, 'Assassin\'s Creed IV: Black Flag', 'ACBF.jpeg', 'https://www.youtube.com/embed/OwVe4ZNeQZk?si=Jb_aOuuyMgwdt7Q8&amp;controls=0', 'Assassin\'s Creed IV: Black Flag is an action-adventure, stealth game set in an open world environment and played from a third-person perspective. The game features three main cities: Havana, Kingston, and Nassau, which reside under Spanish, British, and pirate influence, respectively.', 19.99, 1, 1, 198),
+(42, 'Assassin\'s Creed Unity', 'ACU.jpeg', 'https://www.youtube.com/embed/xzCEdSKMkdU?si=YfGt-gS4XD6CNTwC&amp;controls=0', 'Assassin\'s Creed® Unity is an action/adventure game set in the city of Paris during one of its darkest hours, the French Revolution. Take ownership of the story by customising Arno\'s equipement to make the experience unique to you, both visually and mechanically.', 29.99, 1, 1, 77),
+(44, 'Tom Clancy\'s Rainbow Six® Siege', 'R6S.jpeg', 'https://www.youtube.com/embed/KlbLLRdg9u8?si=P-jBBaq2nrB1ckge&amp;controls=0', 'Tom Clancy\'s Rainbow Six® Siege is an elite, realistic, tactical, team-based shooter where superior planning and execution triumph. It features 5v5 attack vs. defense gameplay and intense close-quarters combat in destructible environments.', 19.99, 3, 1, 1),
+(45, 'Fortnite Battle Royale', 'Fortnite.jpeg', 'https://www.youtube.com/embed/WJW-bzXZM8M?si=ZXC3-YR4FbKfXdIO&amp;controls=0', 'Fortnite is a third-person shooter game where up to 100 players compete to be the last person or team standing. You can compete alone or join a team of up to four. You progress through the game by exploring the island, collecting weapons, building fortifications and engaging in combat with other players.', 0.00, 7, 6, 4),
+(46, 'Minecraft', 'Minecraft.jpg', 'https://www.youtube.com/embed/MmB9b5njVbA?si=AbW8zKPtFMF5oloZ&amp;controls=0', 'In Minecraft, players explore a blocky, procedurally generated, three-dimensional world with virtually infinite terrain and may discover and extract raw materials, craft tools and items, and build structures, earthworks, and machines.', 29.99, 8, 7, 0),
+(47, 'Counter Strike: Global Offensive', 'CSGO.jpg', 'https://www.youtube.com/embed/edYCtaNueQY?si=9OMOfrnWY5n3w41a&amp;controls=0', 'Counter-Strike: Global Offensive (CS:GO) is a round-based, 5v5 tactical FPS with an Attackers vs. Defenders setup and no respawns, meaning if a player is eliminated they will not respawn until the next round. The game is available to download from the STEAM Games Client.', 0.00, 3, 8, 2),
+(48, 'Call of Duty®: Modern Warfare', 'CODMW19.webp', 'https://www.youtube.com/embed/bH1lHCirCGI?si=TRnX6bydCxq7mlCj&amp;controls=0', 'The campaign follows a CIA officer and British SAS forces as they team up with rebels from the fictional Republic of Urzikstan, combating together against Russian Armed Forces who have invaded the country and the Urzik terrorist group Al-Qatala, while searching for a stolen shipment of chlorine gas.', 59.99, 3, 9, 7);
 
 -- --------------------------------------------------------
 
@@ -189,7 +211,21 @@ CREATE TABLE `like_comment` (
 INSERT INTO `like_comment` (`id`, `u_id`, `c_id`) VALUES
 (54, 1, 5),
 (108, 1, 10),
-(110, 1, 1);
+(110, 1, 1),
+(232, 42, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `id` int(11) NOT NULL,
+  `u1_id` int(11) NOT NULL,
+  `u2_id` int(11) NOT NULL,
+  `message` longtext NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -201,9 +237,18 @@ CREATE TABLE `rating` (
   `id` int(11) NOT NULL,
   `u_id` int(11) NOT NULL,
   `g_id` int(11) NOT NULL,
-  `rating` double NOT NULL,
-  `rating_count` int(11) NOT NULL
+  `rating` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rating`
+--
+
+INSERT INTO `rating` (`id`, `u_id`, `g_id`, `rating`) VALUES
+(1, 1, 38, 5),
+(2, 1, 47, 4),
+(3, 1, 41, 5),
+(9, 3, 41, 1);
 
 -- --------------------------------------------------------
 
@@ -219,19 +264,19 @@ CREATE TABLE `user` (
   `date_of_birth` date NOT NULL,
   `fname` varchar(50) NOT NULL,
   `lname` varchar(50) NOT NULL,
-  `role` int(11) NOT NULL
+  `role` int(11) NOT NULL,
+  `pfp` mediumtext NOT NULL DEFAULT 'default_user_pfp.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `date_of_birth`, `fname`, `lname`, `role`) VALUES
-(1, 'Soldier', 'omar.eljundi@hotmail.com', 'Soldier2003', '2003-04-02', 'Omar', 'El-Jundi', 1),
-(2, 'Al-Safwah', 'abdelrahmadsafwe@gmail.com', 'safwah1234', '2004-02-01', 'Abdelrahman', 'Safweh', 2),
-(3, 'Gilbertos', 'gilbert123@hotmail.com', 'gg123321', '2003-10-17', 'Gilbert', 'Sahyoun', 2),
-(38, 'test', 'test@test.com', 'test', '0001-01-01', 'test', 'test', 2),
-(39, 'test1', 'test1@test.com', 'test', '0001-01-01', 'test', 'test', 2);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `date_of_birth`, `fname`, `lname`, `role`, `pfp`) VALUES
+(1, 'Soldier', 'omar.eljundi@hotmail.com', 'Soldier2003', '2003-04-02', 'Omar', 'El-Jundi', 1, 'default_user_pfp.png'),
+(2, 'Al-Safwah', 'abdelrahmadsafwe@gmail.com', 'safwah1234', '2004-02-01', 'Abdelrahman', 'Safweh', 2, 'default_user_pfp.png'),
+(3, 'Gilbertos', 'gilbert123@hotmail.com', 'gg123321', '2003-10-17', 'Gilbert', 'Sahyoun', 2, 'default_user_pfp.png'),
+(42, 'test', 'test@test.com', 'test1234', '0003-02-01', 'test', 'test', 2, '42_test.png');
 
 -- --------------------------------------------------------
 
@@ -254,8 +299,9 @@ INSERT INTO `userlibrary` (`id`, `user_id`, `game_id`, `purchase_date_time`) VAL
 (59, 3, 38, '2023-08-01 08:16:33'),
 (60, 3, 44, '2023-08-01 08:16:33'),
 (61, 3, 26, '2023-08-01 08:16:33'),
-(67, 1, 42, NULL),
-(68, 1, 26, NULL);
+(89, 42, 41, '2023-12-29 19:59:35'),
+(90, 42, 42, '2023-12-29 20:02:11'),
+(91, 42, 29, '2023-12-29 20:03:10');
 
 -- --------------------------------------------------------
 
@@ -275,6 +321,26 @@ CREATE TABLE `userrole` (
 INSERT INTO `userrole` (`id`, `name`) VALUES
 (1, 'Admin'),
 (2, 'Client');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet`
+--
+
+CREATE TABLE `wallet` (
+  `id` int(11) NOT NULL,
+  `u_id` int(11) NOT NULL,
+  `amount` float NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wallet`
+--
+
+INSERT INTO `wallet` (`id`, `u_id`, `amount`) VALUES
+(1, 1, 500),
+(6, 42, 10.06);
 
 -- --------------------------------------------------------
 
@@ -318,7 +384,8 @@ ALTER TABLE `category`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `g_id` (`g_id`,`u_id`);
+  ADD KEY `g_id` (`g_id`,`u_id`),
+  ADD KEY `comments_user` (`u_id`);
 
 --
 -- Indexes for table `developer`
@@ -335,6 +402,22 @@ ALTER TABLE `dislike_comment`
   ADD KEY `u_id` (`u_id`);
 
 --
+-- Indexes for table `friends`
+--
+ALTER TABLE `friends`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `u1_id` (`u1_id`),
+  ADD KEY `u2_id` (`u2_id`);
+
+--
+-- Indexes for table `friend_request`
+--
+ALTER TABLE `friend_request`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `u1_id` (`u1_id`),
+  ADD KEY `u2_id` (`u2_id`);
+
+--
 -- Indexes for table `games`
 --
 ALTER TABLE `games`
@@ -349,6 +432,14 @@ ALTER TABLE `like_comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `u_id` (`u_id`),
   ADD KEY `c_id` (`c_id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `u1_id` (`u1_id`),
+  ADD KEY `u2_id` (`u2_id`);
 
 --
 -- Indexes for table `rating`
@@ -382,6 +473,13 @@ ALTER TABLE `userrole`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `u_id` (`u_id`);
+
+--
 -- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
@@ -397,7 +495,7 @@ ALTER TABLE `wishlist`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `category`
@@ -409,7 +507,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `developer`
@@ -421,7 +519,19 @@ ALTER TABLE `developer`
 -- AUTO_INCREMENT for table `dislike_comment`
 --
 ALTER TABLE `dislike_comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+
+--
+-- AUTO_INCREMENT for table `friends`
+--
+ALTER TABLE `friends`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `friend_request`
+--
+ALTER TABLE `friend_request`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `games`
@@ -433,31 +543,43 @@ ALTER TABLE `games`
 -- AUTO_INCREMENT for table `like_comment`
 --
 ALTER TABLE `like_comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=234;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rating`
 --
 ALTER TABLE `rating`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `userlibrary`
 --
 ALTER TABLE `userlibrary`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `userrole`
 --
 ALTER TABLE `userrole`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `wallet`
+--
+ALTER TABLE `wallet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
@@ -489,6 +611,13 @@ ALTER TABLE `comments`
 ALTER TABLE `dislike_comment`
   ADD CONSTRAINT `dislike_comment_ibfk_1` FOREIGN KEY (`c_id`) REFERENCES `comments` (`id`),
   ADD CONSTRAINT `dislike_comment_ibfk_2` FOREIGN KEY (`u_id`) REFERENCES `user` (`id`);
+
+--
+-- Constraints for table `friends`
+--
+ALTER TABLE `friends`
+  ADD CONSTRAINT `friends_ibfk_1` FOREIGN KEY (`u1_id`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `friends_ibfk_2` FOREIGN KEY (`u2_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `games`
@@ -524,6 +653,12 @@ ALTER TABLE `user`
 ALTER TABLE `userlibrary`
   ADD CONSTRAINT `UserLibrary_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   ADD CONSTRAINT `UserLibrary_ibfk_2` FOREIGN KEY (`game_id`) REFERENCES `games` (`id`);
+
+--
+-- Constraints for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD CONSTRAINT `wallet_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `wishlist`

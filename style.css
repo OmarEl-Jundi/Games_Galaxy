@@ -1361,7 +1361,7 @@ h2 .user_rating {
 /* Comments */
 .comments {
   margin-top: 10%;
-  background-color: gray;
+  background-color: rgb(50, 50, 50);
   padding: 20px;
 }
 
@@ -1374,7 +1374,7 @@ h2 .user_rating {
   margin-bottom: 0;
 }
 .comment_date {
-  color: #8b0b9f;
+  color: gray;
   margin-bottom: 0;
   margin-top: 5px;
 }
@@ -1612,7 +1612,7 @@ h2 .user_rating {
 }
 
 .defaultIcon:hover {
-  filter: brightness(2);
+  filter: brightness(1.2);
 }
 
 .userPFP {
@@ -1738,4 +1738,70 @@ h2 .user_rating {
   font-weight: bolder;
   font-size: 17px;
   height: 40px;
+}
+
+/* Friends */
+.friends-container {
+  margin-left: 7%;
+}
+
+.navIcons {
+  position: absolute;
+  left: 15%;
+  top: 40px;
+}
+
+.friendsIcon {
+  color: whitesmoke;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  transition: all 0.3s ease;
+}
+
+.friendsIcon:hover {
+  color: #007bff;
+  transition: all 0.3s ease;
+}
+
+.notificationsIcon {
+  color: goldenrod;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  transition: all 0.3s ease;
+}
+
+.notificationsIcon:hover {
+  color: rgb(255, 217, 0);
+  transition: all 0.3s ease;
+}
+
+.no-bullets {
+  list-style: none;
+  padding-left: 0;
+}
+
+.no-bullets li {
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+}
+
+.remove-friend-btn,
+.chat-with-friend {
+  padding: 2px 4px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bolder;
+  font-size: 13px;
+  height: 25px;
 }

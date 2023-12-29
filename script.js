@@ -178,7 +178,6 @@ function checkoutProcess() {
         });
         document.getElementsByClassName("tooltip")[0].textContent =
           "$ " + xhr.responseText;
-        console.log(document.getElementsByClassName("tooltip"));
         alert("Checkout successful!");
         updateTotalQuantity();
         updateTotalPrice();
@@ -248,7 +247,6 @@ function addToWishlist(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        console.log("added successfully");
       } else if (xhr.status === 409) {
         alert("You have already added this game to your wishlist!");
       } else if (xhr.status === 410) {
@@ -806,4 +804,12 @@ function changePassword() {
     };
     xhr.send(params);
   }
+}
+
+const friendsIcon = document.querySelector(".friendsIcon");
+
+if (friendsIcon) {
+  friendsIcon.addEventListener("click", () => {
+    window.location.href = "friends.php";
+  });
 }
