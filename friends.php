@@ -190,6 +190,65 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     </ul>
                 </div>
                 <hr>
+                <div class="friendRequestsDiv">
+                    <h1>Friend Requests</h1>
+                    <?php
+                    $sql = "SELECT * FROM friend_request WHERE receiver_id = $_SESSION[user_id]";
+                    $result = mysqli_query($con, $sql);
+                    $friendRequests = array();
+                    while ($row = mysqli_fetch_array($result)) {
+                        $friendRequests[] = $row;
+                    }
+
+                    if (count($friendRequests) == 0) {
+                        echo "<p>You don't have any friend requests.</p>";
+                    } else {
+                        echo "<ul class='no-bullets'>";
+                        foreach ($friendRequests as $friendRequest) {
+                            $sql = "SELECT * FROM user WHERE id = $friendRequest[sender_id]";
+                            $result = mysqli_query($con, $sql);
+                            $sender = mysqli_fetch_assoc($result);
+                            echo "<li id='list-friend-request-$friendRequest[id]' data-friend-request-id='$friendRequest[id]'>";
+                            echo "<img src='images/userPFP/$sender[pfp]' alt='pfp' class='FriendProfileIcon'>";
+                            echo "$sender[username]";
+                            echo "<button class='accept-friend-request-btn'>Accept</button>";
+                            echo "<button class='decline-friend-request-btn'>Decline</button>";
+                            echo "</li>";
+                        }
+                        echo "</ul>";
+                    }
+                    ?>
+                </div>
+                <hr>
+                <div class="sentFriendRequest">
+                    <h1>Sent Friend Requests</h1>
+                    <?php
+                    $sql = "SELECT * FROM friend_request WHERE sender_id = $_SESSION[user_id]";
+                    $result = mysqli_query($con, $sql);
+                    $sentFriendRequests = array();
+                    while ($row = mysqli_fetch_array($result)) {
+                        $sentFriendRequests[] = $row;
+                    }
+                    echo "<ul class='no-bullets-sentRequest'>";
+                    if (count($sentFriendRequests) == 0) {
+                        echo "<p>You haven't sent any friend requests.</p>";
+                    } else {
+
+                        foreach ($sentFriendRequests as $sentFriendRequest) {
+                            $sql = "SELECT * FROM user WHERE id = $sentFriendRequest[receiver_id]";
+                            $result = mysqli_query($con, $sql);
+                            $receiver = mysqli_fetch_assoc($result);
+                            echo "<li id='list-sent-friend-request-$sentFriendRequest[id]' data-sent-friend-request-id='$sentFriendRequest[id]'>";
+                            echo "<img src='images/userPFP/$receiver[pfp]' alt='pfp' class='FriendProfileIcon'>";
+                            echo "$receiver[username]";
+                            echo "<button class='cancel-friend-request-btn'>Cancel</button>";
+                            echo "</li>";
+                        }
+                    }
+                    echo "</ul>";
+                    ?>
+                </div>
+                <hr>
                 <div class="addFriendDiv">
                     <h1>Add Friend</h1>
                     <div>
@@ -307,32 +366,36 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         xhr.send(params);
     }
 
-
+    //! Add Friend
     function addFriend(username) {
         const xhr = new XMLHttpRequest();
         const url = "addFriend.php";
         const params = `username=${username}`;
-
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    const friend = JSON.parse(xhr.responseText);
-                    if (friend) {
-                        const friendID = friend.id;
-                        const friendUsername = friend.username;
-                        const friendList = document.querySelector(".no-bullets");
-                        const friendElement = document.createElement("li");
-                        friendElement.id = "list-friend-" + friendID;
-                        friendElement.dataset.friendId = friendID;
-                        friendElement.innerHTML = `
-                            ${friendUsername}
-                            <button class="remove-friend-btn">Remove</button>
-                            <button class="chat-with-friend">Chat</button>
+                    const sentFriendRequest = JSON.parse(xhr.responseText);
+                    if (sentFriendRequest) {
+                        const sentFriendRequestList = document.querySelector(".no-bullets-sentRequest");
+                        const sentFriendRequestElement = document.createElement("li");
+                        sentFriendRequestElement.id = "list-sent-friend-request-" + sentFriendRequest.id;
+                        sentFriendRequestElement.dataset.sentFriendRequestId = sentFriendRequest.id;
+                        sentFriendRequestElement.innerHTML = `
+                            <img src="images/userPFP/${sentFriendRequest.pfp}" alt="pfp" class="FriendProfileIcon">
+                            <span class="username">${sentFriendRequest.username}</span>
+                            <button class="cancel-friend-request-btn">Cancel</button>
                         `;
-                        friendList.appendChild(friendElement);
-                        const removeFriendBtn = friendElement.querySelector(".remove-friend-btn");
-                        removeFriendBtn.addEventListener("click", () => {
-                            removeFriend(friendID);
+                        if (sentFriendRequestList.querySelector("p")) {
+                            sentFriendRequestList.querySelector("p").remove();
+                        }
+                        sentFriendRequestList.appendChild(sentFriendRequestElement);
+
+                        document.querySelector(".searchForFriendBar").value = '';
+                        document.querySelector(".no-bullets-search").innerHTML = '';
+
+                        const cancelFriendRequestBtn = sentFriendRequestElement.querySelector(".cancel-friend-request-btn");
+                        cancelFriendRequestBtn.addEventListener("click", () => {
+                            cancelFriendRequest(sentFriendRequest.id);
                         });
                     }
                 }

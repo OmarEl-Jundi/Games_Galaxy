@@ -1801,6 +1801,21 @@ h2 .user_rating {
   width: 280px;
 }
 
+.no-bullets-sentRequest {
+  list-style: none;
+  padding-left: 0;
+}
+
+.no-bullets-sentRequest li {
+  margin-bottom: 20px;
+  font-weight: 500;
+  font-size: 19px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 225px;
+}
+
 .no-bullets-search {
   list-style: none;
   padding-left: 0;
@@ -1819,7 +1834,8 @@ h2 .user_rating {
 .remove-friend-btn,
 .chat-with-friend,
 .searchForFriendBtn,
-.add-friend-btn {
+.add-friend-btn,
+.cancel-friend-request-btn {
   padding: 2px 4px;
   border-radius: 5px;
   background-color: #007bff;
