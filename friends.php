@@ -264,7 +264,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     <span class="chat_close">&times;</span>
                     <h2>Chat</h2>
                     <div class="chat-messages">
-                        <!-- Chat messages will be displayed here -->
                     </div>
                     <input type="text" id="messageInput" placeholder="Type a message...">
                     <button id="sendMessageBtn">Send</button>
@@ -637,42 +636,48 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                                 }
 
                                 btn.addEventListener('click', () => {
-                                    console.log(btn.parentElement.dataset.messageId);
                                     const messageID = btn.parentElement.dataset.messageId;
+                                    console.log(messageID);
                                     const message = btn.parentElement.parentElement.querySelector('p').innerHTML;
-                                    editMessage(messageID, message);
+                                    document.getElementById("editedMessage").value = message;
+                                    document.getElementById("editMessageModal").style.display = 'block';
+                                    const saveChangesBtn = document.getElementById("EditMessageSaveChangesBtn");
+                                    saveChangesBtn.addEventListener('click', () => {
+                                        const editedMessage = document.getElementById("editedMessage").value;
+                                        if (editedMessage !== '') {
+                                            const editedMessage = document.getElementById("editedMessage").value;
+                                            editMessage(messageID, editedMessage);
+                                        } else {
+                                            alert('Please enter a message');
+                                        }
+                                    });
                                 });
                             });
                         };
 
-                        function editMessage(messageID, message) {
-                            document.getElementById("editMessageModal").style.display = 'block';
-                            document.getElementById("editedMessage").value = message;
-                            document.getElementById("EditMessageSaveChangesBtn").addEventListener('click', () => {
-                                const editedMessage = document.getElementById("editedMessage").value;
-                                if (editedMessage !== '') {
-                                    editedMessage = sanitizeMessage(editedMessage);
-                                    const xhr = new XMLHttpRequest();
-                                    const url = "editMessage.php";
-                                    const params = `messageID=${messageID}&editedMessage=${encodeURIComponent(editedMessage)}`;
-                                    xhr.onreadystatechange = function() {
-                                        if (xhr.readyState === XMLHttpRequest.DONE) {
-                                            if (xhr.status === 200) {
-                                                getChatHistory(friendID);
-                                                document.getElementById("editMessageModal").style.display = 'none';
-                                            } else {
-                                                alert(xhr.responseText);
-                                            }
+                        function editMessage(messageID, editedMessage) {
+                            if (editedMessage !== '') {
+                                editedMessage = sanitizeMessage(editedMessage);
+                                const xhr = new XMLHttpRequest();
+                                const url = "editMessage.php";
+                                const params = `messageID=${messageID}&editedMessage=${encodeURIComponent(editedMessage)}`;
+                                xhr.onreadystatechange = function() {
+                                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                                        if (xhr.status === 200) {
+                                            getChatHistory(friendID);
+                                            document.getElementById("editMessageModal").style.display = 'none';
+                                        } else {
+                                            alert(xhr.responseText);
                                         }
-                                    };
+                                    }
+                                };
 
-                                    xhr.open("POST", url, true);
-                                    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                    xhr.send(params);
-                                } else {
-                                    alert('Please enter a message');
-                                }
-                            });
+                                xhr.open("POST", url, true);
+                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                xhr.send(params);
+                            } else {
+                                alert('Please enter a message');
+                            }
                         }
                     }
                 } else if (xhr.status === 404) {
@@ -731,7 +736,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         });
 
     function sanitizeMessage(message) {
-        // Replace special characters with HTML entities
         const sanitized = message
             .replace(/&/g, "&amp;")
             .replace(/</g, "&lt;")
