@@ -681,9 +681,10 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
 
     //!Edit Message
     let messageSection = document.querySelector(".chat_modal-content");
-    messageSection.addEventListener("click", (event) => {
+
+    // Define the function separately to be able to remove it
+    function handleEditMessage(event) {
         let clickedElement = event.target;
-        console.log(clickedElement);
         if (clickedElement.nodeName === "path") {
             const svgElement = clickedElement.closest("svg");
             if (svgElement) {
@@ -694,21 +695,27 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         const messageID = clickedElement.parentElement.dataset.messageId;
 
         if (clickedElement.classList.contains("editMessage")) {
-            console.log("Message ID:", clickedElement.parentElement.dataset.messageId);
             const message = clickedElement.parentElement.parentElement.querySelector('p').innerHTML;
             document.getElementById("editedMessage").value = message;
             document.getElementById("editMessageModal").style.display = 'block';
+
             const saveChangesBtn = document.getElementById("EditMessageSaveChangesBtn");
-            saveChangesBtn.addEventListener('click', () => {
+            const previousListener = saveChangesBtn.onclick;
+
+            saveChangesBtn.onclick = () => {
                 const editedMessage = document.getElementById("editedMessage").value;
                 if (editedMessage !== '') {
                     editMessage(messageID, editedMessage);
+                    saveChangesBtn.onclick = previousListener;
                 } else {
                     alert('Please enter a message');
                 }
-            });
-        };
-    });
+            };
+        }
+    }
+
+    messageSection.addEventListener("click", handleEditMessage);
+
 
 
     function editMessage(messageID, editedMessage) {
