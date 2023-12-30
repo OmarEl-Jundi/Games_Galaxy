@@ -591,7 +591,7 @@ if (!isset($_GET["gameID"])) {
                         <textarea id="editedComment" rows="4" cols="50"></textarea>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn close-btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn close_editComment_Alt close-btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary" id="saveChangesBtn">Save Changes</button>
                     </div>
                 </div>

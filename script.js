@@ -555,7 +555,7 @@ function editComment(commentID, commentText) {
   document.getElementById("editedComment").value = commentText;
   document.getElementById("saveChangesBtn").addEventListener("click", () => {
     const editedComment = document.getElementById("editedComment").value;
-    editComment = sanitizeComment(editedComment);
+    editedComment = sanitizeComment(editedComment);
     const xhr = new XMLHttpRequest();
     const url = "editComment.php";
     const params = `commentID=${commentID}&editedComment=${encodeURIComponent(
@@ -583,11 +583,13 @@ function editComment(commentID, commentText) {
   });
 }
 
-document.querySelectorAll(".close-btn").forEach((button) => {
-  button.addEventListener("click", () => {
-    document.getElementById("editCommentModal").style.display = "none";
+document
+  .querySelectorAll(".close_editComment ,.close_editComment_Alt")
+  .forEach((button) => {
+    button.addEventListener("click", () => {
+      document.getElementById("editCommentModal").style.display = "none";
+    });
   });
-});
 
 const commentSection = document.querySelector(".commentsContainer");
 
