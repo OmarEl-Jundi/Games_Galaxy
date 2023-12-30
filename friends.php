@@ -182,7 +182,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                         <?php foreach ($friends as $friend) : ?>
                             <li id="list-friend-<?= $friend['friend_id'] ?>" data-friend-id="<?= $friend['friend_id'] ?>">
                                 <img src="images/userPFP/<?= $friend['friend_pfp'] ?>" alt="pfp" class="FriendProfileIcon">
-                                <?= $friend['username'] ?>
+                                <span class="friend_username"><?= $friend['username'] ?></span>
                                 <button class="remove-friend-btn">Remove</button>
                                 <button class="chat-with-friend">Chat</button>
                             </li>
@@ -256,6 +256,18 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                         <ul class="no-bullets-search">
                         </ul>
                     </div>
+                </div>
+            </div>
+            <!-- Chat Modal -->
+            <div id="chatModal" class="chat_modal">
+                <div class="chat_modal-content">
+                    <span class="chat_close">&times;</span>
+                    <h2>Chat</h2>
+                    <div class="chat-messages">
+                        <!-- Chat messages will be displayed here -->
+                    </div>
+                    <input type="text" id="messageInput" placeholder="Type a message...">
+                    <button id="sendMessageBtn">Send</button>
                 </div>
             </div>
         </div>
@@ -553,6 +565,87 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     if (document.querySelector(".friendRequestsDiv").querySelector("ul").querySelector("li") == null) {
                         document.querySelector(".friendRequestsDiv").querySelector("ul").innerHTML = "<p>You don't have any friend requests.</p>";
                     }
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    //!chat
+    const chatModal = document.getElementById('chatModal');
+    const chatBtns = document.querySelectorAll('.chat-with-friend');
+    const closeChatBtn = document.querySelector('.chat_close');
+    const sendMessageBtn = document.getElementById('sendMessageBtn');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.querySelector('.chat-messages');
+
+    // Open the chat modal when clicking "Chat" buttons
+    chatBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const FriendID = btn.parentElement.dataset.friendId;
+            const FriendUsername = btn.parentElement.querySelector('.friend_username').innerHTML;
+            chatModal.querySelector('h2').innerHTML = `${FriendUsername}`;
+            chatModal.dataset.friendId = FriendID;
+            chatMessages.innerHTML = '';
+            getChatHistory(FriendID);
+            chatModal.style.display = 'block';
+        });
+    });
+
+    function getChatHistory(friendID) {
+        const xhr = new XMLHttpRequest();
+        const url = "getChatHistory.php";
+        const params = `friendID=${friendID}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const chatHistory = xhr.responseText;
+                    if (chatHistory) {
+                        chatMessages.innerHTML = chatHistory;
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                } else if (xhr.status === 404) {
+                    chatMessages.innerHTML = '<p>No chat history found</p>';
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    closeChatBtn.addEventListener('click', () => {
+        chatModal.style.display = 'none';
+        chatMessages.innerHTML = '';
+    });
+
+    sendMessageBtn.addEventListener('click', () => {
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            // chatMessages.innerHTML += `<div>You: ${message}</div>`;
+            // messageInput.value = '';
+            // chatMessages.scrollTop = chatMessages.scrollHeight;
+            const friendID = chatModal.dataset.friendId;
+            sendMessage(friendID, message);
+        } else {
+            alert('Please enter a message');
+        }
+    });
+
+    function sendMessage(friendID, message) {
+        const xhr = new XMLHttpRequest();
+        const url = "sendMessage.php";
+        const params = `friendID=${friendID}&message=${message}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    getChatHistory(friendID);
+                } else {
+                    alert(xhr.responseText);
                 }
             }
         };

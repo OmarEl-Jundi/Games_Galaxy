@@ -1849,9 +1849,98 @@ h2 .user_rating {
   font-size: 13px;
   height: 25px;
 }
+
+.remove-friend-btn:hover,
+.chat-with-friend:hover,
+.searchForFriendBtn:hover,
+.add-friend-btn:hover,
+.cancel-friend-request-btn:hover,
+.accept-friend-request-btn:hover,
+.decline-friend-request-btn:hover {
+  background-color: #0056b3;
+}
+
 .FriendProfileIcon {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin-right: 10px;
+}
+
+/* Chat */
+/* Modal styles */
+.chat_modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.chat_modal-content {
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  background-color: rgb(51, 51, 51);
+  border-radius: 10px;
+}
+
+.chat_close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.chat_close:hover,
+.chat_close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.chat-messages {
+  height: 300px;
+  overflow-y: scroll;
+  /* border: 1px solid #ccc; */
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+#messageInput {
+  width: calc(100% - 80px);
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f9fa;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#sendMessageBtn {
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#sendMessageBtn:hover {
+  background-color: #0056b3;
+}
+
+.chat_username {
+  margin-bottom: 2px;
+  color: #4bacb6;
+}
+
+.chat_date_time {
+  margin-top: 2px;
+  color: gray;
 }

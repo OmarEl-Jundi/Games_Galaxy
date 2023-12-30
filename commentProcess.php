@@ -19,6 +19,7 @@ if (!isset($_SESSION["user_id"])) {
         echo '<div id="comment-' .
             $row["c_id"] .
             '" class="comment" >
+            <div class="comment-user-info"><img class="FriendProfileIcon" src="images/userPFP/' . $row['pfp'] . '"><div class="comment-user-inner-info">
                         <h2 class="comment_username">' .
             $row["username"] .
             '</h2>
@@ -29,7 +30,7 @@ if (!isset($_SESSION["user_id"])) {
             '</h5>
                         <p class="comment_text">' .
             $comment .
-            '</p>
+            '</p></div></div>
                         <div class="comment_likes" >
                             <div  class="comment_like">
                                 <svg id="like-' .
