@@ -208,7 +208,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                             $sql = "SELECT * FROM user WHERE id = $friendRequest[sender_id]";
                             $result = mysqli_query($con, $sql);
                             $sender = mysqli_fetch_assoc($result);
-                            echo "<li id='list-friend-request-$sender[id]' data-friend-request-id='$friendRequest[id]'>";
+                            echo "<li id='list-friend-request-$sender[id]' data-friend-request-id='$sender[id]'>";
                             echo "<img src='images/userPFP/$sender[pfp]' alt='pfp' class='FriendProfileIcon'>";
                             echo "$sender[username]";
                             echo "<button class='accept-friend-request-btn'>Accept</button>";
@@ -455,6 +455,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         const xhr = new XMLHttpRequest();
         const url = "cancelFriendRequest.php";
         const params = `sentFriendRequestID=${sentFriendRequestID}`;
+        console.log(sentFriendRequestID);
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
@@ -462,6 +463,64 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     if (document.querySelector(".sentFriendRequest").querySelector("ul").querySelector("li") == null) {
                         document.querySelector(".sentFriendRequest").querySelector("ul").innerHTML = "<p>You haven't sent any friend requests.</p>";
                     }
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    //!Accept Friend Request
+    const acceptFriendRequestBtns = document.querySelectorAll(".accept-friend-request-btn");
+
+    if (acceptFriendRequestBtns) {
+        acceptFriendRequestBtns.forEach((button) => {
+            button.addEventListener("click", () => {
+                const friendRequestID = button.parentElement.dataset.friendRequestId;
+                acceptFriendRequest(friendRequestID);
+            });
+        });
+    }
+
+    function acceptFriendRequest(friendRequestID) {
+        const xhr = new XMLHttpRequest();
+        const url = "acceptFriendRequest.php";
+        const params = `friendRequestID=${friendRequestID}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const friend = JSON.parse(xhr.responseText);
+                    console.log(xhr.responseText);
+                    if (friend) {
+                        const friendList = document.querySelector(".no-bullets");
+                        const friendElement = document.createElement("li");
+                        friendElement.id = "list-friend-" + friend.id;
+                        friendElement.dataset.friendId = friend.id;
+                        friendElement.innerHTML = `
+                            <img src="images/userPFP/${friend.pfp}" alt="pfp" class="FriendProfileIcon">
+                            <span class="username">${friend.username}</span>
+                            <button class="remove-friend-btn">Remove</button>
+                            <button class="chat-with-friend">Chat</button>
+                        `;
+                        if (friendList.querySelector("p")) {
+                            friendList.querySelector("p").remove();
+                        }
+                        friendList.appendChild(friendElement);
+
+                        document.getElementById("list-friend-request-" + friend.id).remove();
+                        if (document.querySelector(".friendRequestsDiv").querySelector("ul").querySelector("li") == null) {
+                            document.querySelector(".friendRequestsDiv").querySelector("ul").innerHTML = "<p>You don't have any friend requests.</p>";
+                        }
+
+                        const removeFriendBtn = friendElement.querySelector(".remove-friend-btn");
+                        removeFriendBtn.addEventListener("click", () => {
+                            removeFriend(friend.id);
+                        });
+                    }
+                } else {
+                    alert(xhr.responseText);
                 }
             }
         };
