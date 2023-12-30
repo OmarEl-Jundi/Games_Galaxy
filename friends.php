@@ -529,6 +529,38 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params);
     }
+
+    //!Decline Friend Request
+    const declineFriendRequestBtns = document.querySelectorAll(".decline-friend-request-btn");
+
+    if (declineFriendRequestBtns) {
+        declineFriendRequestBtns.forEach((button) => {
+            button.addEventListener("click", () => {
+                const friendRequestID = button.parentElement.dataset.friendRequestId;
+                declineFriendRequest(friendRequestID);
+            });
+        });
+    }
+
+    function declineFriendRequest(friendRequestID) {
+        const xhr = new XMLHttpRequest();
+        const url = "declineFriendRequest.php";
+        const params = `friendRequestID=${friendRequestID}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    document.getElementById("list-friend-request-" + friendRequestID).remove();
+                    if (document.querySelector(".friendRequestsDiv").querySelector("ul").querySelector("li") == null) {
+                        document.querySelector(".friendRequestsDiv").querySelector("ul").innerHTML = "<p>You don't have any friend requests.</p>";
+                    }
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
 </script>
 
 </html>
