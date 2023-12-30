@@ -55,8 +55,8 @@ if (mysqli_num_rows($result) > 0) {
                     <h5 class='chat_date_time'>at $time on $date</h5>";
             }
             echo "
-                    <div class='chat_message'>
-                        <p>$message</p>
+                    <div data-message-id='$messageID' class='chat_message'>
+                        <p >$message</p>
                     </div>
                     <div data-message-id='$messageID' class='chat_delete_edit'>
                         <svg data-message-id='$messageID' xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi editMessage bi-pencil-square' viewBox='0 0 16 16'>

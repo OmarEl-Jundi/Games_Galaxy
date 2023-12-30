@@ -623,62 +623,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     if (chatHistory) {
                         chatMessages.innerHTML = chatHistory;
                         chatMessages.scrollTop = chatMessages.scrollHeight;
-
-                        //!Edit Message
-                        const editMessageBtns = document.querySelectorAll('.editMessage');
-                        if (editMessageBtns) {
-                            editMessageBtns.forEach((btn) => {
-                                if (editMessageBtns.nodeName === "path") {
-                                    const svgElement = editMessageBtns.closest("svg");
-                                    if (svgElement) {
-                                        editMessageBtns = svgElement;
-                                    }
-                                }
-
-                                btn.addEventListener('click', () => {
-                                    const messageID = btn.parentElement.dataset.messageId;
-                                    console.log(messageID);
-                                    const message = btn.parentElement.parentElement.querySelector('p').innerHTML;
-                                    document.getElementById("editedMessage").value = message;
-                                    document.getElementById("editMessageModal").style.display = 'block';
-                                    const saveChangesBtn = document.getElementById("EditMessageSaveChangesBtn");
-                                    saveChangesBtn.addEventListener('click', () => {
-                                        const editedMessage = document.getElementById("editedMessage").value;
-                                        if (editedMessage !== '') {
-                                            const editedMessage = document.getElementById("editedMessage").value;
-                                            editMessage(messageID, editedMessage);
-                                        } else {
-                                            alert('Please enter a message');
-                                        }
-                                    });
-                                });
-                            });
-                        };
-
-                        function editMessage(messageID, editedMessage) {
-                            if (editedMessage !== '') {
-                                editedMessage = sanitizeMessage(editedMessage);
-                                const xhr = new XMLHttpRequest();
-                                const url = "editMessage.php";
-                                const params = `messageID=${messageID}&editedMessage=${encodeURIComponent(editedMessage)}`;
-                                xhr.onreadystatechange = function() {
-                                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                                        if (xhr.status === 200) {
-                                            getChatHistory(friendID);
-                                            document.getElementById("editMessageModal").style.display = 'none';
-                                        } else {
-                                            alert(xhr.responseText);
-                                        }
-                                    }
-                                };
-
-                                xhr.open("POST", url, true);
-                                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                xhr.send(params);
-                            } else {
-                                alert('Please enter a message');
-                            }
-                        }
                     }
                 } else if (xhr.status === 404) {
                     chatMessages.innerHTML = '<p>No chat history found</p>';
@@ -734,6 +678,64 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                 document.getElementById("editMessageModal").style.display = "none";
             });
         });
+
+    //!Edit Message
+    let messageSection = document.querySelector(".chat_modal-content");
+    messageSection.addEventListener("click", (event) => {
+        let clickedElement = event.target;
+        console.log(clickedElement);
+        if (clickedElement.nodeName === "path") {
+            const svgElement = clickedElement.closest("svg");
+            if (svgElement) {
+                clickedElement = svgElement;
+            }
+        }
+
+        const messageID = clickedElement.parentElement.dataset.messageId;
+
+        if (clickedElement.classList.contains("editMessage")) {
+            console.log("Message ID:", clickedElement.parentElement.dataset.messageId);
+            const message = clickedElement.parentElement.parentElement.querySelector('p').innerHTML;
+            document.getElementById("editedMessage").value = message;
+            document.getElementById("editMessageModal").style.display = 'block';
+            const saveChangesBtn = document.getElementById("EditMessageSaveChangesBtn");
+            saveChangesBtn.addEventListener('click', () => {
+                const editedMessage = document.getElementById("editedMessage").value;
+                if (editedMessage !== '') {
+                    editMessage(messageID, editedMessage);
+                } else {
+                    alert('Please enter a message');
+                }
+            });
+        };
+    });
+
+
+    function editMessage(messageID, editedMessage) {
+        if (editedMessage !== '') {
+            editedMessage = sanitizeMessage(editedMessage);
+            const xhr = new XMLHttpRequest();
+            const url = "editMessage.php";
+            const params = `messageID=${messageID}&editedMessage=${encodeURIComponent(editedMessage)}`;
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        const friendID = xhr.responseText;
+                        getChatHistory(friendID);
+                        document.getElementById("editMessageModal").style.display = 'none';
+                    } else {
+                        alert(xhr.responseText);
+                    }
+                }
+            };
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send(params);
+        } else {
+            alert('Please enter a message');
+        }
+    }
 
     function sanitizeMessage(message) {
         const sanitized = message
