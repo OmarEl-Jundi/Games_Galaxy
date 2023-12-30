@@ -421,6 +421,8 @@ if (!isset($_GET["gameID"])) {
                                     </svg>
                                 </div>
                                 ';
+                                }
+                                if ($username == $_SESSION["username"] || $_SESSION["user_role"] == "1") {
                                     echo '
                                 <div class="comment_delete" >
                                     <svg style="position:relative; top:-25px" data-comment-id="' .
@@ -432,6 +434,7 @@ if (!isset($_GET["gameID"])) {
                                     </svg>
                                 </div>';
                                 }
+
                                 echo '
                         </div>
                         <hr>
