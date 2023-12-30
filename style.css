@@ -1835,7 +1835,9 @@ h2 .user_rating {
 .chat-with-friend,
 .searchForFriendBtn,
 .add-friend-btn,
-.cancel-friend-request-btn {
+.cancel-friend-request-btn,
+.accept-friend-request-btn,
+.decline-friend-request-btn {
   padding: 2px 4px;
   border-radius: 5px;
   background-color: #007bff;

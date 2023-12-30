@@ -15,12 +15,9 @@ AND id NOT IN (
     WHERE friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id]
 )
 AND id NOT IN (
-    SELECT CASE
-            WHEN friend_request.sender_id = $_SESSION[user_id] THEN friend_request.receiver_id
-            ELSE friend_request.sender_id
-        END AS request_id
+    SELECT receiver_id
     FROM friend_request
-    WHERE friend_request.sender_id = $_SESSION[user_id] OR friend_request.receiver_id = $_SESSION[user_id]
+    WHERE sender_id = $_SESSION[user_id]
 )
 AND id <> $_SESSION[user_id];
 

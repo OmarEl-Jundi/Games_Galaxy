@@ -208,7 +208,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                             $sql = "SELECT * FROM user WHERE id = $friendRequest[sender_id]";
                             $result = mysqli_query($con, $sql);
                             $sender = mysqli_fetch_assoc($result);
-                            echo "<li id='list-friend-request-$friendRequest[id]' data-friend-request-id='$friendRequest[id]'>";
+                            echo "<li id='list-friend-request-$sender[id]' data-friend-request-id='$friendRequest[id]'>";
                             echo "<img src='images/userPFP/$sender[pfp]' alt='pfp' class='FriendProfileIcon'>";
                             echo "$sender[username]";
                             echo "<button class='accept-friend-request-btn'>Accept</button>";
@@ -238,7 +238,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                             $sql = "SELECT * FROM user WHERE id = $sentFriendRequest[receiver_id]";
                             $result = mysqli_query($con, $sql);
                             $receiver = mysqli_fetch_assoc($result);
-                            echo "<li id='list-sent-friend-request-$sentFriendRequest[id]' data-sent-friend-request-id='$sentFriendRequest[id]'>";
+                            echo "<li id='list-sent-friend-request-$receiver[id]' data-sent-friend-request-id='$receiver[id]'>";
                             echo "<img src='images/userPFP/$receiver[pfp]' alt='pfp' class='FriendProfileIcon'>";
                             echo "$receiver[username]";
                             echo "<button class='cancel-friend-request-btn'>Cancel</button>";
@@ -397,6 +397,70 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                         cancelFriendRequestBtn.addEventListener("click", () => {
                             cancelFriendRequest(sentFriendRequest.id);
                         });
+                    }
+                } else if (xhr.status === 201) {
+                    const friend = JSON.parse(xhr.responseText);
+                    if (friend) {
+                        const friendList = document.querySelector(".no-bullets");
+                        const friendElement = document.createElement("li");
+                        friendElement.id = "list-friend-" + friend.id;
+                        friendElement.dataset.friendId = friend.id;
+                        friendElement.innerHTML = `
+                            <img src="images/userPFP/${friend.pfp}" alt="pfp" class="FriendProfileIcon">
+                            <span class="username">${friend.username}</span>
+                            <button class="remove-friend-btn">Remove</button>
+                            <button class="chat-with-friend">Chat</button>
+                        `;
+                        if (friendList.querySelector("p")) {
+                            friendList.querySelector("p").remove();
+                        }
+                        friendList.appendChild(friendElement);
+
+                        document.querySelector(".searchForFriendBar").value = '';
+                        document.querySelector(".no-bullets-search").innerHTML = '';
+
+                        document.getElementById("list-friend-request-" + friend.id).remove();
+                        if (document.querySelector(".friendRequestsDiv").querySelector("ul").querySelector("li") == null) {
+                            document.querySelector(".friendRequestsDiv").querySelector("ul").innerHTML = "<p>You don't have any friend requests.</p>";
+                        }
+
+                        const removeFriendBtn = friendElement.querySelector(".remove-friend-btn");
+                        removeFriendBtn.addEventListener("click", () => {
+                            removeFriend(friend.id);
+                        });
+                    }
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    //! Cancel Friend Request
+
+    const cancelFriendRequestBtns = document.querySelectorAll(".cancel-friend-request-btn");
+
+    if (cancelFriendRequestBtns) {
+        cancelFriendRequestBtns.forEach((button) => {
+            button.addEventListener("click", () => {
+                const sentFriendRequestID = button.parentElement.dataset.sentFriendRequestId;
+                cancelFriendRequest(sentFriendRequestID);
+            });
+        });
+    }
+
+    function cancelFriendRequest(sentFriendRequestID) {
+        const xhr = new XMLHttpRequest();
+        const url = "cancelFriendRequest.php";
+        const params = `sentFriendRequestID=${sentFriendRequestID}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    document.getElementById("list-sent-friend-request-" + sentFriendRequestID).remove();
+                    if (document.querySelector(".sentFriendRequest").querySelector("ul").querySelector("li") == null) {
+                        document.querySelector(".sentFriendRequest").querySelector("ul").innerHTML = "<p>You haven't sent any friend requests.</p>";
                     }
                 }
             }
