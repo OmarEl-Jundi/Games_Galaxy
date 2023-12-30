@@ -599,7 +599,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
     const messageInput = document.getElementById('messageInput');
     const chatMessages = document.querySelector('.chat-messages');
 
-    // Open the chat modal when clicking "Chat" buttons
     chatBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             const FriendID = btn.parentElement.dataset.friendId;
@@ -680,53 +679,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         });
 
     //!Edit Message
-    // let messageSection = document.querySelector(".chat_modal-content");
-
-    // function handleClick(event) {
-    //     let clickedElement = event.target;
-    //     if (clickedElement.nodeName === "path") {
-    //         const svgElement = clickedElement.closest("svg");
-    //         if (svgElement) {
-    //             clickedElement = svgElement;
-    //         }
-    //     }
-
-    //     const messageID = clickedElement.parentElement.dataset.messageId;
-
-    //     if (clickedElement.classList.contains("editMessage")) {
-    //         messageSection.removeEventListener("click", handleClick);
-    //         const message = clickedElement.parentElement.parentElement.querySelector('p').innerHTML;
-    //         document.getElementById("editedMessage").value = message;
-    //         document.getElementById("editMessageModal").style.display = 'block';
-
-    //         const saveChangesBtn = document.getElementById("EditMessageSaveChangesBtn");
-    //         const previousListener = saveChangesBtn.onclick; // Store the previous listener
-
-    //         saveChangesBtn.onclick = () => {
-    //             const editedMessage = document.getElementById("editedMessage").value;
-    //             if (editedMessage !== '') {
-    //                 editMessage(messageID, editedMessage);
-    //                 saveChangesBtn.onclick = previousListener; // Reassign the previous listener
-    //             } else {
-    //                 alert('Please enter a message');
-    //             }
-    //         };
-    //         // If the click was for editing, return to prevent further actions
-    //         return;
-    //     } else if (clickedElement.classList.contains("deleteMessage")) {
-    //         messageSection.removeEventListener("click", handleClick);
-    //         event.stopPropagation();
-    //         const confirmed = window.confirm("Are you sure you want to delete the message?");
-    //         if (confirmed) {
-    //             deleteMessage(messageID);
-    //         }
-    //         return;
-    //     }
-    // }
-
-    // messageSection.removeEventListener("click", handleClick);
-    // messageSection.addEventListener("click", handleClick);
-
 
     function editMessage1(messageID) {
         let message = document.querySelector("#message-" + messageID).textContent;
@@ -798,14 +750,6 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params);
     }
-
-    // messageSection.addEventListener("click", (event) => {
-    //     const clickedElement = event.target;
-    //     if (clickedElement.classList.contains("deleteMessage")) {
-    //         const messageID = clickedElement.parentElement.parentElement.dataset.messageId;
-    //         deleteMessage(messageID);
-    //     }
-    // });
 
     function sanitizeMessage(message) {
         const sanitized = message
