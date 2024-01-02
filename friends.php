@@ -157,6 +157,10 @@ if (!isset($_SESSION['user_id'])) {
         WHEN friends.u1_id = $_SESSION[user_id] THEN u2.pfp
         ELSE u1.pfp
     END AS friend_pfp,
+    CASE
+        WHEN friends.u1_id = $_SESSION[user_id] THEN u2.username
+        ELSE u1.username
+    END AS friend_username,
     u1.*, u2.*
 FROM friends
 JOIN user u1 ON friends.u1_id = u1.id
@@ -182,7 +186,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                         <?php foreach ($friends as $friend) : ?>
                             <li id="list-friend-<?= $friend['friend_id'] ?>" data-friend-id="<?= $friend['friend_id'] ?>">
                                 <img src="images/userPFP/<?= $friend['friend_pfp'] ?>" alt="pfp" class="FriendProfileIcon">
-                                <span class="friend_username"><?= $friend['username'] ?></span>
+                                <span class="friend_username"><?= $friend['friend_username'] ?></span>
                                 <button class="remove-friend-btn">Remove</button>
                                 <button class="chat-with-friend">Chat</button>
                             </li>
@@ -611,6 +615,14 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         });
     });
 
+    let isChatting = false;
+    let intervalID;
+
+    const fetchChatHistory = () => {
+        const friendID = chatModal.dataset.friendId;
+        getChatHistory(friendID);
+    };
+
     function getChatHistory(friendID) {
         const xhr = new XMLHttpRequest();
         const url = "getChatHistory.php";
@@ -622,6 +634,10 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                     if (chatHistory) {
                         chatMessages.innerHTML = chatHistory;
                         chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                    if (!isChatting) {
+                        isChatting = true;
+                        intervalID = setInterval(fetchChatHistory, 1000);
                     }
                 } else if (xhr.status === 404) {
                     chatMessages.innerHTML = '<p>No chat history found</p>';
@@ -635,9 +651,15 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
     }
 
     closeChatBtn.addEventListener('click', () => {
+        isChatting = false;
+        clearInterval(intervalID);
         chatModal.style.display = 'none';
         chatMessages.innerHTML = '';
     });
+
+    if (isChatting) {
+        fetchChatHistory();
+    }
 
     sendMessageBtn.addEventListener('click', () => {
         const message = messageInput.value.trim();

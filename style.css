@@ -1773,7 +1773,7 @@ h2 .user_rating {
   transition: all 0.3s ease;
 }
 
-.notificationsIcon {
+/* .notificationsIcon {
   color: goldenrod;
   cursor: pointer;
   width: 30px;
@@ -1784,7 +1784,7 @@ h2 .user_rating {
 .notificationsIcon:hover {
   color: rgb(255, 217, 0);
   transition: all 0.3s ease;
-}
+} */
 
 .no-bullets {
   list-style: none;
