@@ -76,6 +76,26 @@ $user = mysqli_fetch_array($result);
                 }
             }
             ?>
+            <div class="navIcons" title="friends">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi friendsIcon bi-people-fill" viewBox="0 0 16 16">
+                    <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+                </svg>
+                <?php
+                $notificationsQuery = "SELECT * FROM `notifications` WHERE u_id = '$_SESSION[user_id]' AND seen = 0";
+                $notificationsResult = mysqli_query($con, $notificationsQuery);
+                if ($notificationsResult && mysqli_num_rows($notificationsResult) > 0) {
+                ?>
+                    <div class="notificationsCount"><?= mysqli_num_rows($notificationsResult) ?></div>
+                <?php
+                }
+                ?>
+            </div>
+            <?php
+            if ($_SESSION['user_role'] == 1) {
+                echo "<img onclick='admin()' style='width:100px;height:100px;margin-left: 220px;margin-bottom: -52px;margin-top: -34px;cursor:pointer;' src='images/logo/Admin_Logo.png' id='adminIcon' />";
+                echo "<script>function admin(){window.location.href='admin/admin-home.php';}</script>";
+            }
+            ?>
             <div class="logo">
                 <img src="images/logo/Games-galaxy-Logo-transformed.png" />
             </div>

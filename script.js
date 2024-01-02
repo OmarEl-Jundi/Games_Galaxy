@@ -260,10 +260,6 @@ function addToWishlist(gameID) {
   xhr.send(params);
 }
 
-window.addEventListener("load", function () {
-  checkLoginStatus();
-});
-
 //!Remove from Wishlist
 function removeFromWishlist(gameID) {
   const confirmed = window.confirm(

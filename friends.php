@@ -134,6 +134,10 @@ if (!isset($_SESSION['user_id'])) {
                 <?php
                     }
                 }
+                if ($_SESSION['user_role'] == 1) {
+                    echo "<img onclick='admin()' style='width:100px;height:100px;margin-left:150px;margin-top:-36px;margin-bottom: -50px;cursor:pointer;' src='images/logo/Admin_Logo.png' id='adminIcon' />";
+                    echo "<script>function admin(){window.location.href='admin/admin-home.php';}</script>";
+                }
                 ?>
                 <div class="logo">
                     <img src="images/logo/Games-galaxy-Logo-transformed.png" />

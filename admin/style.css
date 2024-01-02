@@ -1,0 +1,65 @@
+:root {
+  /* Light theme colors */
+  --primary-light-bg-color: #2a475e;
+  --secondary-light-bg-color: #66c0f4;
+  --primary-text-color: #000000;
+
+  /* Dark theme colors */
+  --primary-dark-bg-color: #171a21;
+  --secondary-dark-bg-color: #1b2838;
+  --dark-text-color: #ffffff;
+}
+
+body {
+  background: linear-gradient(
+    to right,
+    var(--primary-dark-bg-color),
+    var(--secondary-dark-bg-color)
+  );
+  color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+body.theme-transition {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+@keyframes breathing {
+  0% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+body.theme-transition {
+  animation: breathing 3s infinite;
+}
+
+#profile {
+  margin-top: 50px;
+  margin-left: 80px;
+}
+
+.mybody {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: var(--secondary-light-bg-color);
+}
+.container {
+  text-align: center;
+}
+form {
+  margin-top: 50px;
+}

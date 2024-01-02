@@ -15,6 +15,12 @@
   <div class="spinner"></div>
   <div class="content" style="display: none">
     <div class="container">
+      <?php
+      if ($_SESSION['user_role'] == 1) {
+        echo "<img onclick='admin()' style='width:100px;height:100px;margin-left:60px;margin-top:12px;margin-bottom:-97px;cursor:pointer;' src='images/logo/Admin_Logo.png' id='adminIcon' />";
+        echo "<script>function admin(){window.location.href='admin/admin-home.php';}</script>";
+      }
+      ?>
       <div class="my-body">
         <div class="darkThemeBtn">
           <input id="darkmode-toggle" type="checkbox" />
@@ -41,7 +47,6 @@
           <span class="fake-body"></span>
         </div>
       </div>
-      <!-- Shopping Cart Icon -->
 
       <div class="logo">
         <img src="images/logo/Games-galaxy-Logo-transformed.png" />
