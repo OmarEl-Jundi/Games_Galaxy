@@ -82,6 +82,7 @@ if ($_SESSION["user_role"] != 1) {
         <div class="mybody">
             <p><a class="admin-links" href="list-games.php">List all the games</a></p>
             <p><a class="admin-links" href="list-condition.php">List games with conditions (id, name, price, developer, category)</a></p>
+            <p><a class="admin-links" href="list-comments.php">List all the Comments</a></p>
             <p><a class="admin-links" href="add-game.php">Add a new game to the Database</a></p>
             <p><a class="admin-links" href="add-developer.php">Add a new Developer to the Database</a></p>
             <p><a class="admin-links" href="add-category.php">Add a new Category to the Database</a></p>

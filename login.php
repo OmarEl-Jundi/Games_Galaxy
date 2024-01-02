@@ -20,6 +20,10 @@ if (isset($_POST['signin'])) {
 
             $row = mysqli_fetch_array($result);
 
+            if ($row['banned'] == 1) {
+                header("location: banned.html");
+                exit();
+            }
             session_start();
 
             session_regenerate_id();
