@@ -23,7 +23,7 @@ if ($_SESSION["user_role"] != 1) {
             $user = mysqli_fetch_array($result);
             $pfp = $user['pfp'];
             ?>
-            <a title="Go To Profile Page" href="profile.php"><img src="../images/userPFP/<?= $pfp ?>" alt="pfp" class="profileIcon <?php echo 'defaultIcon'; ?>"></a>
+            <a title="Go To Profile Page" href="../profile.php"><img src="../images/userPFP/<?= $pfp ?>" alt="pfp" class="profileIcon <?php echo 'defaultIcon'; ?>"></a>
         <?php else : ?>
             <a href="login.php" id="loginButton" class="auth-button">Log In</a>
             <a href="signup.php" id="signupButton" class="auth-button">Sign Up</a>
@@ -86,6 +86,8 @@ if ($_SESSION["user_role"] != 1) {
             <p><a class="admin-links" href="add-developer.php">Add a new Developer to the Database</a></p>
             <p><a class="admin-links" href="add-category.php">Add a new Category to the Database</a></p>
             <p><a class="admin-links" href="update-game.php">Update Game Info</a></p>
+            <p><a class="admin-links" href="update-dev.php">Update Developer Info</a></p>
+            <p><a class="admin-links" href="update-cat.php">Update Category Info</a></p>
             <p><a class="admin-links" href="delete-game.php">Delete Game</a></p>
             <p><a class="admin-links" href="index.php">Go back</a></p>
         </div>
