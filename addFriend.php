@@ -38,6 +38,9 @@ if (isset($_POST['username'])) {
         $insertRequest = "INSERT INTO friend_request (sender_id, receiver_id) VALUES ('$user_ID', '$friend_ID')";
         mysqli_query($con, $insertRequest);
 
+        $inserNotification = "INSERT INTO notifications (u_id, type, related_id) VALUES ('$friend_ID', 'friend_request', '$user_ID')";
+        mysqli_query($con, $inserNotification);
+
         $getUserDetails = "SELECT * FROM user WHERE id='$friend_ID'";
         $result = mysqli_query($con, $getUserDetails);
         $row = mysqli_fetch_assoc($result);

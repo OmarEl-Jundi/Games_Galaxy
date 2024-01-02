@@ -4,7 +4,10 @@ require 'connection.php';
 
 $friendID = $_POST['friendID'];
 $userID = $_SESSION['user_id'];
-
+if ($friendID == '') {
+    http_response_code(400);
+    exit();
+}
 $sql = "SELECT messages.*, 
                sender.username AS sender_username, 
                receiver.username AS receiver_username,

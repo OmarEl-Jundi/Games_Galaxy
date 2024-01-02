@@ -188,7 +188,16 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                                 <img src="images/userPFP/<?= $friend['friend_pfp'] ?>" alt="pfp" class="FriendProfileIcon">
                                 <span class="friend_username"><?= $friend['friend_username'] ?></span>
                                 <button class="remove-friend-btn">Remove</button>
-                                <button class="chat-with-friend">Chat</button>
+                                <button class="chat-with-friend">Chat
+                                    <?php
+                                    $checkNotifications = "SELECT * FROM notifications WHERE u_id = '$_SESSION[user_id]' AND type = 'message' AND related_id = '$friend[friend_id]'";
+                                    $result = mysqli_query($con, $checkNotifications);
+                                    if (mysqli_num_rows($result) > 0) {
+                                        echo "<div id='notification-" . $friend['friend_id'] . "' class='chatNotificationsCount'>" . mysqli_num_rows($result) . "</div>";
+                                    }
+                                    ?>
+
+                                </button>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -216,7 +225,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                             echo "<img src='images/userPFP/$sender[pfp]' alt='pfp' class='FriendProfileIcon'>";
                             echo "$sender[username]";
                             echo "<button class='accept-friend-request-btn'>Accept</button>";
-                            echo "<button class='decline-friend-request-btn'>Decline</button>";
+                            echo "<button class='decline-friend-request-btn'>Decline<div class='FriendRequestNotificationsCount'>1</div></button>";
                             echo "</li>";
                         }
                         echo "</ul>";
@@ -762,6 +771,40 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
                 if (xhr.status === 200) {
                     const friendID = xhr.responseText;
                     getChatHistory(friendID);
+                } else {
+                    alert(xhr.responseText);
+                }
+            }
+        };
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+
+    //!Remove Chat Notifications
+    const chatWithFriendBtns = document.querySelectorAll(".chat-with-friend");
+
+    if (chatWithFriendBtns) {
+        chatWithFriendBtns.forEach((button) => {
+            button.addEventListener("click", () => {
+                const friendID = button.parentElement.dataset.friendId;
+                if (document.getElementById("notification-" + friendID)) {
+                    removeChatNotifications(friendID);
+                }
+            });
+        });
+    }
+
+    function removeChatNotifications(friendID) {
+        const xhr = new XMLHttpRequest();
+        const url = "removeChatNotifications.php";
+        const params = `friendID=${friendID}`;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    const NotificationDiv = document.querySelector("#notification-" + friendID);
+                    NotificationDiv.remove();
                 } else {
                     alert(xhr.responseText);
                 }

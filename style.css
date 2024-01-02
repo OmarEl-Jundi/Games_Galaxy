@@ -2024,3 +2024,54 @@ h2 .user_rating {
 #EditMessageSaveChangesBtn:hover {
   background-color: #0056b3;
 }
+
+.notificationsCount {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: large;
+  background-color: #b31010;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(20px);
+}
+
+.chatNotificationsCount {
+  position: relative;
+  top: -35px;
+  right: -5px;
+  font-size: large;
+  background-color: #b31010;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(20px);
+}
+
+.FriendRequestNotificationsCount {
+  position: relative;
+  top: -40px;
+  right: -20px;
+  font-size: large;
+  background-color: #b31010;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translate(20px);
+}

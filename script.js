@@ -814,4 +814,44 @@ if (friendsIcon) {
   friendsIcon.addEventListener("click", () => {
     window.location.href = "friends.php";
   });
+
+  function updateNotifications() {
+    getNotifications();
+  }
+
+  updateNotifications();
+
+  setInterval(updateNotifications, 1000);
+}
+
+function getNotifications() {
+  const xhr = new XMLHttpRequest();
+  const url = "getNotifications.php";
+  xhr.open("GET", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 200) {
+        const notificationsCount = xhr.responseText;
+        if (notificationsCount > 0) {
+          const notificationsContainer = document.querySelector(
+            ".notificationsCount"
+          );
+          if (!notificationsContainer) {
+            document
+              .querySelector(".friendsIcon")
+              .appendChild(
+                document
+                  .createElement("div")
+                  .classList.add("notificationsCount")
+              );
+          }
+          notificationsContainer.innerHTML = notificationsCount;
+        }
+      } else {
+        alert("Failed to get notifications");
+      }
+    }
+  };
+  xhr.send();
 }

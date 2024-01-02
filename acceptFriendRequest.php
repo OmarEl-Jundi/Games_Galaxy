@@ -12,6 +12,12 @@ if (isset($_POST['friendRequestID'])) {
         $sql = "DELETE FROM friend_request WHERE sender_id = '$friendID' AND receiver_id = '$userID'";
         $result = mysqli_query($con, $sql);
 
+        $removeNotification = "DELETE FROM notifications WHERE u_id = '$userID' AND type = 'friend_request' AND related_id = '$friendID'";
+        mysqli_query($con, $removeNotification);
+
+        $insertNotification = "INSERT INTO notifications (u_id, type, related_id) VALUES ('$friendID', 'accepted_request', '$userID')";
+        mysqli_query($con, $insertNotification);
+
         $getUser = "SELECT * FROM user WHERE id = '$friendID'";
         $result = mysqli_query($con, $getUser);
         $row = mysqli_fetch_assoc($result);
