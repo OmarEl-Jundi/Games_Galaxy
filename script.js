@@ -858,3 +858,26 @@ function getNotifications() {
   };
   xhr.send();
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  checkBan();
+});
+
+function checkBan() {
+  const xhr = new XMLHttpRequest();
+  const url = "checkBan.php";
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE) {
+      if (xhr.status === 201) {
+        window.location.href = "banned.html";
+      } else {
+        console.error("Error checking ban status:", xhr.responseText);
+      }
+    }
+  };
+
+  xhr.open("GET", url, true);
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhr.send();
+}
