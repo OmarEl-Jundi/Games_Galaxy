@@ -14,7 +14,9 @@ $result = mysqli_query($con, $query);
 
 if ($result) {
     echo "Comment deleted successfully";
-    echo "<br><a href='admin/list-comments.php'>Go back</a>";
+    header("Location: {$_SERVER['HTTP_REFERER']}");
+    http_response_code(200);
+    exit();
 } else {
     echo "Error deleting comment";
 }

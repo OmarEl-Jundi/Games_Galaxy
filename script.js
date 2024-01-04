@@ -540,7 +540,7 @@ function deleteComment(commentID) {
 
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.responseText == "Comment deleted successfully") {
+      if (xhr.status == 200) {
         document.getElementById("comment-" + commentID).remove();
       } else {
         alert("Failed to delete comment");
