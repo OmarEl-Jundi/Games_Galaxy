@@ -104,7 +104,7 @@ let close = document.querySelector(".close");
 if (iconCart) {
   iconCart.addEventListener("click", () => {
     if (cart.style.right === "-100%") {
-      cart.style.right = "-63%";
+      cart.style.right = "-44%";
       container.style.transform = "translateX(-400px)";
       cart.style.display = "block";
     } else {
