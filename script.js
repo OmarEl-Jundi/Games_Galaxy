@@ -183,6 +183,8 @@ function checkoutProcess() {
         updateTotalPrice();
       } else if (xhr.status === 403) {
         alert("Insufficient funds!");
+      } else if (xhr.status === 404) {
+        alert("Cart Empty");
       } else {
         alert("Failed to checkout");
       }

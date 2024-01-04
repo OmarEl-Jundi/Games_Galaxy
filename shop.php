@@ -77,8 +77,8 @@ session_start();
             </div>
             <div class="buttons">
               <div class="close">CLOSE</div>
-              <div class="checkout">
-                <a onclick="checkoutProcess()">CHECKOUT</a>
+              <div onclick="checkoutProcess()" class="checkout">
+                <a>CHECKOUT</a>
               </div>
             </div>
           </div>
