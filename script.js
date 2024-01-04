@@ -192,6 +192,14 @@ function checkoutProcess() {
 }
 
 //!add to wishlist
+const wishlistButtons = document.querySelectorAll(".SaveToWishlistBtn");
+
+wishlistButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    checkLoginStatus();
+  });
+});
+
 function checkLoginStatus() {
   const xhr = new XMLHttpRequest();
   const url = "checkLoginStatus.php";
@@ -200,7 +208,7 @@ function checkLoginStatus() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         const isLoggedIn = xhr.responseText.trim() === "true";
-        if (isLoggedIn) {
+        if (isLoggedIn == true) {
           const wishlistButtons =
             document.querySelectorAll(".SaveToWishlistBtn");
 
@@ -210,7 +218,7 @@ function checkLoginStatus() {
               addToWishlist(gameID);
             });
           });
-        } else {
+        } else if (isLoggedIn == false) {
           const wishlistButtons =
             document.querySelectorAll(".SaveToWishlistBtn");
 
@@ -247,6 +255,7 @@ function addToWishlist(gameID) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
+        // alert("Added to Wishlist Successfully");
       } else if (xhr.status === 409) {
         alert("You have already added this game to your wishlist!");
       } else if (xhr.status === 410) {
@@ -844,8 +853,6 @@ function getNotifications() {
           }
           notificationsContainer.innerHTML = notificationsCount;
         }
-      } else {
-        alert("Failed to get notifications");
       }
     }
   };
