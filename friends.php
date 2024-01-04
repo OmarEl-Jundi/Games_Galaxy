@@ -674,7 +674,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         fetchChatHistory();
     }
 
-    sendMessageBtn.addEventListener('click', () => {
+    function sendMessageHandler() {
         const message = messageInput.value.trim();
         if (message !== '') {
             const friendID = chatModal.dataset.friendId;
@@ -682,7 +682,7 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         } else {
             alert('Please enter a message');
         }
-    });
+    }
 
     function sendMessage(friendID, message) {
         const xhr = new XMLHttpRequest();
@@ -704,6 +704,16 @@ WHERE (friends.u1_id = $_SESSION[user_id] OR friends.u2_id = $_SESSION[user_id])
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params);
     }
+
+    function handleEnterKey(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessageHandler();
+        }
+    }
+
+    sendMessageBtn.addEventListener('click', sendMessageHandler);
+    messageInput.addEventListener('keydown', handleEnterKey);
 
     document
         .querySelectorAll(".close_editMessage ,.close_editMessage_Alt")
