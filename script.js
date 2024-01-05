@@ -97,6 +97,7 @@ if (cart) {
   cart.style.right = "-100%";
   hideCartAfterAnimation();
 }
+
 let iconCart = document.querySelector(".iconCart");
 let container = document.querySelector(".container");
 let close = document.querySelector(".close");
@@ -104,8 +105,8 @@ let close = document.querySelector(".close");
 if (iconCart) {
   iconCart.addEventListener("click", () => {
     if (cart.style.right === "-100%") {
-      cart.style.right = "-44%";
-      container.style.transform = "translateX(-400px)";
+      cart.style.right = "0";
+      container.style.transform = "translateX(-50%)";
       cart.style.display = "block";
     } else {
       cart.style.right = "-100%";
@@ -114,6 +115,7 @@ if (iconCart) {
     }
   });
 }
+
 if (close) {
   close.addEventListener("click", () => {
     cart.style.right = "-100%";
