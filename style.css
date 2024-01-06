@@ -1774,19 +1774,6 @@ h2 .user_rating {
   transition: all 0.3s ease;
 }
 
-/* .notificationsIcon {
-  color: goldenrod;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  transition: all 0.3s ease;
-}
-
-.notificationsIcon:hover {
-  color: rgb(255, 217, 0);
-  transition: all 0.3s ease;
-} */
-
 .no-bullets {
   list-style: none;
   padding-left: 0;

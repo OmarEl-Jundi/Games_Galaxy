@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //! Cart
 let cart = document.querySelector(".cartTab");
+cartWidth = cart.offsetWidth;
 if (cart) {
   cart.style.right = "-100%";
   hideCartAfterAnimation();
@@ -105,8 +106,8 @@ let close = document.querySelector(".close");
 if (iconCart) {
   iconCart.addEventListener("click", () => {
     if (cart.style.right === "-100%") {
-      cart.style.right = "0";
-      container.style.transform = "translateX(-50%)";
+      cart.style.right = "-725px";
+      container.style.transform = "translateX(-30%)";
       cart.style.display = "block";
     } else {
       cart.style.right = "-100%";
