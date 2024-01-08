@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //! Cart
 let cart = document.querySelector(".cartTab");
-cartWidth = cart.offsetWidth;
 if (cart) {
+  cartWidth = cart.offsetWidth;
   cart.style.right = "-100%";
   hideCartAfterAnimation();
 }
@@ -201,48 +201,9 @@ const wishlistButtons = document.querySelectorAll(".SaveToWishlistBtn");
 
 wishlistButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    checkLoginStatus();
+    addToWishlist();
   });
 });
-
-function checkLoginStatus() {
-  const xhr = new XMLHttpRequest();
-  const url = "checkLoginStatus.php";
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        const isLoggedIn = xhr.responseText.trim() === "true";
-        if (isLoggedIn == true) {
-          const wishlistButtons =
-            document.querySelectorAll(".SaveToWishlistBtn");
-
-          wishlistButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-              const gameID = button.dataset.gameId;
-              addToWishlist(gameID);
-            });
-          });
-        } else if (isLoggedIn == false) {
-          const wishlistButtons =
-            document.querySelectorAll(".SaveToWishlistBtn");
-
-          wishlistButtons.forEach((button) => {
-            button.addEventListener("click", () => {
-              alert("Please log in to add to wishlist!");
-              window.location.href = "login.php";
-            });
-          });
-        }
-      } else {
-        alert("Failed to check login status");
-      }
-    }
-  };
-
-  xhr.open("GET", url, true);
-  xhr.send();
-}
 
 function addToWishlist(gameID) {
   const confirmed = window.confirm(
@@ -265,6 +226,9 @@ function addToWishlist(gameID) {
         alert("You have already added this game to your wishlist!");
       } else if (xhr.status === 410) {
         alert("You already own the game!");
+      } else if (xhr.status === 403) {
+        alert("Please Login first");
+        window.location.href = "login.php";
       } else {
         alert("Failed to add to wishlist");
       }

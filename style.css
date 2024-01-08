@@ -2063,3 +2063,9 @@ h2 .user_rating {
   align-items: center;
   transform: translate(20px);
 }
+
+#goback {
+  position: absolute;
+  top: 17%;
+  left: 7%;
+}
