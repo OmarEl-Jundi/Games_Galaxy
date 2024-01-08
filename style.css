@@ -2068,4 +2068,5 @@ h2 .user_rating {
   position: absolute;
   top: 17%;
   left: 7%;
+  cursor: pointer;
 }
