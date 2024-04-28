@@ -310,7 +310,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `date_of_birth`, `fname`, `lname`, `role`, `pfp`, `banned`) VALUES
-(1, 'Soldier', 'omar.eljundi@hotmail.com', 'Soldier2003', '2003-04-02', 'Omar', 'El-Jundi', 1, '1_572787.jpg', 0),
+(1, 'Soldier', 'omar.eljundi@hotmail.com', 'Soldier', '2003-04-02', 'Omar', 'El-Jundi', 1, '1_572787.jpg', 0),
 (2, 'Al-Safwah', 'abdelrahmadsafwe@gmail.com', 'safwah1234', '2004-02-01', 'Abdelrahman', 'Safweh', 2, 'default_user_pfp.png', 0),
 (3, 'Gilbertos', 'gilbert123@hotmail.com', 'gg123321', '2003-10-17', 'Gilbert', 'Sahyoun', 2, 'default_user_pfp.png', 0),
 (42, 'test', 'test@test.com', 'test1234', '0003-02-01', 'test', 'test', 2, '42_test.png', 1);
